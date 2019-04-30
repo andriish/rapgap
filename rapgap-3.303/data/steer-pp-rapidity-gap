@@ -1,0 +1,240 @@
+* number of events to be generated
+*
+NEVENT 1000
+*
+*
+*-----------------------------------------------------------------------
+*-------------------- HBOOK specific data cards ------------------------
+*-----------------------------------------------------------------------
+*---PAW (HBOOK output) log.unit  file_name
+HBKOUT        8   '/dev/null'
+*---print HBOOK histo: first-id  last-id
+* HBKPRI               1         999999
+*-----------------------------------------------------------------------
+*
+*
+*
+* +++++++++++++++++ Kinematic parameters +++++++++++++++
+*                                     !
+     'PBE1'     1       0       -7000.   ! Beam energy                                 
+     'KBE1'     1       0       -2212    ! -11: positron, 22: photon  2212: proton 
+*     'IRE1'     1       0        1       ! 0: beam 1 has no structure 
+*     				           ! 1: beam 1 has structure  
+*
+     'PBE2'     1       0        7000.   ! Beam energy  
+     'KBE2'     1       0        2212    ! 11: electron, 22: photon 2212: proton
+*     'IRE2'     1       0        1       ! 0:  beam 3 has no structure 
+*                                        ! 1:  beam 2 has structure 
+*                                     !
+     'PPIN'     1       0       7000. ! (D=820)
+*                                     !
+     'PLEP'     1       0      -7000. ! (D=-30.)
+*                                     !
+     'NFLA'     1       0         3   !  (D=5) nr of flavours used in str.fct.
+*
+* +++++++++++++++ Hard subprocess selection ++++++++++++++++++
+*
+     'IPRO'     1       0       18  ! (D=1) SELECT PROCESS
+*                                     !  18: QCD processes
+     'IDIR'     1       0         0   !  =1 normal hard scattering
+*                                     !  =0 diffractive or pion exchange
+*
+*
+     'PTCU'     1       0        5.0  ! (D=5.) p_t **2 cut for process
+*                                     !      IPRO=13,15,18
+     'NFQC'     1       0         3   !  (D=3) nr of flavours used in QCDC
+*
+*     QCD processes 
+     'IRPA'     1       0        1    !  gg --> qq_bar
+     'IRPB'     1       0        1    !  g + g --> g + g
+     'IRPC'     1       0        1    !  g + q --> g + q
+     'IRPD'     1       0        1    !  qq_bar --> gg
+     'IRPE'     1       0        1    !  q + q_bar --> q + q_bar
+     'IRPF'     1       0        1    !  qq --> qq
+*
+     'IHFL'     1       0        3    !  (D=3) 
+*                                     !        for IPRO = 18 which flavor produced
+*                                     !   ( IHFL=4 --> charm, IHFL=5 --> bottom )
+*
+* ++++++++++++ Fragmentation/proton dissociation ++++++++++++
+*
+*
+*
+     'NFRA'     1       0        1    ! (D=1) FRAGMENATION
+*                                     !   =10 FRAGMENATION+ p dissociation
+*                                     !   =20 FRAGMENATION+ p dissociation
+*                                     !   ala DIFFVM
+     'IJET'     1       0        0    ! (D=0) JETSET decay of resonances
+*                                     !    =1 DIFFVM decay of resonances
+     'IRGL'     1       0        1    ! (D=0) p-diss: q-diq 
+*                                     !    =1 p-diss: q-gluon-diq
+*     'IFRP'     1       0        1    ! (D=1) JETSET decay of higher mass 
+*                                     !    =2 DIFFVM/KNO for higher mass
+* ++++++++++++ Parton shower                     ++++++++++++
+     'IFPS'     1       0        3    ! (D=0) P.S.
+*                                     ! =1 initial state PS
+*                                     ! =2 final state PS
+*                                     ! =3 initial and final state PS
+*                                     ! IFPS = 10 ARIADNE
+*                                     ! 
+     'IPST'     1       0        0    ! (D=0/1) keep virtual parton of cascade
+*                                     ! 
+     'IORD'     1       0        1    ! (D=1) ordering for initial state P.S.
+*                                     ! =0 no ordring
+*                                     ! =1 Q2 values at branches are strictly
+*                                     !    ordered, increasing towards the hard
+*                                     !    scatteringstrict ordered in Q2
+*                                     ! =2 Q2 and opening angles of emitted
+*                                     !    (on shell or time like) partons
+*                                     !    are both strictly ordered, increasing
+*                                     !    towards the hard interaction as 1
+*                                     !    but also strict ordered in angle
+     'IALP'     1       0        1    ! (D=1)
+*                                     ! =1 alphas first order with scale Q2
+*                                     ! =2 alphas first order with scale
+*                                     !    k_t**2=(1-z)*Q2
+     'ITIM'     1       0        1    ! (D=1)
+*                                     ! =0 no shower of time like partons
+*                                     ! =1 time like partons may shower
+     'ISOG'     1       0        1    ! (D=1) treatment of soft gluons
+*                                     ! =0 soft gluons are entirely neglected
+*                                     ! =1 soft gluons are resummed and included
+*                                     !    together with the hard radiation
+*                                     !    as an effective z shift
+*
+* +++++++++++++ Intrinsic kt's and beam remnants +++++++++++++
+*                                     !
+     'KT2 '     1       0       0.44  ! (D=0.44) intrinsic kt for proton
+*                                     !
+*     'IRSP'     1       0         3   ! (D=4) energy sharing in remnant
+*                                     ! 1: (1-z)	
+*                                     ! 2: (a+1)(1-z)**a	
+*                                     ! 3: N/(z(1-1/z-c/(1-z))**2) Petersen	
+*                                     ! 4: frag. function from PYTHIA MSTP(94)=3
+*                                     ! 5: frag. function from PYTHIA MSTP(94)=4
+*                                     !
+     'IAKT'     1       0         0   !  =0 ( no primordial kt for partons in diffraction)
+*                                     !  =1 ( primordial kt for partons for IPRO=12
+*                                     !      acc. aligned jet model)
+     'IREM'     1       0         1   ! p dissociation treatment
+*                                     ! (D=1): P(beta') = 2(1-beta')
+*                                     !    2 :          = (a+1)(1-beta')**a
+*                                     !    3 ; peterson function
+*
+* +++++++++++++ Scales +++++++++++++
+*
+     'IRAS'     1       0        1    ! (D=1) FIXED/RUNNING ALPHA_S
+*
+*    'ILAM'     1       0        1    ! (D=1) Lambda_qcd taken from PDF
+*                                     ! = 0 taken from steering file (PARU(112))    
+*
+     'IQ2S'     1       0        3    ! (D=5) SCALE OF STRUC.FCT. ALPHAS
+*                                     !  1:  q2 = m**2
+*                                     !  2:  q2 = shat
+*                                     !  3:  q2 = m**2 + pt**2
+     'SCAL'     1       0        1.   !  (D=1.) Scale factor for STR.FCT,ALPHA_S
+*                                     !  q2 = SCAL*q2
+*
+* +++++++++++++ Structure functions   +++++++++++++
+*  for using LHAPDF
+    'INPR'     1       0        10041 !  For LHApdf
+*                                     Some LHAPDF proton codes (see LHAPDF manual):
+*                                       10041 = CTEQ 6L LO      
+*                                       10042 = CTEQ 6L LO      
+*                                       10050 = CTEQ6M NLO
+*                                       19070 = CTEQ 5L LO      
+*                                       10150 = CTEQ6L NLO
+*                                       20060 = MRST 2001 LO    
+*                                       20050 = MRST 2001 NLO (MSbar)
+*                                       20470 = MRST 2004 NNLO  
+*                                       20450 = MRST 2004 NLO (MSbar)
+*                                       70250 = H1 2000 LO      
+*                                       70050 = H1 2000 NLO (MSbar)
+*                                       70150 = H1 2000 NLO (DIS)
+*
+* +++++++++++++ Structure functions diffraction/meson exchange +++++++++++++
+*
+* +++++++++++++ pomeron                +++++++++++++
+*
+     'INGG'     1       0        -30   ! (D=-11) gluon density in pomeron
+*                                     !   <0 user supplied
+*                                     !   via SUBROUTINE USDIFFR
+*                                     ! 15 = H1 parametr. singular gluons + q
+*                                     ! 16 = H1 parametr. flat gluons + q
+*                                     ! 17 = H1 parametr. flat quarks
+*                                     ! 20 = pion exchange
+*                                     ! -10 H1 fit 1 (1997)
+*                                     ! -11 H1 fit 2 (1997)
+*                                     ! -12 H1 fit 3 (1997)
+*                                     ! -30 H1 set A (2006)
+*                                     ! -31 H1 set B (2006)
+     'IPOM'     1       0        -30   ! (D=-10) pomeron density
+*                                     !  =0 streng density ,
+*                                     !  =1 Ingelman density,
+*                                     !  =2 Donnachie Landshoff density,
+*                                     !  =20 pion- exchange
+*                                     !  =21 pion0 exchange
+*                                     !  =22 pion+ exchange
+*                                     !  -10 H1 fit pomeron only (1997)
+*                                     !  -11 H1 fit meson only (1997)
+*                                     !  -12 H1 fit pomeron and meson (1997)
+*                                     !  -30 H1 fit pomeron only (2006)
+*                                     !  -31 H1 fit reggeon only (2006)
+*                                     !  -32 H1 fit pomeron and meson (2006)
+*                                     !  <0 user supplied
+*                                     !  via SUBROUTINE USDIFFR
+* ++++++++++++ parameters for 0<NPOM<2
+*     EESP = EPSP in manual
+     'EESP'     1       0       0.139 ! (D=0.085) epsilon for pomeron
+*     RRN2 = RN2 in manual
+     'RRN2'     1       0        4.0  ! (D=4.7)
+*     RALP = ALPH in manual
+     'RALP'     1       0        0.3  ! (D=0.25)
+*     RRXF = XF in manual
+     'RRXF'     1       0       0.8   ! (D=0.9)
+*     RT2M = T2MAX in manual
+     'RT2M'     1       0       5.    ! (D=20.)
+* for p-diss
+*     'PEPS'     1       0        -0.1  ! (D=0.0) epsilon for 1/My**peps 
+*     'PRN2'     1       0        4.6  ! (D=4.0) slope for exp(-PRN2*abs(t))
+* +++++++++++++ pion/meson                +++++++++++++
+     'INPI'     1       0         252 !  GRV-PI LO pion structure function
+*                                     ! INPI > 10 LHAPDF LIB
+*                                        PDFLIB:
+*
+* ++++++++++++ BASES/SPRING Integration procedure ++++++++++++
+     'IINT'     1       0         0   !  =1 DIVON Integration procedure
+*                                     !  =0 BASES/SPRING Integration procedure
+     'NCAL'     1       0      25000  ! Nr of calls per iteration for bases
+*
+     'ACC1'     1       0        1.   ! relative prec.(%) for grid optimisation
+*
+     'ACC2'     1       0       0.5   ! relative prec.(%) for integration
+*
+*-----------------------------------------------------------------------
+* PYTHIA 6.X PARAMETERS
+*-----------------------------------------------------------------------
+*   -------  ------  ------  --------  ---------------------------------
+     'MSTJ'    22      0         2    ! (D=1), 2=K0s, Lambda, Sigma-+,
+*                                       Sigma+, Xi-, Xi0, Omega- do not
+*                                       decay (H1 standard)
+*
+*                                       Type of Fragmentation:
+*    'MSTJ'     1      0         2    ! (D=1), 1=string, 2=independent
+*                                       see also MSTJ(2) and MSTJ(3)
+* alphas parameters
+     'MSTU'   111      0         1    ! = 0 : alpha_s is fixed
+*                                     !     at the value PARU(111)
+*                                     ! =1 ;first-order running alpha_s is
+*                                     !     used.
+*                                     ! =2 ;second-order running alpha_s is
+*                                     !     used.
+     'MSTU'   112      0         4    ! nr of flavours wrt lambda_QCD
+*     'MSTU'   113      0         3    ! min nr of flavours for alphas
+*     'MSTU'   114      0         5    ! max nr of flavours for alphas
+     'PARU'   112      0        0.326   ! lambda QCD
+*
+     'PMAS'     4      1         1.5  ! charm mass set to 1.5
+*
+************************************************************************
+END$

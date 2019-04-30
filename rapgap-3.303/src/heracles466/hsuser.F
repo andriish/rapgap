@@ -1,0 +1,119 @@
+C
+      SUBROUTINE HSUSER(ICALL,X,Y,Q2)
+C---
+C   OUTPUT TO UNIT LUNEVE = 6
+C---
+C
+      IMPLICIT DOUBLE PRECISION (A-H,M,O-Z)
+C---------------------------------------------------------------------
+#include "rghsoptn.inc"
+#include "hepevt.inc"
+      COMMON /HSNUME/ SIGTOT,SIGTRR,SIGG(20),SIGGRR(20),NEVENT,NEVE(20)
+      COMMON /HSELAB/ SP,EELE,PELE,EPRO,PPRO
+      COMMON /HSPARM/ POLARI,LLEPT,LQUA
+      COMMON /HSCUTS/ XMIN,XMAX,Q2MIN,Q2MAX,YMIN,YMAX,WMIN,GMIN
+      COMMON /HSGSW1/ MEI,MEF,MQI,MQF,MEI2,MEF2,MQI2,MQF2,MPRO,MPRO2
+      COMMON /HSIKP/  S,T,U,SS,TS,US,DKP,DKPS,DKQ,DKQS
+      COMMON /HSCHNN/ ICHNN
+C+KEEP,   PARA.
+c      DOUBLE PRECISION ALPHS,PI,ALPH
+c      INTEGER IWEI
+c      COMMON /PARAM/ ALPHS,PI,ALPH,IWEI
+c      INTEGER IPRO,IRUNA,IQ2,IRUNAEM
+c      DOUBLE PRECISION Q2START,W_Q2
+c      COMMON/RAPA /IPRO,IRUNA,IQ2,IRUNAEM,Q2START,W_Q2,OMEG2
+c
+cENDKEEP
+#include "rgpara.inc"
+
+      COMMON/DIVO/ NDIM,NPOIN
+#include "rghs45.inc"
+      REAL RTIME
+      LOGICAL FIRST
+      DATA FIRST/.TRUE./
+      GOTO (10 ,20 ,30 ) ICALL
+C***********************************************************************
+C---INITIALIZATION CALL
+
+   10 CONTINUE
+      IF(FIRST) THEN
+C---WRITE SOME RUN PARAMETERS TO UNIT 6
+         WRITE(6,'(/A/)') ' *****  PROPERTIES OF THE ELECTRON BEAM  ***'
+     +   //'**'
+         WRITE(6,'(10X,A,F8.1,A)') ' ENERGY OF INCIDENT ELECTRON =',
+     +   EELE,' GEV'
+         WRITE(6,'(10X,A,I3)') ' CHARGE OF INCIDENT ELECTRON =',LLEPT
+         WRITE(6,'(10X,A,F8.4)') ' DEGREE OF BEAM POLARIZATION =',
+     +   POLARI
+         WRITE(6,'(/A/)') ' *****  PROPERTIES OF THE PROTON BEAM  *****'
+         WRITE(6,'(10X,A,F8.1,A)') ' ENERGY OF INCIDENT PROTON =',EPRO,
+     +   ' GEV'
+         WRITE(6,'(//10X,A,1PE12.5,A)') ' CMS ENERGY SQUARED  S =',SP,
+     +   ' GEV**2'
+         WRITE(6,'(/A/)') ' *****  KINEMATICAL LIMITS FOR GENERATED '
+     +   //'EVENTS  *****'
+         WRITE(6,'(10X,A,1PE10.3,5X,A,1PE10.3)') ' XMIN=',XMIN,' XMAX='
+     +   ,XMAX
+         WRITE(6,'(10X,A,1PE10.3,A)') ' Q2MIN=',Q2MIN,' GEV**2'
+         WRITE(6,'(10X,A,1PE10.3,A,18X,A)') ' WMIN=', WMIN, ' GEV',' '
+     +   //'(ACTIVE ONLY FOR ICUT=2)'
+         WRITE(6,'(10X,A,1PE10.3,5X,A,1PE10.3,1X,A)') ' YMIN=',YMIN,' '
+     +   //'YMAX=',YMAX, ' (ACTIVE ONLY FOR ICUT=3)'
+         WRITE(6,'(10X,A,I2)') ' ICUT=',ICUT
+C---INITIALIZATION OF TIMING ROUTINE
+         CALL TIMEX(RTIME)
+         TIMINI=RTIME
+         NEVMOD=1000
+         FIRST=.FALSE.
+      ENDIF
+      RETURN
+C***************
+C---COLLECTING EVENTS IN DATA SET HEVENT.V30.DAT
+   20 CONTINUE
+      GSP=SP-MPRO2-MEI2
+      IF (ICHNN.EQ.6.OR.ICHNN.EQ.7.OR.ICHNN.EQ.8.OR.ICHNN.EQ.12) THEN
+         DKPRO=EPRO*PHEP(4,3)+PPRO*PHEP(3,3)
+         Q2HS=-TS
+         XHS=Q2HS/(Y*GSP-2D0*DKPRO)
+         YHS=Q2HS/XHS/GSP
+      ELSE
+         Q2HS=Q2
+         XHS=X
+         YHS=Y
+      ENDIF
+      KPAHS = IDHEP(2)
+      NDIM = 2
+      IHERAC = 1
+      IF(IPRO.EQ.3000) THEN
+         IPRO=30
+      ELSE
+         IPRO = 12
+      ENDIF
+	
+	
+10000 FORMAT(2I6,3X,2D12.5,3X,I6)
+10100 FORMAT(I6,4D16.9)
+10200 FORMAT(' s,t,u = ',3D16.9/,'ss ts us = ',3D16.9/
+     +  ,'dkp dkps,dkq,dkqs = ',4D16.9)
+C
+      IF(MOD(NEVHEP,NEVMOD).EQ.0) THEN
+
+         CALL TIMEX(RTIME)
+         TIMFIN=RTIME
+         RTIME=TIMFIN-TIMINI
+         TIMINI=TIMFIN
+         TIMEVT=RTIME/NEVMOD
+         WRITE(6,10300) NEVHEP,TIMEVT
+10300   FORMAT(/,' AVERAGE TIME PER EVENT AFTER ',I6,' EVENTS: ',
+     +            1PE11.2,' SEC')
+      ENDIF
+      RETURN
+C***************
+C
+C---FINAL CALL
+   30 CONTINUE
+C---TERMINATING RECORD ON HEPEVT
+      CALL HSTERM
+      RETURN
+      END
+

@@ -1,0 +1,240 @@
+C
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C   INTEGRAND OF KP TERM (INITIAL STATE RADIATION IN CHARGED CURRENT)
+C   HS(19/07/94)
+C   FROM epcctot.f (28/08/98)
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C
+      FUNCTION HSCCKL(X)
+C
+C  X(1) -->  XX
+C  X(2) -->  Q**2  -->  Y
+C  X(3) -->  XS
+C  X(4) -->  LOG(2*K.P)
+C  X(5) -->  TS
+C
+      IMPLICIT DOUBLE PRECISION (A-H,M,O-Z)
+      COMMON /HSUNTS/ LUNTES,LUNDAT,LUNIN,LUNOUT,LUNRND
+      COMMON /HSOPTN/ INT2(5),INT3(15),ISAM2(5),ISAM3(15),
+     *                IOPLOT,IPRINT,ICUT
+      COMMON /HSGSW/  SW,CW,SW2,CW2
+     *              ,MW,MZ,MH,ME,MMY,MTAU,MU,MD,MS,MC,MB,MT
+     *              ,MW2,MZ2,MH2,ME2,MMY2,MTAU2,MU2,MD2,MS2,MC2,MB2,MT2
+      COMMON /HSGSW1/ MEI,MEF,MQI,MQF,MEI2,MEF2,MQI2,MQF2,MPRO,MPRO2
+      COMMON /HSKNST/ PI,ALPHA,ALP1PI,ALP2PI,ALP4PI,E,GF,SXNORM,SX1NRM
+      COMMON /HSKNCC/ SXNRCC,SX1NCC
+      COMMON /HSIRCT/ DELEPS,DELTA,EGMIN,IOPEGM
+      COMMON /HSELAB/ SP,EELE,PELE,EPRO,PPRO
+      COMMON /HSKPXY/ XX,Y
+      COMMON /HSCMSP/ EQ,PQ,EEL,PEL,ES,PS,COSE,SINE,OMEGA
+      COMMON /HSLABP/ EH,PH,EQH,PQH,ESH,PSH,COSEH,SINEH
+      COMMON /HSIKP/  S,T,U,SS,TS,US,DKP,DKPS,DKQ,DKQS
+      COMMON /HSGIKP/ GS,GU,GX,TP,UP
+      COMMON /HSCUTS/ XMIN,XMAX,Q2MIN,Q2MAX,YMIN,YMAX,WMIN,GMIN
+      COMMON /HSTCUT/ THEMIN,CTHMIN,CTHCON
+      COMMON /HSPCUT/ PTMIN,PTXM0
+      COMMON /HSXSLM/ XSMIN,XSCUT
+      COMMON /HSCUMS/ CQP(12)
+      COMMON /HSPDFQ/ QU,QBU,QD,QBD,QS,QBS,QC,QBC,QB,QBB,QT,QBT
+      COMMON /HSPARM/ POLARI,LLEPT,LQUA
+      COMMON /HSPSPC/ IPHSPC
+      COMMON /HSWGTC/ IWEIGS
+      DIMENSION X(5)
+C
+C---X-VALUE
+      XX=XMIN+(XMAX-XMIN)*X(1)
+C---Y-VALUE
+      GS=SP-MEI2-MPRO2
+      YMAXX=XX*(1D0-4D0*MEI2*MPRO2/GS/GS)/(XX*(1D0+XX*MPRO2/GS)+MEI2/GS)
+      IF(ICUT.LT.3) THEN
+C---CUT IN EXTERNALLY DEFINED Q**2(MIN)
+        Q2L=Q2MIN
+        Q2U=XX*GS
+        ELSEIF(ICUT.EQ.3) THEN
+C---CUT IN Y
+        QQ2MIN=XX*YMIN*GS
+C---CUT ON ELECTRON SCATTERING ANGLE (MASSES NEGLECTED)
+        YMINTH=1D0/(1D0+XX*CTHCON)
+        QT2MIN=XX*YMINTH*GS
+C---CUT ON ELECTRON TRANSVERSE MOMENTUM (MASSES NEGLECTED)
+        QP2MIN=XX*GS/2D0*(1D0-DSQRT(1D0-PTXM0/XX))
+        QP2MAX=XX*GS/2D0*(1D0+DSQRT(1D0-PTXM0/XX))
+        YP2MAX=QP2MAX/GS/XX
+        Q2L=MAX(Q2MIN,QQ2MIN,QT2MIN,QP2MIN)
+        Q2U=XX*MIN(YMAX,YMAXX,YP2MAX)*GS
+        Q2U=MIN(Q2U,Q2MAX)
+        ELSE
+        WRITE(LUNOUT,'(/A,I5/A)') ' WRONG VALUE OF ICUT:',ICUT,
+     *                            ' STOP IN HSCCKL'
+        STOP
+      ENDIF
+      DQ2=DMAX1(Q2U-Q2L,0D0)
+C
+C---CUT IN W LATER
+C
+      Q2=Q2L+X(2)*DQ2
+      Y=Q2/XX/GS
+C---EXTERNAL WEIGHT
+      IACPT=1
+      IF (IWEIGS.GT.0) THEN
+        CALL HSWGTX(XX,Y,IACPT)
+        IF (IACPT.EQ.0) THEN
+          HSCCKL=0D0
+          RETURN
+        ENDIF
+      ENDIF
+      CALL HSDELO(XX,Y)
+      XSMIN=HSCXSM(XX,Y)
+      XSMAX=1D0
+      XSMINI=XSMIN
+      IF(XSMAX.LE.XSMINI) THEN
+        HSCCKL=0D0
+        RETURN
+      ENDIF
+C---SUBSTITUTION FOR XS
+      SMF=MEI2+MQI2+MQF2
+      UMIN=DLOG(XSMINI-XX-SMF/Y/SP)
+      UMAX=DLOG(XSMAX-XX-SMF/Y/SP)
+      UV=UMIN+(UMAX-UMIN)*X(3)
+      XS=XX+SMF/Y/SP+DEXP(UV)
+C
+      IF(IPRINT.GT.30) THEN
+        WRITE(LUNTES,230)SP,XX,Y,XSMIN,XSMAX,XS
+230     FORMAT(/,' SP = ',1PD12.3,' X = ',D12.6,'   Y = ',D12.6,/
+     F        ,' XSMIN = ',D17.11,'   XSMAX = ',D17.11,'  XS = ',D12.6)
+      ENDIF
+C---INTEGRATE IN CMSYSTEM (K+QS=0)
+      CALL HSCCMS(XX,Y,XS)
+      IF(IPHSPC.EQ.1) THEN
+        HSCCKL=0D0
+        RETURN
+      ENDIF
+      CALL HSCLAB(XX,Y,XS)
+      CALL HSLZK1(ZMIN,ZMAX)
+      IF(IPHSPC.EQ.1.OR.ZMIN.GE.ZMAX) THEN
+        HSCCKL=0D0
+        RETURN
+      ENDIF
+C---SUBSTITUTION W = LOG(E/P-COSTHETA)
+      IF (ZMAX.EQ.1D0) THEN
+        WVMIN=DLOG(MEI2/2D0/PEL/PEL)
+       ELSE
+        WVMIN=DLOG(EEL/PEL-ZMAX)
+      ENDIF
+      WVMAX=DLOG(EEL/PEL-ZMIN)
+      WVV=WVMIN+(WVMAX-WVMIN)*X(4)
+      ZP=EEL/PEL-DEXP(WVV)
+C---NO SUBSTITUTION FOR PHI
+      CALL HSCPHL(XS,ZP,PHPMIN)
+      PHPMAX=PI
+      PHIP=PHPMIN+(PHPMAX-PHPMIN)*X(5)
+C
+      SZ2=1D0-ZP*ZP
+      IF (SZ2.LT.0D0) THEN
+        HSCCKL=0D0
+        RETURN
+      ENDIF
+      SZ=DSQRT(SZ2)
+      CPHI=DCOS(PHIP)
+      DKP=OMEGA*(EEL-PEL*ZP)
+      DKPS=OMEGA*(ES-PS*(SINE*SZ*CPHI+COSE*ZP))
+      DKQ=OMEGA*(EQ-PS*(SINE*SZ*CPHI+COSE*ZP)+PEL*ZP)
+      DKQS=DKP+DKQ-DKPS
+C---CHECK CONDITION ON PHOTON ENERGY
+      OMH=(PH*DKQ+PQH*DKP)/(PH*EQH+PQH*EH)
+      IF (OMH.LT.DELTA) THEN
+        HSCCKL= 0D0
+        RETURN
+      ENDIF
+C
+      S=XS*SP
+      T=-XX*Y*SP
+      U=-XS*(1D0-Y)*SP
+      TS=T-2D0*(DKP-DKPS)
+      SS=S-2D0*(DKP+DKQ)
+      US=U+2D0*(DKPS-DKQ)
+C
+      CALL HSPVER(XS,-TS)
+      D  = 1D0/(T -MW2)
+      DS = 1D0/(TS-MW2)
+      CCMSLQ = 2D0*DS*DS*SS*DKQ*DKQS
+     *       + 2D0*D*D*S*DKPS*DKP
+     *       - D*DS*(  S*SS*US + S*(SS-T)*DKQS - SS*(S-TS)*DKP
+     *                  -US*(SS*DKQ-S*DKPS)  )
+     *       -2D0*D*DS*DS*(SS*T*DKQ - S*T*DKQS - S*(SS-US)*DKPS - S*SS*T
+     *                      - (SS*U - 4D0*SS*DKQ)*DKP ) * DKQS
+     *       +2D0*D*D*DS*(SS*TS*DKP - S*TS*DKPS + SS*(S-US)*DKQ- S*SS*TS
+     *                      + (S*U + 4D0*S*DKPS)*DKQS ) * DKP
+     *       +4D0*D*D*DS*DS * DKP * DKQS
+     *         *( - S*SS*T + S*SS*(DKP-DKPS)
+     *            + 2D0*S *DKPS*DKQS + 2D0*SS*DKP *DKQ
+     *            + 2D0*US*DKPS*DKQ  + 2D0*U *DKP *DKQS
+     *            - 2D0*T *DKQ *DKQS - 2D0*TS*DKP *DKPS )
+      CCMSLB = - 2D0*DS*DS*U*DKQS*DKQS
+     *         - 2D0*D*D*U*DKP*DKP
+     *       + D*DS*( -U*US*US + 4D0*U*DKP*DKQS
+     *                        - 2D0*U*US*(DKQS-DKP)  )
+     *       -2D0*D*DS*DS*(-U*T*DKQS + US*T*DKQ - US*(U-S)*DKPS - U*US*T
+     *                      - (U*SS + 4D0*U*DKQS)*DKP ) * DKQS
+     *       +2D0*D*D*DS*(U*TS*DKP - US*TS*DKPS + US*(U-SS)*DKQ- U*US*TS
+     *                      + (S*U - 4D0*U*DKP)*DKQS ) * DKP
+     *       +4D0*D*D*DS*DS * DKP * DKQS
+     *         *( - U*US*T + U*US*(DKP-DKPS)
+     *            - 2D0*US*DKPS*DKQ  - 2D0*U *DKP *DKQS
+     *            - 2D0*S *DKPS*DKQS - 2D0*SS*DKP *DKQ
+     *            - 2D0*T *DKQ *DKQS - 2D0*TS*DKP *DKPS )
+      CCMSQ  = - MEI2*D*D*SS*SS/DKP
+      CCMSB  = - MEI2*D*D*U *U /DKP
+      CCMSLQ = CCMSLQ/DKQS
+      CCMSLB = CCMSLB/DKQS
+C      CCMSHQ = - MQF2*D*D*S*S/DKQS/DKQS*DKP
+C      CCMSHB = - MQF2*D*D*U*U/DKQS/DKQS*DKP
+      CCMSHQ = 0D0
+      CCMSHB = 0D0
+C
+      IF (LLEPT.EQ.-1) THEN
+      CQP(1) = QU  * (CCMSQ + CCMSLQ + CCMSHQ)
+      CQP(2) = 0D0
+      CQP(3) = 0D0
+      CQP(4) = QBD * (CCMSB + CCMSLB + CCMSHB)
+      CQP(5) = 0D0
+      CQP(6) = QBS * (CCMSB + CCMSLB + CCMSHB)
+      CQP(7) = QC  * (CCMSQ + CCMSLQ + CCMSHQ)
+      CQP(8) = 0D0
+      CQP(9) = 0D0
+C      CQP(10)= QBB * (CCMSB + CCMSLB + CCMSHB)
+Chs: no b-quarks
+      CQP(10)= 0D0
+      CQP(11)= QT  * (CCMSQ + CCMSLQ + CCMSHQ)
+      CQP(12)= 0D0
+      ELSEIF(LLEPT.EQ.1) THEN
+      CQP(1) = 0D0
+      CQP(2) = QBU * (CCMSQ + CCMSLQ + CCMSHQ)
+      CQP(3) = QD  * (CCMSB + CCMSLB + CCMSHB)
+      CQP(4) = 0D0
+      CQP(5) = QS  * (CCMSB + CCMSLB + CCMSHB)
+      CQP(6) = 0D0
+      CQP(7) = 0D0
+      CQP(8) = QBC * (CCMSQ + CCMSLQ + CCMSHQ)
+C      CQP(9) = QB  * (CCMSB + CCMSLB + CCMSHB)
+Chs: no b-quarks
+      CQP(9) = 0D0
+      CQP(10)= 0D0
+      CQP(11)= 0D0
+      CQP(12)= QBT * (CCMSQ + CCMSLQ + CCMSHQ)
+      ENDIF
+
+      DO 2 IFL = 2,12
+        CQP(IFL) = CQP(IFL-1) + CQP(IFL)
+ 2    CONTINUE
+      SUMME=CQP(12)
+C
+      RPOL=(1D0+LLEPT*POLARI)/2D0
+      SQGRAM=(EEL+EQ-ES)/OMEGA
+      HSCCKL=SUMME*Y*SX1NCC*RPOL/SQGRAM/XS
+     *       *(UMAX-UMIN)*(XS-XX-SMF/Y/SP)
+     *       *(WVMAX-WVMIN)*(EEL/PEL-ZP)/DKP
+     *       *2D0*(PHPMAX-PHPMIN)
+     *       *(XMAX-XMIN)*DQ2/(XX*SP)
+      RETURN
+      END

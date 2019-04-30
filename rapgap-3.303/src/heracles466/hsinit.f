@@ -1,0 +1,139 @@
+C
+C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C
+C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C
+      SUBROUTINE HSINIT(IFUN,EPSO,NBIN2,NDO2,SIG2,SIG2E,XX2)
+C
+C   LAST CHANGE  18/04/90  HJM
+C   LAST CHANGE  24/07/90  HJM
+C   LAST CHANGE  13/12/90  HJM         EXTENSION FOR CHARGED CURRENT
+C   Last change  22/01/97  HS          NC / CC corrected: FUN -> IFUN
+C******************
+C   INITIALIZATION FOR EP EVENT GENERATION
+C   2 --> 2 PROCESS WITH SOFT AND VIRTUAL CORRECTIONS FROM H.SP.
+C           (CROSS SECTION IN NANOBARN)
+C
+C   --> CONTRIBUTION SIG2 TO THE OVERALL CROSS SECTION
+C
+C   --> TABLE OF MAXIMUM FUNCTION VALUES IN THE NREG2 (X,G) INTERVALS
+C       NUMBERING PROCEDURE AS IN HSESTM, HSGENM..
+C
+      IMPLICIT DOUBLE PRECISION (A-H,M,O-Z)
+      INTEGER MINPTS,MAXPTS
+      PARAMETER (NXINT=100)
+      PARAMETER (LENWRK=2000)
+      COMMON /HSOPTN/ INT2(5),INT3(15),ISAM2(5),ISAM3(15),
+     *                IOPLOT,IPRINT,ICUT
+      COMMON /HSCUTS/ XMIN,XMAX,Q2MIN,Q2MAX,YMIN,YMAX,WMIN,GMIN
+      COMMON /HSELAB/ SP,EELE,PELE,EPRO,PPRO
+      COMMON /HSUNTS/ LUNTES,LUNDAT,LUNIN,LUNOUT,LUNRND
+      COMMON /HSINTL/ XL,XU
+C
+      DIMENSION XX2(50,2)
+      DIMENSION BLOW(2),BUP(2),WRKSTR(LENWRK)
+      DIMENSION DFXT(NXINT),XXINT(NXINT)
+      DATA BLOW/0D0,0D0/, BUP/1D0,1D0/
+      DATA MINPTS,MAXPTS / 0, 1000/
+C
+C   PARAMETERS
+C
+      ACCURA=EPSO
+      NDO2=NBIN2
+C
+C   INTEGRATION
+C
+      XL=XMIN
+      DLOGX=LOG(XMAX/XMIN)/FLOAT(NXINT)
+      SIG2=0D0
+      SIG2E=0D0
+      IF(IPRINT.GT.1)
+     *  WRITE(LUNTES,'(A)') ' IX, XL, XU,  DFXT(IX), EPSF, EPSO'
+C
+      DO 1 IX=1,NXINT
+        XU=XMIN*EXP(FLOAT(IX)*DLOGX)
+        IF(XU.GT.XMAX) THEN
+          XU=XMAX
+        ENDIF
+        XXINT(IX)=XL
+        IFAIL=1
+        NDIMEN=2
+C       WRITE(LUNTES,'(/A/I2,4F5.1,2I6,1PE10.1,I6)')
+C    &    ' NDIMEN,BLOW(2),BUP(2),MINPTS,MAXPTS,ACCURA,LENWRK',
+C    &     NDIMEN,BLOW,BUP,MINPTS,MAXPTS,ACCURA,LENWRK
+        CALL DX1FCF(NDIMEN,BLOW,BUP,MINPTS,MAXPTS,IFUN,ACCURA,
+     &              ACCFIN,LENWRK,WRKSTR,RESULT,IFAIL)
+        DFXT(IX)=RESULT
+        IF(IFAIL.NE.0.OR.IPRINT.GT.1)
+     &    WRITE(LUNTES,'(A,I5,/,3(1PD15.6),A,I5)')
+     &      ' D01FCF DID NOT MEET REQUIRED ACCURACY IN BIN ',IX,
+     &                 XL,XU,RESULT,' IFAIL = ',IFAIL
+        XL=XU
+        SIG2=SIG2 + DFXT(IX)
+        SIG2E=SIG2E + ACCFIN*RESULT
+ 1    CONTINUE
+C
+      IF(IPRINT.GT.1) THEN
+        WRITE(LUNOUT,'(///A,5X,1PE12.4,A,1PE12.4,A)')
+     *        ' CROSS SECTION VALUE SIG2 (WITH ERROR ESTIMATE):',
+     *        SIG2, ' +/- ', SIG2E, '  NB'
+        WRITE(LUNTES,'(A,1PD10.1)') ' RELATIVE ACCURACY REQUIRED:',
+     &        ACCURA
+      ENDIF
+C
+      DO 2 IX=1,NXINT
+        DFXT(IX)=DFXT(IX)/SIG2
+ 2    CONTINUE
+C
+      IF(IPRINT.GT.1) THEN
+         WRITE(LUNTES,'(6D15.5)') (DFXT(I),I=1,NXINT)
+      ENDIF
+C
+C   INVERSION OF THE X-DISTRIBUTION
+C
+      IF(IPRINT.GT.2)
+     *  WRITE(LUNTES,'(2A)') ' JX,IX, G,DG, FI, DFXT(IX), DX,',
+     *                   ' XMIN, XX2(JX)'
+      G=0D0
+      DG=1D0/DFLOAT(NDO2)
+      IX=1
+      FI=DFXT(1)
+      DO 3 JX=1,NDO2-1
+        G=G + DG
+   4    CONTINUE
+        IF(G.GT.FI) THEN
+          IX=IX + 1
+          FI=FI + DFXT(IX)
+          GOTO 4
+        ENDIF
+        IF (IX.LT.100) THEN
+          XXINT1=XXINT(IX+1)
+          ELSE
+          XXINT1=XMAX
+        ENDIF
+        DX=XXINT1-XXINT(IX)
+        XX2(JX,1)=XXINT1-(FI-G)*DX/DFXT(IX)
+        IF(IPRINT.GT.2) WRITE(LUNTES,'(2I5/7(1PD13.5))')
+     *        JX,IX,G,DG,FI,DFXT(IX),DX,XMIN,XX2(JX,1)
+ 3    CONTINUE
+      XX2(NDO2,1)=XMAX
+C***     HJM 24/07/90                RESCALING OF X-INTERVALS,
+C                                    SINCE HSTRIT ASSUMES INTERVAL (0,1)
+      DX=XMAX-XMIN
+      DO 6 I=1,NDO2
+        XX2(I,1)=(XX2(I,1)-XMIN)/DX
+  6   CONTINUE
+C
+      DO 5 I=1,NDO2
+        XX2(I,2)=DFLOAT(I)*DG
+  5   CONTINUE
+C
+      IF(IPRINT.GT.1) THEN
+        WRITE(LUNTES,'(A,/,4(5(1PD15.5)/))')
+     &                     ' XX2(I,1)', (XX2(IX,1),IX=1,NDO2)
+        WRITE(LUNTES,'(A,/,4(5(1PD15.5)/))')
+     &                     ' XX2(I,2)', (XX2(IG,2),IG=1,NDO2)
+      ENDIF
+      IF(IPRINT.GT.1) WRITE(LUNTES,'(A)') ' HSINIT FINISHED'
+      RETURN
+      END

@@ -1,0 +1,97 @@
+C
+C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C
+      SUBROUTINE HSESTM(F,NCONT,NDIM,NPOIN,NDO,MBIN,FFMAX,FMAX,XI,
+     &                  IBIMAX,NREGX)
+C
+C  AUTHOR      : J. VERMASEREN
+C                MODIFIED 2/88 HJM
+C                MODIFIED 2/97 HS
+C
+      IMPLICIT DOUBLE PRECISION (A-H,O-Z)
+      EXTERNAL F
+      COMMON /HSOPTN/ INT2(5),INT3(15),ISAM2(5),ISAM3(15),
+     *                IOPLOT,IPRINT,ICUT
+      COMMON /HSUNTS/ LUNTES,LUNDAT,LUNIN,LUNOUT,LUNRND
+      DIMENSION X(10),N(10)
+      DIMENSION FMAX(NREGX),XI(NDO,NDIM)
+
+      IF (IOPLOT.LT.0) RETURN
+
+      FFMAX=0D0
+      DO 5 J=1,NREGX
+        FMAX(J)=0D0
+ 5    CONTINUE
+C
+      SUM=0D0
+      SUM2=0D0
+      SUM2P=0D0
+      IF(IPRINT.GE.1) WRITE(LUNTES,200) MBIN,NREGX,NPOIN
+
+C...DETERMINATION OF GLOBAL/LOCAL MAXIMA
+      DO 1 J=1,NREGX
+         JJ=J-1
+         DO 2 K=1,NDIM
+            JJJ=JJ/MBIN
+            N(K)=JJ-JJJ*MBIN
+            JJ=JJJ
+2        CONTINUE
+         FSUM=0D0
+         FSUM2=0D0
+         DO 3 M=1,NPOIN
+            DO 4 K=1,NDIM
+               X(K)=(HSRNDM(-1)+N(K))/MBIN
+4           CONTINUE
+            Z=HSTRIT(F,X,NDIM,NCONT,XI,NDO)
+            IF(Z.GT.FMAX(J)) FMAX(J)=Z
+            FSUM=FSUM + Z
+            FSUM2=FSUM2 + Z*Z
+3        CONTINUE
+         IF(FMAX(J).GT.FFMAX) THEN
+           FFMAX=FMAX(J)
+           IBIMAX=J
+         ENDIF
+C
+         AV=FSUM/FLOAT(NPOIN)
+         AV2=FSUM2/FLOAT(NPOIN)
+         SIG2=AV2-AV*AV
+         SIG=SQRT(DABS(SIG2))
+         SUM=SUM+AV
+         SUM2=SUM2+AV2
+         SUM2P=SUM2P+SIG2
+         EFF=10000.
+         IF(FMAX(J).NE.0) EFF=FMAX(J)/AV
+         IF(IPRINT.GE.5) WRITE(LUNTES,100) J,AV,SIG,FMAX(J),EFF,
+     +                                 (N(KJ),KJ=1,NDIM)
+1     CONTINUE
+      SUM=SUM/NREGX
+      SUM2=SUM2/NREGX
+      SUM2P=SUM2P/NREGX
+      SIG=SQRT(SUM2-SUM*SUM)
+      SIGP=SQRT(SUM2P)
+      EFF1=0D0
+      DO 6 J=1,NREGX
+         EFF1=EFF1+FMAX(J)
+6     CONTINUE
+      EFF1=EFF1/(NREGX*SUM)
+      EFF2=FFMAX/SUM
+      IF(IPRINT.GE.1) THEN
+        WRITE(LUNTES,101)SUM,SIG,SIGP,FFMAX,EFF1,EFF2
+        WRITE (LUNTES,'(/A,1PE13.5,5X,A,I5)')
+     &        ' GLOBAL MAXIMUM FFMAX=',FFMAX,' IN BIN IBIMAX=',IBIMAX
+      ENDIF
+C
+100   FORMAT(I6,3X,G13.6,G12.4,G13.6,3X,F8.2,3X,10I2)
+101   FORMAT(' THE AVERAGE FUNCTION VALUE =',G14.6/
+     +       ' THE OVERALL STD DEV        =',G14.4/
+     +       ' THE AVERAGE STD DEV        =',G14.4/
+     +       ' THE MAXIMUM FUNCTION VALUE =',G14.6/
+     +       ' THE AVERAGE INEFFICIENCY   =',G14.3/
+     +       ' THE OVERALL INEFFICIENCY   =',G14.3/)
+200   FORMAT(' SUBROUTINE HSESTM USES A',I3,'**NDIM DIVISION'/
+     + ' THIS RESULTS IN ',I7,' CUBES'/
+     + ' THE PROGRAM PUT ',I5,' POINTS IN EACH CUBE TO FIND',
+     + ' STARTING VALUES FOR THE MAXIMA'//)
+C
+      RETURN
+      END

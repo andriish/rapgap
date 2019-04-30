@@ -1,0 +1,162 @@
+C
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C   INTEGRAND OF KPS TERM (ELASTIC RADIATIVE TAIL)
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C
+      FUNCTION HSELK2(X)
+C
+C  X(1) -->  XX
+C  X(2) -->  G=-1/Q**2   -->  Q**2=-1/G-->  Y
+C  X(3) -->  LOG(2*K.PS)
+C  X(4) -->  TS
+C
+      IMPLICIT DOUBLE PRECISION (A-H,M,O-Z)
+      COMMON /HSCUTS/ XMIN,XMAX,Q2MIN,Q2MAX,YMIN,YMAX,WMIN,GMIN
+      COMMON /HSOPTN/ INT2(5),INT3(15),ISAM2(5),ISAM3(15),
+     *                IOPLOT,IPRINT,ICUT
+      COMMON /HSELAB/ SP,EELE,PELE,EPRO,PPRO
+      COMMON /HSPARL/ LPAR(20),LPARIN(12)
+      COMMON /HSUNTS/ LUNTES,LUNDAT,LUNIN,LUNOUT,LUNRND
+      COMMON /HSCUMS/ CQP(12)
+      COMMON /HSKPXY/ XX,Y
+      COMMON /HSXSLM/ XSMIN,XSCUT
+      COMMON /HSLABP/ EH,PH,EQH,PQH,ESH,PSH,COSEH,SINEH
+      COMMON /HSGSW1/ MEI,MEF,MQI,MQF,MEI2,MEF2,MQI2,MQF2,MPRO,MPRO2
+      COMMON /HSKNST/ PI,ALPHA,ALP1PI,ALP2PI,ALP4PI,E,GF,SXNORM,SX1NRM
+      COMMON /HSIRCT/ DELEPS,DELTA,EGMIN,IOPEGM
+      COMMON /HSIRCX/ XIRDEL
+      COMMON /HSCMSP/ EQ,PQ,EEL,PEL,ES,PS,COSE,SINE,OMEGA
+      COMMON /HSIKP/  S,T,U,SS,TS,US,DKP,DKPS,DKQ,DKQS
+      COMMON /HSPARM/ POLARI,LLEPT,LQUA
+      COMMON /HSGIKP/ GS,GU,GX,TP,UP
+      COMMON /HSPSPC/ IPHSPC
+      DIMENSION X(4)
+      COMPLEX*16 HSSRGG,CG
+
+C---QUASI-ELASTIC SCATTERING
+      XS=1D0
+C---CHOOSE VALUE OF Y
+      GS=SP-MEI2-MPRO2
+      YMAXX=(1D0-4D0*MEI2*MPRO2/GS/GS)/(1D0+2D0*MEI*MPRO/GS)
+      IF (ICUT.LT.3) THEN
+        GMINL=DLOG(Q2MIN/XMAX/GS)
+        GMAXL=DLOG(DMIN1(1D0,YMAXX))
+        ELSEIF(ICUT.EQ.3) THEN
+C---CUT IN Y
+        GMINL=DLOG(DMAX1(Q2MIN/XMAX/GS,YMIN))
+        GMAXL=DLOG(DMIN1(1D0,YMAXX,YMAX))
+        ELSE
+        WRITE(LUNOUT,'(/A,I5/A)') ' WRONG VALUE OF ICUT:',ICUT,
+     *                            ' STOP IN HSELK1'
+        STOP
+      ENDIF
+      GACT=GMINL+X(1)*(GMAXL-GMINL)
+      Y=DEXP(GACT)
+      XA=1D0
+      CALL HSDELX(XA,Y)
+C---X-VALUE
+      XXMAX1=HSXMAX(Y)
+      XXHH1=1D0-Y-4D0*MEI2*MPRO2/GS/GS
+      XXMNY1=(XXHH1+DSQRT(XXHH1*XXHH1-4D0*Y*Y*MEI2*MPRO2/GS/GS))
+     &      /2D0/Y/MPRO2*GS
+      XXMINY=MEI2/MPRO2/XXMNY1
+      XXMIN=DMAX1(XMIN,Q2MIN/Y/GS,XXMINY)
+      XXMAX=DMIN1(XMAX,XXMAX1)
+      GXMIN=-1D0/XXMIN**2
+      GXMAX=-1D0/XXMAX**2
+      GX=GXMIN+(GXMAX-GXMIN)*X(2)
+      XX=SQRT(-1D0/GX)
+      Q2=XX*Y*GS
+      CALL HSFIVC(XX,Y)
+C
+      IF(IPRINT.GT.30) THEN
+        WRITE(LUNTES,230)SP,XX,Y,XSMIN,XSCUT,DELEPS,DELTA
+230     FORMAT(' ***************************************************',/
+     F        ,' SP = ',1PD12.3,/
+     F        ,' X = ',D12.6,'   Y = ',D12.6,/
+     F        ,' XSMIN = ',D17.11,'   XSCUT = ',D17.11,/
+     F        ,' DELEPS = ',D12.6,'   DELTA = ',D14.8,/
+     F       ,' ***************************************************',//)
+      ENDIF
+C
+      CALL HSFCMS(XX,Y,XS)
+      IF(IPHSPC.EQ.1) THEN
+        HSELK2=0D0
+        RETURN
+      ENDIF
+      CALL HSFLAB(XX,Y,XS)
+      CALL HSLZK2(ZMIN,ZMAX)
+      IF(IPHSPC.EQ.1) THEN
+        HSELK2=0D0
+        RETURN
+      ENDIF
+C---SUBSTITUTION V = LN(A2)
+      A2MAX=2D0*OMEGA*(ES-PS*ZMIN)
+      IF ((ZMAX.GE.0.9999D0).AND.(ES/MEF.GT.1D3)) THEN
+        A2MIN=2D0*OMEGA*MEF2/2D0/ES
+      ELSE
+        A2MIN=2D0*OMEGA*(ES-PS*ZMAX)
+      ENDIF
+      VMAX=DLOG(A2MAX)
+      VMIN=DLOG(A2MIN)
+      V=VMIN+(VMAX-VMIN)*X(3)
+      A2=DEXP(V)
+C---NO SUBSTITUTION FOR = TS
+      CALL HSLTS2(A2,XX,Y,XS,TSMIN,TSMAX,TSM,TSP,CFKPS)
+      IF(IPHSPC.EQ.1)THEN
+       HSELK2=0D0
+       RETURN
+      ENDIF
+      GS00=2D1
+      IF ((ABS(TSMIN).GT.GS00).OR.(ABS(TSMAX).GT.GS00)) THEN
+        HSELK2=0D0
+        RETURN
+      ENDIF
+      TSMINA=DLOG((-GS00-TSMIN)/TSMIN)/GS00
+      TSMAXA=DLOG((-GS00-TSMAX)/TSMAX)/GS00
+      TSA=TSMINA+(TSMAXA-TSMINA)*X(4)
+      TS=-GS00/(1D0+DEXP(GS00*TSA))
+      SQGRM2=-CFKPS*(TS-TSM)*(TS-TSP)
+      IF (SQGRM2.LE.0D0) THEN
+        HSELK2=0D0
+        RETURN
+      ENDIF
+      SQGRAM=DSQRT(DABS(SQGRM2))
+      CALL HSFIV2(XX,Y,XS,A2,TS)
+C
+      A1=2D0*DKP
+      RUNALP=1D0
+      IF (LPAR(3).GE.3) THEN
+        CG=HSSRGG(TS)
+        RUNALP=1D0/(1D0+DREAL(CG)/TS)
+      ENDIF
+      R1=4D0*GX*(
+     &      (T+2D0*MEI2)/(A2-TS)/(A2-TS)/A2
+     &     -1D0/(A2-TS)/A2
+     &     + 2D0/(A1+A2)/A2
+     &     -8D0*MEI2*MEI2/(A1*A2+TS*TS)/(A1+A2)/A2
+     &     +4D0*MEI2*MEI2/(A2*A2+TS*TS)/A2/A2
+     &     -2D0*MEI2/(A2-TS)/A2/A2 )
+      FAC1 =-(GS*GS + GU*GU - GX*(GS+GU) -4D0*MEI2*MPRO2)
+      FAC2 = GU*GX - MPRO2*T
+      FAC3 = (-2D0*GS*GU + GX*(GS+GU-GX))*2D0*MEI2
+      FAC4 = GS*(GX-GS)*2D0*MEI2
+      R2=4D0*(
+     &     -FAC1/(A1+A2-TS)*(1D0/(A1+A2)+1D0/(A2-TS))/A2
+     &     +FAC2/(A2-TS)/(A2-TS)/A2
+     &     +FAC3/(A1*A2+TS*TS)/(A1+A2)/A2
+     &     -2D0*MPRO2/(A1+A2)/A2
+     &     +2D0*MEI2*MPRO2/(A2-TS)/(A2-TS)/A2
+     &     +2D0*MEI2*MPRO2/(A2-TS)/A2/A2
+     &     +MPRO2/(A2-TS)/A2
+     &     +FAC4/(A2*A2+TS*TS)/A2/A2 )
+      DO 20 IFL=1,12
+ 20   CQP(IFL)=0D0
+      CALL HSFIE0(-TS,F1EL,F2EL)
+      CQP(12)=(F1EL*R1+F2EL*R2)*RUNALP*RUNALP
+      SUMME=CQP(12)
+      HSELK2=SUMME*Y*2D0*SX1NRM/SQGRAM
+     *      *(VMAX-VMIN)*A2*(TSMAXA-TSMINA)*TS*(-GS00-TS)
+     *      *(GXMAX-GXMIN)*xx*xx*xx/2d0*(GMAXL-GMINL)*Y
+      RETURN
+      END

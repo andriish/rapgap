@@ -1,0 +1,36 @@
+C
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C   LIMITS FOR AZIMUTH (1/KP-PARAMETRIZATION FOR CC)
+C   FROM CPHPLM (epcctot.f, 28/08/98)
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C
+      SUBROUTINE HSCPHL(XS,Z,PHPMIN)
+      IMPLICIT REAL*8 (A-H,M,O-Z)
+      COMMON /HSKNST/ PI,ALPHA,ALP1PI,ALP2PI,ALP4PI,E,GF,SXNORM,SX1NRM
+      COMMON /HSIRCT/ DELEPS,DELTA,EGMIN,IOPEGM
+      COMMON /HSELAB/ SP,EELE,PELE,EPRO,PPRO
+      COMMON /HSCMSP/ EQ,PQ,EEL,PEL,ES,PS,COSE,SINE,OMEGA
+      COMMON /HSLABP/ EH,PH,EQH,PQH,ESH,PSH,COSEH,SINEH
+C
+      DEPS=DELTA/OMEGA*(PQH*EELE+PELE*EQH)
+      SIGM=PQH*EEL+PELE*EQ
+      TAU=PELE*(PS*COSE-PEL)+PQH*PEL
+      IF (((1D0-Z*Z).LT.1D-10).AND.((SIGM-DEPS-TAU*Z).LT.0D0)) THEN
+        PHPMIN=PI
+        RETURN
+      ELSEIF (((1D0-Z*Z).LT.1D-10).AND.((SIGM-DEPS-TAU*Z).GT.0D0)) THEN
+        PHPMIN=0D0
+        RETURN
+      ENDIF
+      CMAX=(SIGM-DEPS-TAU*Z)/PELE/PS/SINE/DSQRT(1D0-Z*Z)
+      IF (CMAX.LE.(-1D0)) THEN
+        PHPMIN=PI
+        RETURN
+      ENDIF
+      IF (CMAX.GE.1D0) THEN
+        PHPMIN=0D0
+        RETURN
+      ELSE
+        PHPMIN=DACOS(CMAX)
+      ENDIF
+      END

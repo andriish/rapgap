@@ -1,0 +1,51 @@
+C
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C   PARAMETERS OF THE PSEUDO-CMS
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C
+      SUBROUTINE HSFCMS(X,Y,XS)
+      IMPLICIT DOUBLE PRECISION (A-H,M,O-Z)
+      COMMON /HSELAB/ SP,EELE,PELE,EPRO,PPRO
+      COMMON /HSCMSP/ EQ,PQ,EEL,PEL,ES,PS,COSE,SINE,OMEGA
+      COMMON /HSGSW1/ MEI,MEF,MQI,MQF,MEI2,MEF2,MQI2,MQF2,MPRO,MPRO2
+      COMMON /HSGIKP/ GS,GU,GX,TP,UP
+      COMMON /HSCMS1/ COSQ,SINQ
+      COMMON /HSPSPC/ IPHSPC
+C
+      IPHSPC=0
+      MXS = XS*MPRO
+      MXS2 = MXS*MXS
+      ETOT = DSQRT((XS-X)*Y*GS+MXS2+MEI2+MEF2)
+      EPTN = (Y*GS+2D0*XS*MPRO2+(MEI2+MEF2)/XS)/2D0/ETOT
+      PPTN = DSQRT((EPTN+MPRO)*(EPTN-MPRO))
+      EQ = XS*EPTN
+      PQ = XS*PPTN
+      EEL = ((XS-X*Y)*GS+MEI2)/2D0/ETOT
+      IF (EEL.LE.MEI) THEN
+        IPHSPC=1
+        EEL=MEI*(1D0+1D-12)
+      ENDIF
+      PEL = DSQRT((EEL+MEI)*(EEL-MEI))
+      ES = ((XS-Y*(XS-X))*GS-MEF2)/2D0/ETOT
+      IF (ES.LE.MEF) THEN
+        IPHSPC=1
+        ES=MEF*(1D0+1D-12)
+      ENDIF
+      PS = DSQRT((ES+MEF)*(ES-MEF))
+      OMEGA=(XS-X)*Y*GS/2D0/ETOT
+      COSE=(-X*Y*GS+2D0*EEL*ES-MEI2-MEF2)/2D0/PEL/PS
+      IF (COSE.GE.1D0.OR.COSE.LE.-1D0) THEN
+        COSE=DSIGN(1D0,COSE)
+        SINE=0D0
+        ELSE
+        SINE=DSQRT(1D0-COSE*COSE)
+      ENDIF
+      U = -XS*(1D0-Y)*GS + XS*XS*MPRO2 + MEF2
+      COSQ = (U + 2D0*ES*EQ-MEF2-MXS2)/2D0/PS/PQ
+      IF (COSQ.GE.1D0.OR.COSQ.LE.-1D0) THEN
+        COSQ=DSIGN(1D0,COSQ)
+        SINQ=0D0
+        ELSE
+        SINQ=DSQRT(1D0-COSQ*COSQ)
+      ENDIF
+      END

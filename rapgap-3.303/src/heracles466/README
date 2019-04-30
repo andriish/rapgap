@@ -1,0 +1,11 @@
+Some files of the original HERACLES distribution had to be modified for the use
+with RAPGAP. The original files from the HERACLES 4.6.6. distribution are 
+still availbale as:
+heracles466/flgint.forig  heracles466/hsevtg.forig  heracles466/lystfu.forig
+heracles466/flqint.forig  heracles466/hsmain.forig
+heracles466/gadap.forig   heracles466/hsrndm.forig
+
+In addition some new files had to be added:
+heracles466/djgevt.F     heracles466/hs46ini.F  heracles466/hsuser.F  heracles466/ltimex.F
+heracles466/djgvar.F     heracles466/hsacpt.F   heracles466/hswcut.F  heracles466/pepevt.F
+heracles466/heracl466.F  heracles466/hsterm.F   heracles466/lnstrf.F

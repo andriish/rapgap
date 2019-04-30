@@ -1,0 +1,48 @@
+C
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C   PARAMETERS OF THE PSEUDO-CMS (FOR CC)
+C   FROM CCMSEA (epcctot.f, 28/08/98)
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C
+      SUBROUTINE HSCCMS(X,Y,XS)
+      IMPLICIT DOUBLE PRECISION (A-H,M,O-Z)
+      COMMON /HSELAB/ SP,EELE,PELE,EPRO,PPRO
+      COMMON /HSCMSP/ EQ,PQ,EEL,PEL,ES,PS,COSE,SINE,OMEGA
+      COMMON /HSGSW1/ MEI,MEF,MQI,MQF,MEI2,MEF2,MQI2,MQF2,MPRO,MPRO2
+      COMMON /HSGIKP/ GS,GU,GX,TP,UP
+      COMMON /HSCMS1/ COSQ,SINQ
+      COMMON /HSPSPC/ IPHSPC
+C
+      IPHSPC=0
+      EQ=(XS*Y*SP-MEI2)/2D0/DSQRT(Y*(XS-X)*SP-MEI2-MQI2)
+      PQ=DSQRT(EQ*EQ-MQI2)
+      EEL=((XS-X*Y)*SP-MQI2)/(XS*Y*SP-MEI2)*EQ
+      IF (EEL.LE.MEI) THEN
+        IPHSPC=1
+        EEL=MEI*(1D0+1D-12)
+      ENDIF
+      PEL=DSQRT((EEL+MEI)*(EEL-MEI))
+      ES=((XS-Y*(XS-X))*SP+MEI2+MQI2)/(XS*Y*SP-MEI2)*EQ
+      IF (ES.LE.0D0) THEN
+        IPHSPC=1
+        ES=0D0
+        RETURN
+      ENDIF
+      PS=ES
+      COSE=(-X*Y*SP+2D0*EEL*ES-MEI2)/2D0/PEL/PS
+      IF (COSE.GE.1D0.OR.COSE.LE.-1D0) THEN
+        COSE=DSIGN(1D0,COSE)
+        SINE=0D0
+        ELSE
+        SINE=DSQRT(1D0-COSE*COSE)
+      ENDIF
+      COSQ=(2D0*ES*(ES-EEL)+X*Y*SP+MEI2)/2D0/PQ/PS
+      IF (COSQ.GE.1D0.OR.COSQ.LE.-1D0) THEN
+        COSQ=DSIGN(1D0,COSQ)
+        SINQ=0D0
+        ELSE
+        SINQ=DSQRT(1D0-COSQ*COSQ)
+      ENDIF
+      SMF=MEI2+MQI2+MQF2
+      OMEGA=((XS-X)*Y*SP-SMF)/2D0/(EEL+EQ-ES)
+      END

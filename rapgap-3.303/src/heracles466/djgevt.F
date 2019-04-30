@@ -1,0 +1,8 @@
+C
+      SUBROUTINE DJGEVT
+C
+C---->
+C     PERFORM FRAGMENTATION
+C---->
+      RETURN
+      END

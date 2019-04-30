@@ -1,0 +1,283 @@
+C
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C   CROSS SECTION FOR DEEP INELASTIC LEPTON PROTON SCATTERING:
+C   MODIFIED FOR USE OF STRUCTURE FUNCTIONS AS INPUT: 13.3.91: HS
+CCCCCCC 22. 9. 86   CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC H. SPIESBERGER CCC
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C
+      FUNCTION HSSGNC(X,Y,LL,POL,LQ)
+      IMPLICIT DOUBLE PRECISION (A-H,M,O-Z)
+      COMMON /HSPARL/ LPAR(20),LPARIN(12)
+      COMMON /HSCUMS/ CQP(12)
+      COMMON /HSKNST/ PI,ALPHA,ALP1PI,ALP2PI,ALP4PI,E,GF,SXNORM,SX1NRM
+      COMMON /HSGSW1/ MEI,MEF,MQI,MQF,MEI2,MEF2,MQI2,MQF2,MPRO,MPRO2
+      COMMON /HSELAB/ SP,EELE,PELE,EPRO,PPRO
+      COMMON /HSPDFQ/ QU,QBU,QD,QBD,QS,QBS,QC,QBC,QB,QBB,QT,QBT
+      COMMON /HSPDFO/ IPDFOP,IFLOPT,LQCD,LTM,LHT
+      COMMON /HSWGTC/ IWEIGS
+      COMMON /HSFIJK/ F1(2,2),F2(2,2),F3(2,2)
+C
+C---EXTERNAL WEIGHT
+      IACPT=1
+      IF (IWEIGS.GT.0) THEN
+        CALL HSWGTX(X,Y,IACPT)
+        IF (IACPT.EQ.0) THEN
+          HSSGNC=0D0
+          RETURN
+        ENDIF
+      ENDIF
+
+      SHAT=SP-MEI2-MPRO2
+      T = -X*Y*SHAT
+      SPN=SXNORM*SP*X
+      CALL HSDELO(X,Y)
+      IF (IPDFOP.EQ.1) THEN
+        CALL HSPVER(X,-T)
+        ELSE
+        IF (LPAR(2).EQ.0) THEN
+          CALL HSSTRF(X,-T)
+          ELSE
+          CALL HSSTR1(X,-T)
+        ENDIF
+      ENDIF
+      DO 10 I=1,12
+   10 CQP(I)=0D0
+      HSSGNC=0D0
+      SPU=1D0+(1D0-Y)*(1D0-Y)
+      SMU=1D0-(1D0-Y)*(1D0-Y)
+C
+C...BORN CROSS SECTIONS
+      IF (LPAR(1).EQ.1) THEN
+        IF (LQ.EQ.1) THEN
+         CALL HSSAB0(X,Y,POL, 1,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU-LL*(B3F+POL*A3F)*SMU)*QU
+        ENDIF
+        IF (LQ.EQ.2) THEN
+         CALL HSSAB0(X,Y,POL, 2,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU-LL*(B3F+POL*A3F)*SMU)*QD
+        ENDIF
+        IF (LQ.EQ.3) THEN
+         CALL HSSAB0(X,Y,POL, 2,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU-LL*(B3F+POL*A3F)*SMU)*QS
+        ENDIF
+        IF (LQ.EQ.4) THEN
+         CALL HSSAB0(X,Y,POL, 1,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU-LL*(B3F+POL*A3F)*SMU)*QC
+        ENDIF
+        IF (LQ.EQ.5) THEN
+         CALL HSSAB0(X,Y,POL, 2,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU-LL*(B3F+POL*A3F)*SMU)*QB
+        ENDIF
+        IF (LQ.EQ.6) THEN
+         CALL HSSAB0(X,Y,POL, 1,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU-LL*(B3F+POL*A3F)*SMU)*QT
+        ENDIF
+        IF (LQ.EQ.-1) THEN
+         CALL HSSAB0(X,Y,POL, 1,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU+LL*(B3F+POL*A3F)*SMU)*QBU
+        ENDIF
+        IF (LQ.EQ.-2) THEN
+         CALL HSSAB0(X,Y,POL, 2,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU+LL*(B3F+POL*A3F)*SMU)*QBD
+        ENDIF
+        IF (LQ.EQ.-3) THEN
+         CALL HSSAB0(X,Y,POL, 2,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU+LL*(B3F+POL*A3F)*SMU)*QBS
+        ENDIF
+        IF (LQ.EQ.-4) THEN
+         CALL HSSAB0(X,Y,POL, 1,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU+LL*(B3F+POL*A3F)*SMU)*QBC
+        ENDIF
+        IF (LQ.EQ.-5) THEN
+         CALL HSSAB0(X,Y,POL, 2,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU+LL*(B3F+POL*A3F)*SMU)*QBB
+        ENDIF
+        IF (LQ.EQ.-6) THEN
+         CALL HSSAB0(X,Y,POL, 1,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU+LL*(B3F+POL*A3F)*SMU)*QBT
+        ENDIF
+C
+        IF (LQ.EQ.0.AND.IPDFOP.EQ.1) THEN
+          CALL HSSAB0(X,Y,POL,1,A1U,A3U,B1U,B3U)
+          CALL HSSAB0(X,Y,POL,2,A1D,A3D,B1D,B3D)
+          F1U=(A1U+POL*B1U)*SPU
+          F3U=-LL*(B3U+POL*A3U)*SMU
+          F1D=(A1D+POL*B1D)*SPU
+          F3D=-LL*(B3D+POL*A3D)*SMU
+          CQP(1)=         (F1U+F3U)*QU
+          CQP(2) =CQP(1) +(F1U-F3U)*QBU
+          CQP(3) =CQP(2) +(F1D+F3D)*QD
+          CQP(4) =CQP(3) +(F1D-F3D)*QBD
+          CQP(5) =CQP(4) +(F1D+F3D)*QS
+          CQP(6) =CQP(5) +(F1D-F3D)*QBS
+          CQP(7) =CQP(6) +(F1U+F3U)*QC
+          CQP(8) =CQP(7) +(F1U-F3U)*QBC
+          CQP(9) =CQP(8) +(F1D+F3D)*QB
+          CQP(10)=CQP(9) +(F1D-F3D)*QBB
+          CQP(11)=CQP(10)+(F1U+F3U)*QT
+          CQP(12)=CQP(11)+(F1U-F3U)*QBT
+          HSSGNC=SPN*CQP(12)
+          DO 11 I=1,12
+   11     CQP(I)=CQP(I)*SPN
+        ELSEIF (LQ.EQ.0.AND.IPDFOP.EQ.0) THEN
+          R1=Y*Y*(1D0+2D0*MEI2/T)
+          R2=(1D0-Y+MPRO2*T/SHAT/SHAT)/X
+          R3=-LL*Y*(1D0-Y/2D0)
+          CQP(12)=0D0
+          DO 12 IB1=1,2
+          DO 12 IB2=1,2
+   12     CQP(12)=CQP(12)+F1(IB1,IB2)*R1+F2(IB1,IB2)*R2+F3(IB1,IB2)*R3
+          HSSGNC=8D0*SPN*CQP(12)/T/T
+        ELSEIF (LQ.EQ.0.AND.IPDFOP.GE.2) THEN
+          R1=Y*Y*(1D0+2D0*MEI2/T)
+          R2=(1D0-Y+MPRO2*T/SHAT/SHAT)/X
+          R3=-LL*Y*(1D0-Y/2D0)
+          SUMME=0D0
+          DO 13 IB1=1,2
+          DO 13 IB2=1,2
+   13     SUMME=SUMME+F1(IB1,IB2)*R1+F2(IB1,IB2)*R2+F3(IB1,IB2)*R3
+          HSSGNC=8D0*SPN*SUMME/T/T
+          CALL HSSAB0(X,Y,POL,1,A1U,A3U,B1U,B3U)
+          CALL HSSAB0(X,Y,POL,2,A1D,A3D,B1D,B3D)
+          F1U=(A1U+POL*B1U)*SPU
+          F3U=-LL*(B3U+POL*A3U)*SMU
+          F1D=(A1D+POL*B1D)*SPU
+          F3D=-LL*(B3D+POL*A3D)*SMU
+          CQP(1)=         (F1U+F3U)*QU
+          CQP(2) =CQP(1) +(F1U-F3U)*QBU
+          CQP(3) =CQP(2) +(F1D+F3D)*QD
+          CQP(4) =CQP(3) +(F1D-F3D)*QBD
+          CQP(5) =CQP(4) +(F1D+F3D)*QS
+          CQP(6) =CQP(5) +(F1D-F3D)*QBS
+          CQP(7) =CQP(6) +(F1U+F3U)*QC
+          CQP(8) =CQP(7) +(F1U-F3U)*QBC
+          CQP(9) =CQP(8) +(F1D+F3D)*QB
+          CQP(10)=CQP(9) +(F1D-F3D)*QBB
+          CQP(11)=CQP(10)+(F1U+F3U)*QT
+          CQP(12)=CQP(11)+(F1U-F3U)*QBT
+          RNORM=8D0*SUMME/T/T/CQP(12)*SPN
+          DO 14 I=1,12
+   14     CQP(I)=CQP(I)*RNORM
+        ENDIF
+      ENDIF
+C
+C...1-LOOP CORRECTECTIONS
+      IF (LPAR(2).EQ.1) THEN
+        IF (LQ.EQ.1) THEN
+         CALL HSSAB1(X,Y,LL,POL, 1,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU-LL*(B3F+POL*A3F)*SMU)*QU
+        ENDIF
+        IF (LQ.EQ.2) THEN
+         CALL HSSAB1(X,Y,LL,POL, 2,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU-LL*(B3F+POL*A3F)*SMU)*QD
+        ENDIF
+        IF (LQ.EQ.3) THEN
+         CALL HSSAB1(X,Y,LL,POL, 2,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU-LL*(B3F+POL*A3F)*SMU)*QS
+        ENDIF
+        IF (LQ.EQ.4) THEN
+         CALL HSSAB1(X,Y,LL,POL, 1,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU-LL*(B3F+POL*A3F)*SMU)*QC
+        ENDIF
+        IF (LQ.EQ.5) THEN
+         CALL HSSAB1(X,Y,LL,POL, 2,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU-LL*(B3F+POL*A3F)*SMU)*QB
+        ENDIF
+        IF (LQ.EQ.6) THEN
+         CALL HSSAB1(X,Y,LL,POL, 1,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU-LL*(B3F+POL*A3F)*SMU)*QT
+        ENDIF
+        IF (LQ.EQ.-1) THEN
+         CALL HSSAB1(X,Y,-LL,POL, 1,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU+LL*(B3F+POL*A3F)*SMU)*QBU
+        ENDIF
+        IF (LQ.EQ.-2) THEN
+         CALL HSSAB1(X,Y,-LL,POL, 2,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU+LL*(B3F+POL*A3F)*SMU)*QBD
+        ENDIF
+        IF (LQ.EQ.-3) THEN
+         CALL HSSAB1(X,Y,-LL,POL, 2,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU+LL*(B3F+POL*A3F)*SMU)*QBS
+        ENDIF
+        IF (LQ.EQ.-4) THEN
+         CALL HSSAB1(X,Y,-LL,POL, 1,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU+LL*(B3F+POL*A3F)*SMU)*QBC
+        ENDIF
+        IF (LQ.EQ.-5) THEN
+         CALL HSSAB1(X,Y,-LL,POL, 2,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU+LL*(B3F+POL*A3F)*SMU)*QBB
+        ENDIF
+        IF (LQ.EQ.-6) THEN
+         CALL HSSAB1(X,Y,-LL,POL, 1,A1F,A3F,B1F,B3F)
+         HSSGNC=SPN*((A1F+POL*B1F)*SPU+LL*(B3F+POL*A3F)*SMU)*QBT
+        ENDIF
+C
+        IF (LQ.EQ.0.AND.IPDFOP.EQ.1) THEN
+          CALL HSSAB1(X,Y,LL,POL,1,A1U,A3U,B1U,B3U)
+          CALL HSSAB1(X,Y,LL,POL,2,A1D,A3D,B1D,B3D)
+          F13U=(A1U+POL*B1U)*SPU - LL*(B3U+POL*A3U)*SMU
+          F13D=(A1D+POL*B1D)*SPU - LL*(B3D+POL*A3D)*SMU
+          CALL HSSAB1(X,Y,-LL,POL,1,A1BU,A3BU,B1BU,B3BU)
+          CALL HSSAB1(X,Y,-LL,POL,2,A1BD,A3BD,B1BD,B3BD)
+          F13BU=(A1BU+POL*B1BU)*SPU + LL*(B3BU+POL*A3BU)*SMU
+          F13BD=(A1BD+POL*B1BD)*SPU + LL*(B3BD+POL*A3BD)*SMU
+          CQP(1) =         F13U*QU
+          CQP(2) =CQP(1) + F13BU*QBU
+          CQP(3) =CQP(2) + F13D*QD
+          CQP(4) =CQP(3) + F13BD*QBD
+          CQP(5) =CQP(4) + F13D*QS
+          CQP(6) =CQP(5) + F13BD*QBS
+          CQP(7) =CQP(6) + F13U*QC
+          CQP(8) =CQP(7) + F13BU*QBC
+          CQP(9) =CQP(8) + F13D*QB
+          CQP(10)=CQP(9) + F13BD*QBB
+          CQP(11)=CQP(10)+ F13U*QT
+          CQP(12)=CQP(11)+ F13BU*QBT
+          DO 21 I=1,12
+   21     CQP(I)=CQP(I)*SXNORM*SP*X
+          HSSGNC=CQP(12)
+        ELSEIF (LQ.EQ.0.AND.IPDFOP.EQ.0) THEN
+          R1=Y*Y*(1D0+2D0*MEI2/T)
+          R2=(1D0-Y+MPRO2*T/SHAT/SHAT)/X
+          R3=-LL*Y*(1D0-Y/2D0)
+          CQP(12)=0D0
+          DO 22 IB1=1,2
+          DO 22 IB2=1,2
+   22     CQP(12)=CQP(12)+F1(IB1,IB2)*R1+F2(IB1,IB2)*R2+F3(IB1,IB2)*R3
+          HSSGNC=8D0*SPN*CQP(12)/T/T
+        ELSEIF (LQ.EQ.0.AND.IPDFOP.GE.2) THEN
+          R1=Y*Y*(1D0+2D0*MEI2/T)
+          R2=(1D0-Y+MPRO2*T/SHAT/SHAT)/X
+          R3=-LL*Y*(1D0-Y/2D0)
+          SUMME=0D0
+          DO 23 IB1=1,2
+          DO 23 IB2=1,2
+   23     SUMME=SUMME+F1(IB1,IB2)*R1+F2(IB1,IB2)*R2+F3(IB1,IB2)*R3
+          HSSGNC=8D0*SPN*SUMME/T/T
+          CALL HSSAB1(X,Y,LL,POL,1,A1U,A3U,B1U,B3U)
+          CALL HSSAB1(X,Y,LL,POL,2,A1D,A3D,B1D,B3D)
+          F13U=(A1U+POL*B1U)*SPU - LL*(B3U+POL*A3U)*SMU
+          F13D=(A1D+POL*B1D)*SPU - LL*(B3D+POL*A3D)*SMU
+          CALL HSSAB1(X,Y,-LL,POL,1,A1BU,A3BU,B1BU,B3BU)
+          CALL HSSAB1(X,Y,-LL,POL,2,A1BD,A3BD,B1BD,B3BD)
+          F13BU=(A1BU+POL*B1BU)*SPU + LL*(B3BU+POL*A3BU)*SMU
+          F13BD=(A1BD+POL*B1BD)*SPU + LL*(B3BD+POL*A3BD)*SMU
+          CQP(1) =         F13U*QU
+          CQP(2) =CQP(1) + F13BU*QBU
+          CQP(3) =CQP(2) + F13D*QD
+          CQP(4) =CQP(3) + F13BD*QBD
+          CQP(5) =CQP(4) + F13D*QS
+          CQP(6) =CQP(5) + F13BD*QBS
+          CQP(7) =CQP(6) + F13U*QC
+          CQP(8) =CQP(7) + F13BU*QBC
+          CQP(9) =CQP(8) + F13D*QB
+          CQP(10)=CQP(9) + F13BD*QBB
+          CQP(11)=CQP(10)+ F13U*QT
+          CQP(12)=CQP(11)+ F13BU*QBT
+          RNORM=8D0*SUMME/T/T/CQP(12)*SPN
+          DO 24 I=1,12
+   24     CQP(I)=CQP(I)*RNORM
+        ENDIF
+C
+      ENDIF
+      END

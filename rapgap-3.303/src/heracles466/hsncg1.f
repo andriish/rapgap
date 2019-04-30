@@ -1,0 +1,25 @@
+C
+C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C
+      FUNCTION HSNCG1(NDIMEN,ARGUM)
+      IMPLICIT DOUBLE PRECISION (A-H,M,O-Z)
+      DOUBLE PRECISION HSNCG1
+      COMMON /HSOPTN/ INT2(5),INT3(15),ISAM2(5),ISAM3(15),
+     *                IOPLOT,IPRINT,ICUT
+      COMMON /HSUNTS/ LUNTES,LUNDAT,LUNIN,LUNOUT,LUNRND
+      COMMON /HSCUTS/ XMIN,XMAX,Q2MIN,Q2MAX,YMIN,YMAX,WMIN,GMIN
+      COMMON /HSINTL/ XL,XU
+      DIMENSION ARGUM(NDIMEN)
+C
+      DX=XU-XL
+      X=XL+ARGUM(1)*DX
+      GL=HSGLOW(X)
+      GU=HSGUPP(X)
+      DG=DMAX1(GU-GL,0D0)
+      G=GL+ARGUM(2)*DG
+      Q2=-1D0/G
+      IF(IPRINT.GT.20) WRITE(LUNTES,'(A,4D15.6)')
+     &                      ' HSNCG1: X, G, Q2',X,G,Q2
+      HSNCG1=Q2**2*HSNC22(X,Q2)*DX*DG
+      RETURN
+      END

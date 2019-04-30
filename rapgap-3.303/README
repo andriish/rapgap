@@ -1,0 +1,63 @@
+
+Installation procedure is as follows:
+
+Please note:
+RAPGAP 3.3 contains the source code of HERACLES 4.6.6 (from http://wwwthep.physik.uni-mainz.de/~hspiesb/djangoh/djangoh.html )
+RAPGAP 3.3 contains the source code of BASES/SPRING 5.1 (from ?)
+RAPGAP 3.3 contains the source code for CERNLIB lite
+RAPGAP 3.3 contains explicitly the block data from pythia.
+           to change/update to newer version, please copy the block data
+           pydata.f from the latest PYTHIA version into the directory
+           rapgap-3.3/src/pythia-bkdata/pydata.f
+1) Get the source
+
+tar xvfz rapgap-3.3xxxx.tar.gz
+cd rapgapxxxx
+
+2) Generate the Makefiles (do not use shared libraries)
+./configure --disable-shared --prefix=install-path --with-pythia6="pythia_path"  --with-lhapdf="lhapdflib_path" --with-hepmc="hepmc_path"
+
+with (as example):
+pythia6=/afs/desy.de/group/alliance/mcg/public/MCGenerators/pythia6/422/i586_rhel40
+lhapdf=/afs/desy.de/group/alliance/mcg/public/MCGenerators/lhapdf/5.8.1/i586_rhel40
+with-hepmc="/Users/jung/MCgenerators/hepmc/HepMC-2.06.09/local"
+
+
+/configure --disable-shared --prefix=/Users/jung/jung/cvs/rapgap33/local  --with-pythia6="/Users/jung/MCgenerators/pythia6/428" --with-lhapdf="/Users/jung/MCgenerators/lhapdf/5.9.1" --with-hepmc="/Users/jung/MCgenerators/hepmc/HepMC-2.06.09/local"
+
+alternative mode:
+ export PYTHIA6_DIR=/Users/jung/MCgenerators/pythia6/428
+ export LHAPDF_DIR=/Users/jung/MCgenerators/lhapdf/5.9.1
+export HEPMC=/Users/jung/MCgenerators/hepmc/HepMC-2.06.09/local
+./configure --disable-shared --prefix=/Users/jung/jung/cvs/rapgap33/local
+
+
+If you want to use ARIADNE, you need:
+setenv ARIADNE "/Users/jung/jung/cvs/ariadne412"
+
+If you want to use ARIADNE, you need:
+export ARIADNE="/Users/jung/jung/cvs/ariadne412"
+
+if you want to create an execuatble using ARIADNE
+./configure --disable-shared --prefix=install-path ariadne=yes
+
+3) Compile the binary and the documentation
+make
+  Install the program
+make install
+
+5) the execuatble is in bin
+run it with:
+install-path/rapgap33 < install-path/share/steer 
+
+or if you have hepmc, then hepmc output can be generated to be used together with RIVET
+
+*set environment variable for random seed 
+export RASEED=12344
+*set environment variable for hepmc output file
+export HEPMCOUT=rapgap.hepmcout
+
+install-path/bin/rapgap_hepmc < install-path/share/steer
+
+5.) the documentation is in
+install-path/share/rapgap32.pdf

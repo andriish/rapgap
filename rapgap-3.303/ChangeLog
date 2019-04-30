@@ -1,0 +1,654 @@
+RAPGAP 3.3     
+*::>		Version 3.303  (Jun 2016)
+*		changes by A. Verbytskyi included: convhepmc, and 
+*		unused routines removed
+*::>		Version 3.302  (Jun 2016)
+*		hepmc interface included: writeout events in hepmc format to 
+*		be used with RIVET
+*________________________________________________________________________
+RAPGAP 3.2     
+*::>		Version 3.2030  (Jan 2015)
+*           prompt photon process included in eleres.F (I. Skillikorn
+*________________________________________________________________________
+*::>		Version 3.2008  (June 2014)
+*           eleqqg.F corrected (bound-check error)
+*      
+*::>		Version 3.2007  (Nov 2011)
+*           prompt photon processes included
+*      
+*::>		Version 3.2006  (May 2011)
+*           xf description in manual corrected (Radek Zlebcik)
+*           eventpp: removed unnecessary boost to-from CM system (Radek Zlebcik)
+*::>		Version 3.2003  (Sept 2010)
+*		bug in heavy flavor selection in eleres corrected
+*	      bug in h1qcd/qcd_2006  on limit of iz,iq2 corrected
+*		W/Z production included for pp
+*		Higgs production included for pp
+*________________________________________________________________________
+*::>		Version 3.2002
+*		bug in diffraction for pp causing energy momentum conservation problem corrected 
+*		pp works also with new remnant treatment (missing statement inrysspa)
+*		Lambda_QCD now by default taken from PDF. Use ILAMQCD=0 to switch to steering 
+*		problem in remnant treatment of resolved photon processes corrected
+*		all varibales declared as Double Precision
+*		diffraction, leading baryon exchange now also for pp and ppbar
+*           bug for IPRO=20 and IPRO=21 using uPDF corrected
+*		
+*________________________________________________________________________
+RAPGAP 3.2     
+*::>		Version 3.2001
+*            release for hepforge with autools installation
+*            For ep: HERACLES 4.6.6    
+*		 CERNLIB lite included
+*		 problem NFL_GAM in eleres > NFLAV...check and give proper return to progrma
+*________________________________________________________________________
+RAPGAP 3.1   
+*::>         Version 3.1038 (1.Nov 2008)
+*            bug in pion_xpq corrected: sea was not properly set
+*________________________________________________________________________
+RAPGAP 3.1   
+*::>         Version 3.1037 (???)
+*		 lhaini changed: extrapolate switched off, to avoid problems outside
+*              grid (22.June 2008)
+*            rat2di: flux factor Holtmann changed acc. to A. Buniatian (22.June 2008) 
+*________________________________________________________________________
+RAPGAP 3.1   
+*::>         Version 3.1036 (27.Dec 2007)
+*            bug in partdf gor pdiss solved (t reweightung was not applied 
+*            for IPRO=12
+*            bug in pomstr solved: pdiss now also for IPRO=1200
+*            set weight=1 in gragki 
+*________________________________________________________________________
+RAPGAP 3.1   
+*::>         Version 3.1035
+*            bug in lmeps for resloved diff scattering corrected
+*________________________________________________________________________
+RAPGAP 3.1   
+*::>         Version 3.1034
+*            lower cut for pdfs in h1qcd2006 removed, important for charm
+*            f2c for diffraction:printout statements restricted
+*________________________________________________________________________
+RAPGAP 3.1   
+*::>         Version 3.1033
+*		 bug in rgmain: arinit overwrote changed PYTHIA/JESTET parameters
+*________________________________________________________________________
+RAPGAP 3.1   
+*::>         Version 3.1032
+*            mstp(56) changed to mstp(55) for consitency with PYTHIA using LHAPDF
+*            nhera mode changed to run with standard lhapdf
+*            changes made for proton,pion,photon pdfs
+*________________________________________________________________________
+RAPGAP 3.1   
+*::>         Version 3.1031
+*            bug corrected in pion_xpq
+*            now also pion pdf from LHAPDF or pdflib (h1qcd2006,h1qcdfit)
+*            problem of very small scales and LHAPDF with HERACLES corrected (rystfu)
+*________________________________________________________________________
+RAPGAP 3.1   
+*::>         Version 3.1029
+*            new 2006 diff pdfs from H1 included
+*            eleres now also for IHFLA=5 working
+*________________________________________________________________________
+RAPGAP 3.1   
+*::>         Version 3.1027
+*            LHApdf interface for both proton and photon pdfs included
+*________________________________________________________________________
+*::>         Version 3.1026
+*            bug of formula for ksi in eleqqf corrected: resulted in wrong
+*            xsection for CC heavy quark production via IPRO=14
+*________________________________________________________________________
+*::>         Version 3.1025
+*            updated for heracles 
+*________________________________________________________________________
+*::>         Version 3.1024
+*            for charged current, bug in QCDMIX corrected, to have
+*            proper flavor for heavy quarks for IFUL=1
+*________________________________________________________________________
+*::>         Version 3.1023  
+*            for charged current, bug in HERACLES interface corrected, to have
+*            proper neutrino in final state
+*________________________________________________________________________
+RAPGAP 3.1   
+*::>         Version  3.1022
+*            order of changes of PYHTIA and RAPGAPO params in  
+*            h1 version changed .... to avoid overwritings ... grapga.F
+*            bug for pp version corrected
+*________________________________________________________________________
+RAPGAP 3.1  (with PYTHIA6.228) 
+*::>         Version 3.1021
+*            Updated versions for UPINIT and UPEVNT 
+*________________________________________________________________________
+RAPGAP 3.1  (with PYTHIA6.228) 
+*::>         Version 3.1019
+* 		PYTHIA block data are now called via external statement
+*________________________________________________________________________
+RAPGAP 3.1 (with PYTHIA6.224)
+*::>         Version 3.1020
+*            steering files updated according to new frag. parameters
+*            Bug in steer corrected: Nmax = 1000
+*            strpriv included to allow use of cteq6 pdfs and EHKQS sets
+*            Also RGUPINIT and RGUPEVNT added for LHA
+*________________________________________________________________________
+RAPGAP 3.1 (with PYTHIA6.224)
+*::>         Version 3.1014
+*            bug with splitted variables in rapgap.f corrected
+*            bug writing bspdf.dat instead of pdf.dat in rapgap.f corrected
+*________________________________________________________________________
+*
+RAPGAP 3.1 (with PYTHIA6.224)
+*::>         Version 3.1013
+*            pdiss ala diffvm included also for IPRO=30
+*________________________________________________________________________
+*
+RAPGAP 3.1 (with PYTHIA6.224)
+*::>         Version 3.1012
+*            pion exchange for neutrons added
+*            ARIADNE now for all IPRO available (also for IPRO=15,18)
+*________________________________________________________________________
+*
+RAPGAP 3.1 (with PYTHIA6.224)
+*::>         Version 3.1011
+*            updated eleres for charm 
+*            bug for xb < 0 in PYSSPA corrected
+*________________________________________________________________________
+*
+RAPGAP 3.1 (with PYTHIA6.224)
+*::>         Version 3.1008
+*            Proton Dissociation included, with routines from DIFFVM (B.List)
+*            started by P. Thompson and Y. Coppens
+*            Updated treatement of p-diss system acc. to Leszek Adamczyk
+*            q-gluon-diq        
+*_____________________________________________________________________
+RAPGAP 3.0 (with PYTHIA6)
+*::>         Collins NLO (order alphas) for F2 implemented (S. Schilling)
+*________________________________________________________________________
+*::>          
+RAPGAP 2.8 (with JETSET 7.4)
+*
+*::>          VERSION  2.08/19   01/08/2002 12.28.22
+*             Bug in initialisation of RM48 found by Thomas Kluge. Thanks.
+*
+*::>          VERSION  2.08/18   16/01/2002 18.27.20
+*             bug in rgsatrev corrected: PHIP missing
+*
+*::>          VERSION  2.08/17   24/10/2001 17.50.59
+*             upper scale for final state ps for IPRO 18 updated. Was shat
+*             before always !!!
+*
+*::>          VERSION  2.08/16   14/08/2001 08.27.06
+*             bug in eleqqg corrected: 2pi in gamma flux, 2 in l integral
+*             bug in partdh corrected: partons for qqg were mixed, caused frag
+*             crash in case of charm
+*             eleqq updated to use also unintegrated gluon
+*
+*::>          VERSION  2.08/15   25/06/2001 18.18.51
+*             ppbar for incl and diffraction included
+*
+*::>          VERSION  2.08/14   14/05/2001 13.53.48
+*             some double defined subroutines removed and ariadne common blocks
+*             and PYPARS updated.
+*
+*::>          VERSION  2.08/11   08/03/2001 11.00.31
+*             small bug in PARTDF corrected, for p* momentum with m ne mp
+*
+*::>          VERSION  2.08/10   07/02/2001 12.02.40
+*             DUDBRB changed to LUDBRB in AREXEC. Bug found by Taro Yamashita
+*
+*::>          VERSION  2.08/09   17/12/2000 17.00.34
+*             In partdi,partdf for heracles mode cut on q2min < q2max removed
+*             because events were rejected. Also in parti for HERACLES WEIGHT=1
+*             added, all by request from A. KAppes and K.Long.
+*             New version of h1qcdfit parameterisation: Redone charm such that
+*             charm pdf = BGF *gluon
+*             New double precision draprn (using RM48 of CERNLIB). Problems
+*             found by Taro in y distribution for IPRO=20. Now is ok.
+*
+*::>          VERSION  2.08/07   31/07/2000 16.58.11
+*             eleqqg (2 gluon exchange) updated for heavy quarks (A. Kyrieleis)
+*
+*             eleres charge for top corrected
+*
+*::>          VERSION  2.08/05   30/03/2000 17.28.20
+*
+*             rapgap and event changed because of a bug for ipro1200 and pi exchange
+*             SATRAP now includes also charm
+*
+*
+*::>          VERSION  2.08/03   10/12/99 12.21.44
+*             rgmain bug corrected
+*
+*::>          VERSION  2.08/02   04/11/99 16.39.29
+*             SATRAP (IPRO=30) now included (works also with HERACLES interface
+*             IPRO=3000).
+*             "Bug" in phi angle of scattered proton for diffraction corrected
+*
+*::>          VERSION  2.08/01   23/06/99 14.31.37
+*             new treatment for diffraction and me mixing...
+*
+*::>          VERSION  2.08/00   15/06/99 17.31.15
+*
+*             Bug for IPRO=1200,1400 in diffractive mode with IFULL=1 corrected
+*             eta distribution of partons from matrix elements were wrong
+*
+*             Bug in xpom distribution for diffraction with IFULL=1 corrected
+*
+*             improved calculation of ME contribution in diffraction, taken into account
+*             kinematic limits from pt2cut
+*
+*             Nr of flavours in structure function now also treated correctly for the
+*             HERACLES interface
+*
+*             test release for IPRO=30, diffraction ala saturation model of M. Wuesthoff
+*             coded by H. Kowalski
+*
+*________________________________________________________________________
+*
+*::>          VERSION  2.07/01   23/03/99 09.07.40
+*             heavy flavor excitation in res. photon processes added
+*             better treatment of ME mixing in diffr. processes
+*
+*::>          VERSION  2.07/00   22/01/99 09.30.01
+*             pi flux of Holtmann now default
+*
+*::>          VERSION  2.06/51   10/10/98 18.30.56
+*             LEPTOU changed to RAPTOU to avoid confusion with DJANGOH
+*
+*::>          VERSION  2.06/50   30/09/98 08.19.42
+*             some default settings updated
+*
+*::>          VERSION  2.06/49   29/09/98 18.46.00
+*             bug for heavy quarks in resolved photon processes corrected
+*
+*::>          VERSION  2.06/47   19/09/98 19.41.19
+*             heavy quark ME's for resolved photons inplemented
+*             bug for GADAP2 integration of ME corrected
+*
+*::>          VERSION  2.06/44   01/08/98 18.19.48
+*             heracles 4.5 and heracles 4.6 included via SEL=HERACLES46
+*
+*::>          VERSION  2.06/43   24/07/98 15.25.29
+*             bugs in dimensions for x() corrected
+*
+*::>          VERSION  2.06/42   23/07/98 15.39.31
+*             dimension for x() increased to 20 (necessary for qqg)
+*
+*::>          VERSION  2.06/41   22/07/98 10.23.45
+*             QCDGRID speede up by usage of grid for wmax
+*
+*::>          VERSION  2.06/38   15/07/98 22.50.21
+*             heracles fl included
+*
+*::>          VERSION  2.06/37   30/06/98 22.30.23
+*             Bug in intrinsic k_t for resolved photons corrected (PYREMN)
+*
+*::>          VERSION  2.06/36   26/06/98 08.36.26
+*             resolved photon BFKL qq -> qq added acc. Cox/Forshaw hep-ph9800506
+*
+*::>          VERSION  2.06/34   17/06/98 23.08.14
+*
+*             writing grid file for pdf's included --> faster when same param.
+*             processes IPRO=21 included qq 2gluon exchange
+*             processes IPRO=20 included qqg 2gluon exchange
+*
+*::>          VERSION  2.06/33   14/05/98 08.47.12
+*             bug when running 1200 with IGRID=1 corrected
+*
+*::>          VERSION  2.06/32   05/05/98 14.50.19
+*             clebsch/cordon coeff for pion exchange corrected in RAT2DI
+*
+*::>          VERSION  2.06/31   26/03/98 10.34.34
+*             2nd attempt for qqg a la Bartels/Wuesthoff
+*
+*::>          VERSION  2.06/30   18/03/98 13.30.56
+*             intrinsic pt for photon and proton changeable by user
+*             bug corrected for photon pdfs using pdflib
+*
+*::>          VERSION  2.06/29   16/03/98 10.08.13
+*             1st attempt to include res. gamma also for diffraction
+*
+*::>          VERSION  2.06/28   13/03/98 12.21.39
+*             NFQCDC added: select 3 or more flavours for QCDC
+*
+*::>          VERSION  2.06/27   09/02/98 11.56.04
+*             1st attempt for qqg a la Bartels/Wuesthoff
+*
+*::>          VERSION  2.06/26   24/01/98 17.15.29
+*             fixed problem in phi asym. for hard diffraction
+*
+*::>          VERSION  2.06/25   14/01/98 20.59.01
+*             KPF=KPA added for vm prod in partdf
+*
+*::>          VERSION  2.06/24   14/01/98 19.40.53
+*             wuesthoff new parametrisation included (ANL-HEP-PR 97-03)
+*             selected via NG=NPOM=40
+*
+*::>          VERSION  2.06/23   29/12/97 19.36.49
+*             podiff improved.....
+*
+*::>          VERSION  2.06/22   15/12/97 11.52.17
+*             weighting for diffr. with ng>0 improved
+*
+*::>          VERSION  2.06/21   09/12/97 16.58.25
+*             bug in arexec for diffractive events corrected
+*
+*::>          VERSION  2.06/20   26/11/97 16.23.35
+*             QCDMIX corrected when using grid
+*
+*::>          VERSION  2.06/19   24/11/97 15.40.20
+*             bug in lmeps for QED radiation fixed
+*
+*::>          VERSION  2.06/17   04/11/97 16.26.19
+*             Subroutine EVENT changed so that 1200(nrad) and 12 give same results
+*             for diffraction
+*
+*::>          VERSION  2.06/16   31/10/97 15.11.16
+*             lots of changes in PYSSPA for res. photons needed
+*             rearranged switches to be more transparent....
+*             included option for angluar ordering in PYSSPA
+*
+*::>          VERSION  2.06/13   20/10/97 12.22.59
+*             bug in small mass collapsing for charm in LMEPS corrected
+*
+*::>          VERSION  2.06/12   18/10/97 15.15.55
+*             2nd attempt to IPS in resolved photon
+*
+*::>          VERSION  2.06/11   18/10/97 00.46.47
+*             first attempt to IPS in resolved photon
+*
+*::>          VERSION  2.06/10   16/10/97 12.08.35
+*             NFLAV added to f2md
+*
+*::>          VERSION  2.06/09   11/10/97 14.09.07
+*             IPRO=15 PHIGKI changed to region 0 - 2pi
+*
+*::>          VERSION  2.06/08   10/10/97 17.17.42
+*             bug NIA1 used in AREXEC corrected
+*
+*::>          VERSION  2.06/07   10/10/97 12.23.08
+*             check on IDISDIF in rapgap improved....
+*
+*::>          VERSION  2.06/06   10/10/97 10.37.30
+*             bug corrected: mixing F2 and F2D for NG<0
+*
+*::>          VERSION  2.06/05   25/09/97 16.31.35
+*             initial particle code for res. gamma corrected
+*
+*::>          VERSION  2.06/04   23/09/97 10.14.00
+*             initial parton for resolved gamma in LMEPS corrected
+*
+*::>          VERSION  2.06/03   14/09/97 16.57.59
+*             mismatch in dimensions in XXI and Q2I in rapgap cured
+*
+*::>          VERSION  2.06/01   21/07/97 16.11.46
+*             angular cut for HERACLES included in hercl
+*             to be used together with HERCALES version 4401
+*
+*::>          VERSION  2.06/00   18/07/97 13.35.24
+*             RAPGAP for DIS and DIF including resolved photons for DIS
+*
+*::>          VERSION  2.05/28   16/07/97 10.42.54
+*             HERACL, XMAX=1-XF for diffraction introduced to avoid
+*             wispy y%q2 distribution....
+*
+*::>          VERSION  2.05/26   07/07/97 16.11.31
+*             bugs in LMEPS for small systems corrected
+*
+*::>          VERSION  2.05/23   30/06/97 12.08.49
+*             sasgam was not correctly included in car file
+*
+*::>          VERSION  2.05/22   29/06/97 13.02.39
+*
+*             PYSSPA: explicit lower limit for soft gluon rad. included
+*                     --> problem with energy momentum cons. solved
+*             Q2SUPP: parameter for HERACLES low Q2 suppression included
+*             SCALQ2: parameter for scale/Q2 for resolved photons in DIS incl.
+*             IHFLA : flavour code for heavy flavor (IPRO=14,1400) included
+*             SCALFA: factor for scale Q2Q included, to switch from
+*                     Q2Q --> SCALFA*Q2Q
+*             LMEPS:  changes from G. Briskin for low mass diff. included
+*             LUKFDI: changes from G.Briskin for low mass states included
+*
+*
+*::>          VERSION  2.05/20   16/06/97 16.13.21
+*             NPOM = -3 only pomeron
+*             NPOM = -4 only meson
+*
+*::>          VERSION  2.05/19   09/06/97 09.02.25
+*             scale pT**2 instead of 4*pt**2,
+*             lambda consistently set also for PS
+*             for HERACLES always fixed alpha_em
+*
+*::>          VERSION  2.05/16   08/06/97 19.34.46
+*             alphas for diffr. was 0 in version 2.05 , corrected
+*
+*::>          VERSION  2.05/15   05/06/97 15.59.54
+*             now QCDCOMPTON only for light quarks
+*             some pause statements removed....
+*
+*::>          VERSION  2.05/13   26/05/97 16.47.48
+*             ftncheked --> common mismatches removed
+*
+*::>          VERSION  2.05/12   16/05/97 16.28.40
+*             pt2 scale now 4*pt2 instead of pt2
+*
+*::>          VERSION  2.05/11   15/05/97 13.30.48
+*             w02 in partdi corrected
+*
+*::>          VERSION  2.05/09   12/05/97 09.38.57
+*             res gamma in DIS hopefully correctly implemented
+*
+*::>          VERSION  2.05/07   30/04/97 17.46.55
+*             parameters for alpha_s changed, MSTU(112) and PARU(112)
+*             set properly to                 N_flavours    lambda(N_flavours)
+*
+*::>          VERSION  2.05/06   23/04/97 07.13.59
+*             add virtual photon structure parametrisations
+*
+*::>          VERSION  2.05/05   29/03/97 13.47.29
+*             matrix elements for resolved checked
+*
+*::>          VERSION  2.05/04   10/03/97 10.47.35
+*             improved color flow for resolved gamma's
+*
+*::>          VERSION  2.05/02   06/03/97 20.32.47
+*             small bugs corrected, BGF part for heracles included via grid
+*
+*::>          VERSION  2.05/01   06/03/97 11.18.21
+*             bugs of color connection corrected
+*
+*::>          VERSION  2.05/00   05/03/97 08.10.38
+*             resolved photon for DIS included via IPRO = 18
+*
+*::>          VERSION  2.04/05   01/03/97 14.59.20
+*             BGF for bb_bar added and matrix element calculation
+*             for alpha_s with different scale than Q2 added
+*             --> change in pqcdi and pqcd added for scale pt**2
+*
+*::>          VERSION  2.04/04   24/01/97 10.47.35
+*             test version for charged current (INTER=2)
+*
+*::>          VERSION  2.04/03   20/01/97 08.45.34
+*             test version
+*
+*::>          VERSION  2.04/02   25/12/96 23.10.05
+*             bug corrected in partdi partdf for INTER= 2
+
+*________________________________________________________________________
+*
+*::>          VERSION  2.04/00   23/12/96 13.56.36
+*             charged current interactions (W exchange) included
+*________________________________________________________________________
+*
+*::>          VERSION  2.03/13   18/10/96 09.03.33
+*             IVM in partdf corrected
+*
+*::>          VERSION  2.03/12   14/10/96 14.44.28
+*             change in PYSSPA  to account for new sea treatment a la LEPTO 65
+*
+*::>          VERSION  2.03/11   11/10/96 12.46.04
+*             change in PYSSPA to ensure energy and momentum conservation
+*             for real particle
+*             change in RAPGAP to ensure original values of IPY(13) and IPY(14)
+*
+*::>          VERSION  2.03/10   04/10/96 17.25.26
+*             Weighing modified to weight as a function of electron
+*             method Q2. 
+*
+*::>          VERSION  2.03/08   03/10/96 20.24.10
+*             GRAWQ2 added for weighting in Q2.
+*             Directory H1QCD added for H1 QCD/Phenomenological
+*             parameterisations.
+*
+*::>          VERSION  2.03/07   27/09/96 09.42.02
+*             PYSSPA changed for xpq=0
+**
+*::>          VERSION  2.03/05   06/09/96 13.50.46
+*             debug statement in event implemented
+*
+*::>          VERSION  2.03/04   05/09/96 18.58.09
+*             Bugs for HERACLES with user defined parton density etc corrected
+*             HARD POM NG=40,41,42 should work now
+*::>          VERSION  2.03/03   22/08/96 20.17.55
+*             cosmetics
+*
+*::>          VERSION  2.03/02   18/08/96 17.46.10
+*             small bugs in hardpom corrected
+*
+*::>          VERSION  2.03/01   16/08/96 09.40.35
+*             Kt for ALM only for IPRO=12 and add error summary added
+*
+*::>          VERSION  2.03/00   14/08/96 14.36.32
+*             kt for ALM added via switch IALMKT=1
+*________________________________________________________________________
+*
+*::>          VERSION  2.02/04   14/08/96 14.32.24
+*             kt for ALM added via switch IALMKT=1 otherwise =0
+*
+*::>          VERSION  2.02/02   29/07/96 11.17.05
+*             NG = 21 NPOM =21 for pi0 exchange added
+*             IPRO = 1400 for cc_bar with HERACLES added
+*
+*________________________________________________________________________
+*
+*
+*::>          VERSION  2.00/30   01/01/96 17.16.30
+*             NIK ZAK included
+*             PARTDF corrected for correct treatment of beta,x_pom
+*             switch for p diss treatment included
+*             info for ME added in common/MEINFO/
+*
+*::>          VERSION  2.00/29   03/12/95 12.02.34
+*             Heracles - pion exchange bug corrected in RAPGAP: PIMAX missing
+*
+*::>          VERSION  2.00/27   22/11/95 16.35.16
+*             treatment of vm production in connection with ariadne corrected
+*
+*::>          VERSION  2.00/26   21/11/95 12.30.17
+*             HERACLES opt in PARTDF updated for initial state PS
+*
+*::>          VERSION  2.00/24   19/11/95 21.43.54
+*             IFULL=1,IQ2=4 and IPRO=12 now default.
+*             ARIADNE opt with same ev.record as MEPS option.
+*
+*::>          VERSION  2.00/22   09/11/95 13.39.40
+*             in lmeps corrected to run with final state PS
+*             mother of rad gamma included
+*             GTR bank filled for beam part. and rad gamma acc. H1 convention
+*
+*::>          VERSION  2.00/19   07/11/95 14.28.29
+*             bug for ariadne corrected.....
+*             bug for x section if IFUL=1 corrected
+*             new version for p-diss
+*
+*::>          VERSION  2.00/18   11/10/95 09.54.37
+*             multiple definition of common PYINT1; corrected
+*
+*::>          VERSION  2.00/17   10/10/95 14.23.58
+*             bugs fixed for HERACLES diffraction and ME option
+*
+*::>          VERSION  2.00/15   06/10/95 15.48.06
+*             bugs fixed for HERACLES diffraction and ME option
+*
+*::>          VERSION  2.00/14   04/10/95 09.57.56
+*             typing error for QCDC corrected  (thanks to Nils and Gunilla)
+*
+*::>          VERSION  2.00/12   20/09/95 08.45.47
+*             phi asymmetry corrected, wrong frame
+*
+*::>          VERSION  2.00/10   10/09/95 14.22.11
+*	        selection for light and heavy vectormesons included: IVM =0/1/443
+*
+*::>          VERSION  2.00/09   09/09/95 16.56.13
+*             prodiff changed: intrinsic pt added, pz_pom subtr.
+*
+*::>          VERSION  2.00/08   31/08/95 11.23.17
+*             bug for phi asymmetries in eleqqf and eleqcdc corrected
+*             bug corrected in partdf causing energy momentum nonconserv.
+*
+*::>          VERSION  2.00/07   28/07/95 15.36.31
+*             endless loop fixed in PYREMN
+*
+*::>          VERSION  2.00/06   26/07/95 15.18.07
+*             small bug for heracles with THEMIN corrected
+*
+*::>          VERSION  2.00/05   23/07/95 15.20.52
+*             no cut necessary: AM(1) was not defined in PARTDI and PARTDF
+*
+*::>          VERSION  2.00/04   20/07/95 10.10.11
+*             tried with a cut in eleqcdc introduced to avoid divergency zq-->1
+*
+*::>          VERSION  2.00/03   04/07/95 16.01.00
+*             full formula for QCD compton added including phi asymmetries
+*
+*::>          VERSION  2.00/02   16/06/95 08.51.03
+*             some printout reduced in partdf and pyremn
+*
+*::>          VERSION  2.00/01   11/05/95 11.20.53
+*             HERACLES interfaced for DIS and DIF
+*
+*
+*::>          VERSION  2.00/00   19/04/95 20.21.57
+*             new release
+*________________________________________________________________________
+*
+*::>          VERSION  1.04/03   23/03/95 14.44.49
+*             Heracles interface added
+*
+*::>          VERSION  1.04/00   19/01/95 19.53.53
+*
+*             initial and final state parton shower included
+*             a la LEPTO.
+*             mixing of lowest order and hgher order QCD possible
+*             also DIS and DIFF possible via IDIR=1 ==> DIS
+*                                            IDIR=0 ==> DIF
+
+*
+*::>          VERSION  1.04/03   23/03/95 14.44.49
+*             Heracles interface added
+*
+*::>          VERSION  1.04/00   19/01/95 19.53.53
+*
+*             initial and final state parton shower included
+*             a la LEPTO.
+*             mixing of lowest order and hgher order QCD possible
+*             also DIS and DIFF possible via IDIR=1 ==> DIS
+*                                            IDIR=0 ==> DIF
+*________________________________________________________________________
+*
+*::>          VERSION  1.03/04   31/10/94 10.16.50
+*             include process IPRO=100
+*             gamma + pomeron --> rho + pomeron
+*
+*             YMAX and Q2MAX cuts implemented
+*
+*::>          VERSION  1.03/02   21/04/94 11.36.23
+*             now also cut on Minimum scattering angle of electron
+*             THEMI included
+*
+*
+*::>          VERSION  1.03/01   03/04/94 16.46.19
+*             CMZ version of RAPGAP
+*
+
+
+

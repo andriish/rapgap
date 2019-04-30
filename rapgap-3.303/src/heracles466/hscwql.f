@@ -1,0 +1,11 @@
+C
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C
+      FUNCTION HSCWQL(FS,CM2,MQ2)
+      IMPLICIT DOUBLE PRECISION (A-H,M,O-Z)
+      COMPLEX*16 HSCWQL,HSCLN,CSX,CM2
+      COMMON /HSKNST/ PI,ALPHA,ALP1PI,ALP2PI,ALP4PI,E,GF,SXNORM,SX1NRM
+      CSX=DCMPLX(FS,1D-6)
+      HSCWQL=-1D0/FS*HSCLN(-CSX/MQ2)*HSCLN(CM2/(CM2-FS))
+      RETURN
+      END
