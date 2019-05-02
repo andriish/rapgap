@@ -643,6 +643,11 @@ PDFLIBSOURCE
 MYFFLAGS
 HZTOOL_OPT_FALSE
 HZTOOL_OPT_TRUE
+NO_RIVET_FALSE
+NO_RIVET_TRUE
+RIVETLIB
+RIVET
+no_rivet
 NO_HEPMC3_FALSE
 NO_HEPMC3_TRUE
 HEPMC3LIB
@@ -805,6 +810,7 @@ with_pythia6
 with_lhapdf
 with_hepmc
 with_hepmc3
+with_rivet
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1465,6 +1471,7 @@ Optional Packages:
   --with-lhapdf           path to LHAPDF installation
   --with-hepmc            path to HEPMC installation
   --with-hepmc3           path to HEPMC3 installation
+  --with-rivet            path to RIVET installation
 
 Some influential environment variables:
   F77         Fortran 77 compiler command
@@ -21939,7 +21946,7 @@ else
   with_hepmc3=${HEPMC}
 fi
 
-if test "x$with_hepmc3" != "xno" &&  test "x`ls $with_hepmc3/lib/libHepMC3.*`" != "x" ||  test "x`ls $with_hepmc/lib64/libHepMC3.*`" != "x" ; then :
+if test "x$with_hepmc3" != "xno" &&  test "x`ls $with_hepmc3/lib/libHepMC3.*`" != "x" ||  test "x`ls $with_hepmc3/lib64/libHepMC3.*`" != "x" ; then :
   HEPMC3=$with_hepmc3
 
 else
@@ -21963,6 +21970,45 @@ fi
 else
   NO_HEPMC3_TRUE='#'
   NO_HEPMC3_FALSE=
+fi
+
+
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for Rivet installation" >&5
+$as_echo_n "checking for Rivet installation... " >&6; }
+
+# Check whether --with-rivet was given.
+if test "${with_rivet+set}" = set; then :
+  withval=$with_rivet; :
+else
+  with_rivet=${HEPMC}
+fi
+
+if test "x$with_rivet" != "xno" &&  test "x`ls $with_rivet/lib/libRivet.*`" != "x" ||  test "x`ls $with_rivet/lib64/libRivet.*`" != "x" ; then :
+  RIVET=$with_rivet
+
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: Cannot find $with_rivet/lib/libRivet.* or $with_rivet/lib64/libRivet.* libraries.
+        Specify correct path to RIVET installation: --with-rivet=/path/to/rivet" >&5
+$as_echo "Cannot find $with_rivet/lib/libRivet.* or $with_rivet/lib64/libRivet.* libraries.
+        Specify correct path to RIVET installation: --with-rivet=/path/to/rivet" >&6; } ; { $as_echo "$as_me:${as_lineno-$LINENO}: result: Building RAPGAP without Rivet" >&5
+$as_echo "Building RAPGAP without Rivet" >&6; }; no_rivet=1
+
+fi
+if test x$no_rivet == x; then
+  RIVETLIB="-L$with_rivet/lib -L$with_rivet/lib64 -lRivet"
+
+  CXXFLAGS="${CXXFLAGS} -std=c++11"
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: Building RAPGAP with Rivet: $RIVETLIB" >&5
+$as_echo "Building RAPGAP with Rivet: $RIVETLIB" >&6; }
+fi
+ if test $no_rivet; then
+  NO_RIVET_TRUE=
+  NO_RIVET_FALSE='#'
+else
+  NO_RIVET_TRUE='#'
+  NO_RIVET_FALSE=
 fi
 
 
@@ -22222,6 +22268,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${NO_HEPMC3_TRUE}" && test -z "${NO_HEPMC3_FALSE}"; then
   as_fn_error $? "conditional \"NO_HEPMC3\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${NO_RIVET_TRUE}" && test -z "${NO_RIVET_FALSE}"; then
+  as_fn_error $? "conditional \"NO_RIVET\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${HZTOOL_OPT_TRUE}" && test -z "${HZTOOL_OPT_FALSE}"; then

@@ -36,6 +36,12 @@ conv_source += rapgap/convhepmc3-dummy.cc
 else
 conv_source += rapgap/convhepmc3.cc 
 endif
+if NO_RIVET
+conv_source += rapgap/convrivet-dummy.cc 
+else
+conv_source += rapgap/convrivet.cc 
+endif
+
 
 
 lib_LTLIBRARIES = librapgap33.la
@@ -166,7 +172,7 @@ librapgap33_la_SOURCES = \
 #		rapgap/analys.F  rapgap/frag.F 
 
 LDADD = ./librapgap33.la ../bases51/libbases.la \
-        $(HEPMCLIB) $(HEPMC3LIB) $(ARIADNELIB) $(PYTHIALIB) $(ARIADNELIB) $(PDFLIB) ../misc/libmycern.la -lstdc++ -lm
+        $(HEPMCLIB) $(HEPMC3LIB) $(RIVET3LIB) $(ARIADNELIB) $(PYTHIALIB) $(ARIADNELIB) $(PDFLIB) ../misc/libmycern.la -lstdc++ -lm
 
 
 #all:

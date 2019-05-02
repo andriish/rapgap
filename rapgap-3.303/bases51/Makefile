@@ -206,7 +206,7 @@ CPPFLAGS =
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2 -std=c++11
+CXXFLAGS = -g -O2 -std=c++11 -std=c++11
 CYGPATH_W = echo
 DEFS = -DPACKAGE_NAME=\"rapgap\" -DPACKAGE_TARNAME=\"rapgap\" -DPACKAGE_VERSION=\"3.303\" -DPACKAGE_STRING=\"rapgap\ 3.303\" -DPACKAGE_BUGREPORT=\"hannes.jung@desy.de\" -DPACKAGE_URL=\"\" -DPACKAGE=\"rapgap\" -DVERSION=\"3.303\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_DLFCN_H=1 -DLT_OBJDIR=\".libs/\"
 DEPDIR = .deps
@@ -271,6 +271,8 @@ PYTHIA6_DIR =
 PYTHIALIB = -L/lib -L/lib64 -lpythia6 -lpythia6_dummy 
 PYTHIA_SOURCE = /lib
 RANLIB = ranlib
+RIVET = 
+RIVETLIB = -L/lib -L/lib64 -lRivet
 SED = /usr/bin/sed
 SET_MAKE = 
 SHELL = /bin/sh
@@ -320,6 +322,7 @@ mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 no_hepmc = 
 no_hepmc3 = 
+no_rivet = 
 oldincludedir = /usr/include
 pdfdir = ${docdir}
 prefix = /usr/local

@@ -84,6 +84,8 @@ bin_PROGRAMS = rapgap33$(EXEEXT) rapgap_hepmc$(EXEEXT)
 @NO_HEPMC_FALSE@am__append_2 = rapgap/convhepmc.cc
 @NO_HEPMC3_TRUE@am__append_3 = rapgap/convhepmc3-dummy.cc 
 @NO_HEPMC3_FALSE@am__append_4 = rapgap/convhepmc3.cc 
+@NO_RIVET_TRUE@am__append_5 = rapgap/convrivet-dummy.cc 
+@NO_RIVET_FALSE@am__append_6 = rapgap/convrivet.cc 
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -263,14 +265,18 @@ am__librapgap33_la_SOURCES_DIST = rapgap/aalam.F rapgap/lhaini.F \
 	sophia466/gauss.f sophia466/po_xlam.f sophia466/icon_pdg_sib.f \
 	sophia466/print_event.f rapgap/convhepmc-helpers.F \
 	rapgap/convhepmc-dummy.cc rapgap/convhepmc.cc \
-	rapgap/convhepmc3-dummy.cc rapgap/convhepmc3.cc
+	rapgap/convhepmc3-dummy.cc rapgap/convhepmc3.cc \
+	rapgap/convrivet-dummy.cc rapgap/convrivet.cc
 am__dirstamp = $(am__leading_dot)dirstamp
 @NO_HEPMC_TRUE@am__objects_1 = rapgap/convhepmc-dummy.lo
 @NO_HEPMC_FALSE@am__objects_2 = rapgap/convhepmc.lo
 @NO_HEPMC3_TRUE@am__objects_3 = rapgap/convhepmc3-dummy.lo
 @NO_HEPMC3_FALSE@am__objects_4 = rapgap/convhepmc3.lo
-am__objects_5 = rapgap/convhepmc-helpers.lo $(am__objects_1) \
-	$(am__objects_2) $(am__objects_3) $(am__objects_4)
+@NO_RIVET_TRUE@am__objects_5 = rapgap/convrivet-dummy.lo
+@NO_RIVET_FALSE@am__objects_6 = rapgap/convrivet.lo
+am__objects_7 = rapgap/convhepmc-helpers.lo $(am__objects_1) \
+	$(am__objects_2) $(am__objects_3) $(am__objects_4) \
+	$(am__objects_5) $(am__objects_6)
 am_librapgap33_la_OBJECTS = rapgap/aalam.lo rapgap/lhaini.lo \
 	rapgap/rgstga.lo rapgap/alphas.lo rapgap/eleqcdc.lo \
 	rapgap/lmeps.lo rapgap/pytcha.lo rapgap/eleqq.lo \
@@ -441,7 +447,7 @@ am_librapgap33_la_OBJECTS = rapgap/aalam.lo rapgap/lhaini.lo \
 	sophia466/po_selsx2.lo sophia466/valences.lo \
 	sophia466/gamma_h.lo sophia466/po_trans.lo sophia466/gauss.lo \
 	sophia466/po_xlam.lo sophia466/icon_pdg_sib.lo \
-	sophia466/print_event.lo $(am__objects_5)
+	sophia466/print_event.lo $(am__objects_7)
 librapgap33_la_OBJECTS = $(am_librapgap33_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -659,6 +665,8 @@ PYTHIA6_DIR = @PYTHIA6_DIR@
 PYTHIALIB = @PYTHIALIB@
 PYTHIA_SOURCE = @PYTHIA_SOURCE@
 RANLIB = @RANLIB@
+RIVET = @RIVET@
+RIVETLIB = @RIVETLIB@
 SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -708,6 +716,7 @@ mandir = @mandir@
 mkdir_p = @mkdir_p@
 no_hepmc = @no_hepmc@
 no_hepmc3 = @no_hepmc3@
+no_rivet = @no_rivet@
 oldincludedir = @oldincludedir@
 pdfdir = @pdfdir@
 prefix = @prefix@
@@ -742,7 +751,8 @@ rapgap_hepmc_SOURCES = rapgap/rgmain-hepmc.F rapgap/drn.F  rapgap/pyr.F rapgap/p
 		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
 
 conv_source = rapgap/convhepmc-helpers.F $(am__append_1) \
-	$(am__append_2) $(am__append_3) $(am__append_4)
+	$(am__append_2) $(am__append_3) $(am__append_4) \
+	$(am__append_5) $(am__append_6)
 lib_LTLIBRARIES = librapgap33.la
 librapgap33_la_SOURCES = \
 		rapgap/aalam.F    rapgap/lhaini.F    rapgap/rgstga.F \
@@ -870,7 +880,7 @@ librapgap33_la_SOURCES = \
 
 #		rapgap/analys.F  rapgap/frag.F 
 LDADD = ./librapgap33.la ../bases51/libbases.la \
-        $(HEPMCLIB) $(HEPMC3LIB) $(ARIADNELIB) $(PYTHIALIB) $(ARIADNELIB) $(PDFLIB) ../misc/libmycern.la -lstdc++ -lm
+        $(HEPMCLIB) $(HEPMC3LIB) $(RIVET3LIB) $(ARIADNELIB) $(PYTHIALIB) $(ARIADNELIB) $(PDFLIB) ../misc/libmycern.la -lstdc++ -lm
 
 all: all-am
 
@@ -1827,6 +1837,10 @@ rapgap/convhepmc3-dummy.lo: rapgap/$(am__dirstamp) \
 	rapgap/$(DEPDIR)/$(am__dirstamp)
 rapgap/convhepmc3.lo: rapgap/$(am__dirstamp) \
 	rapgap/$(DEPDIR)/$(am__dirstamp)
+rapgap/convrivet-dummy.lo: rapgap/$(am__dirstamp) \
+	rapgap/$(DEPDIR)/$(am__dirstamp)
+rapgap/convrivet.lo: rapgap/$(am__dirstamp) \
+	rapgap/$(DEPDIR)/$(am__dirstamp)
 
 librapgap33.la: $(librapgap33_la_OBJECTS) $(librapgap33_la_DEPENDENCIES) $(EXTRA_librapgap33_la_DEPENDENCIES) 
 	$(AM_V_CXXLD)$(CXXLINK) -rpath $(libdir) $(librapgap33_la_OBJECTS) $(librapgap33_la_LIBADD) $(LIBS)
@@ -1942,6 +1956,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convhepmc.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convhepmc3-dummy.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convhepmc3.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convrivet-dummy.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convrivet.Plo@am__quote@
 
 .F.o:
 	$(AM_V_PPF77)$(PPF77COMPILE) -c -o $@ $<

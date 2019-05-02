@@ -76,7 +76,7 @@ AM_CONDITIONAL([NO_HEPMC],test $no_hepmc)
 AC_MSG_CHECKING([for HEPMC3 installation])
 AC_ARG_WITH([hepmc3],
    [AS_HELP_STRING([--with-hepmc3], [path to HEPMC3 installation])],[:],[with_hepmc3=${HEPMC}])
-AS_IF([test "x$with_hepmc3" != "xno" && [ test "x`ls $with_hepmc3/lib/libHepMC3.*`" != "x" ||  test "x`ls $with_hepmc/lib64/libHepMC3.*`" != "x"] ], [AC_SUBST(HEPMC3,[$with_hepmc3])],
+AS_IF([test "x$with_hepmc3" != "xno" && [ test "x`ls $with_hepmc3/lib/libHepMC3.*`" != "x" ||  test "x`ls $with_hepmc3/lib64/libHepMC3.*`" != "x"] ], [AC_SUBST(HEPMC3,[$with_hepmc3])],
         AC_MSG_RESULT([Cannot find $with_hepmc3/lib/libHepMC3.* or $with_hepmc3/lib64/libHepMC3.* libraries. 
         Specify correct path to HEPMC3 installation: --with-hepmc3=/path/to/hepmc3]) ; AC_MSG_RESULT([Building RAPGAP without HepMC3]); AC_SUBST([no_hepmc3], [1]))
 if test x$no_hepmc3 == x; then     
@@ -85,6 +85,21 @@ if test x$no_hepmc3 == x; then
   AC_MSG_RESULT([Building RAPGAP with HepMC3: $HEPMC3LIB])
 fi  
 AM_CONDITIONAL([NO_HEPMC3],test $no_hepmc3)     
+
+
+
+AC_MSG_CHECKING([for Rivet installation])
+AC_ARG_WITH([rivet],
+   [AS_HELP_STRING([--with-rivet], [path to RIVET installation])],[:],[with_rivet=${HEPMC}])
+AS_IF([test "x$with_rivet" != "xno" && [ test "x`ls $with_rivet/lib/libRivet.*`" != "x" ||  test "x`ls $with_rivet/lib64/libRivet.*`" != "x"] ], [AC_SUBST(RIVET,[$with_rivet])],
+        AC_MSG_RESULT([Cannot find $with_rivet/lib/libRivet.* or $with_rivet/lib64/libRivet.* libraries. 
+        Specify correct path to RIVET installation: --with-rivet=/path/to/rivet]) ; AC_MSG_RESULT([Building RAPGAP without Rivet]); AC_SUBST([no_rivet], [1]))
+if test x$no_rivet == x; then     
+  AC_SUBST([RIVETLIB], ["-L$with_rivet/lib -L$with_rivet/lib64 -lRivet"])
+  CXXFLAGS="${CXXFLAGS} -std=c++11"
+  AC_MSG_RESULT([Building RAPGAP with Rivet: $RIVETLIB])
+fi  
+AM_CONDITIONAL([NO_RIVET],test $no_rivet)     
 
 
 
