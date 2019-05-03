@@ -2,7 +2,14 @@
 
 using namespace std;
 
-extern "C" {   
+extern "C" {
+	
+	    void openconvhepmc3_(char* a, int &b)
+    {
+    }
+    void closeconvhepmc3_()
+    {
+    }   
 int ncount ;
     void convhepmc3_(int & ievent, int & iproc, double & xsec, double & xsece,
                     int& flav1, int& flav2,double &  x1,double &  x2,double &  q2pdfeval,

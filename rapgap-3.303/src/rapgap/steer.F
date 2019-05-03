@@ -27,6 +27,27 @@
       LOGICAL         HBKOUT
       COMMON /QHBKLO/ HBKOUT
 	
+      character *132 hm2filnam
+	  Integer hm2lunhbk
+	  Common/steerhm2/hm2lunhbk,hm2filnam
+      LOGICAL         hm2OUT
+      COMMON /Qhm2LO/ hm2OUT
+
+      character *132 hm3filnam
+      character *132 hm3filfor
+	  Integer hm3lunhbk
+	  Common/steerhm3/hm3lunhbk,hm3filnam,hm3filfor
+      LOGICAL         hm3OUT
+      COMMON /Qhm3LO/ hm3OUT
+
+      character *132 rvtfilnam
+      character *132 rvtana
+	  Integer rvtlunhbk
+	  Integer rvtanalunhbk
+	  Common/steerrvt/rvtlunhbk,rvtfilnam,rvtanalunhbk,rvtana
+      LOGICAL         rvtOUT,rvtOUT1,rvtOUT2
+      COMMON /QrvtLO/ rvtOUT,rvtOUT1,rvtOUT2
+	
 	
 	nloop = 0
    20 Read(5,101,END=100) TXT
@@ -48,6 +69,35 @@ c check for special cards
 	   HBKOUT=.TRUE.
          GOTO 20
       Endif
+
+      If(TXT(1:6).EQ.'HM2OUT') then
+         read(txt,*) char,hm2lunhbk,hm2filnam
+	   write(6,*) char,hm2lunhbk,hm2filnam
+	   HM2OUT=.TRUE.
+         GOTO 20
+      Endif
+      
+      If(TXT(1:6).EQ.'HM3OUT') then
+         read(txt,*) char,hm3lunhbk,hm3filfor,hm3filnam
+	   write(6,*) char,hm3lunhbk,hm3filfor,hm3filnam
+	   HM3OUT=.TRUE.
+         GOTO 20
+      Endif
+      
+      If(TXT(1:6).EQ.'RVTOUT') then
+         read(txt,*) char,rvtlunhbk,rvtfilnam
+	   write(6,*) char,rvtlunhbk,rvtfilnam
+	   RVTOUT1=.TRUE.
+         GOTO 20
+      Endif      
+
+      If(TXT(1:6).EQ.'RVTANA') then
+         read(txt,*) char,rvtanalunhbk,rvtana
+	   write(6,*) char,rvtanalunhbk,rvtana
+	   RVTOUT2=.TRUE.
+         GOTO 20
+      Endif      
+      
       
 	If(TXT(1:4).EQ.'END$') goto 90
 	inte = 0 
