@@ -1,6 +1,6 @@
 * number of events to be generated
 *
-NEVENT 1001
+NEVENT 100000
 *NEVENT 21
 *
 *
@@ -12,8 +12,17 @@ HBKOUT        8   '/dev/null'
 *---print HBOOK histo: first-id  last-id
 * HBKPRI               1         999999
 *-----------------------------------------------------------------------
-*
-*
+*HM3OUT                      'output'    1
+*                 ^No idea      ^
+*                                      1 Hepmc3
+*                                      2 Hepmc2
+*                                      3 HEPEVT
+*                                      4 ROOT
+*                                      5 ROOTTree
+RVTOUT                           'Rivet.yoda'  
+RVTANA                          'MC_XS'
+RVTANA                          'H1ZEUS_2015_I1353667'
+RVTANA                          'MC_DIS'
 *  The default settings of these additional parameters are:
 *     ppin /820.0/ plepin/-30.0/
 *
@@ -27,11 +36,11 @@ HBKOUT        8   '/dev/null'
      'HADI'     1       0       2212  ! (D=2212) LUND proton KF code
 *     'HADI'     1       0       2112  ! (D=2212) LUND neutron KF code
 *                                     !
-     'QMIN'     1       0        5.0  ! (D=5.) Q2MIN of electron
-     'QMAX'     1       0      200.0  ! (D=10.D8) Q2MAX of electron
+     'QMIN'     1       0        4.8  ! (D=5.) Q2MIN of electron
+     'QMAX'     1       0      1100.0  ! (D=10.D8) Q2MAX of electron
 *                                      ! do not switch on for HERACLES
-     'YMIN'     1       0       0.05  ! (D=0.) YMIN of electron
-     'YMAX'     1       0       0.8   ! (D=1.) YMAX of electron
+*     'YMIN'     1       0       0.00  ! (D=0.) YMIN of electron
+*     'YMAX'     1       0       1.00   ! (D=1.) YMAX of electron
 *     'THEM'     1       0      172.50 ! (D=180.) theta_max of sc. elec
 *     'THEI'     1       0      157.00 ! (D=180.) do not switch on for HERACLES
 *                                      ! theta_min of sc. elec
@@ -193,7 +202,7 @@ HBKOUT        8   '/dev/null'
 *
 * +++++++++++++ Structure functions   +++++++++++++
 *  for using LHAPDF
-    'INPR'     1       0        10041 !  For LHApdf
+     'INPR'     1       0        10800 !   
 *                                     Some LHAPDF proton codes (see LHAPDF manual):
 *                                       10041 = CTEQ 6L LO      
 *                                       10042 = CTEQ 6L LO      
@@ -207,6 +216,7 @@ HBKOUT        8   '/dev/null'
 *                                       70250 = H1 2000 LO      
 *                                       70050 = H1 2000 NLO (MSbar)
 *                                       70150 = H1 2000 NLO (DIS)
+* 'PDF1     1       0     391 !   photon structure function SAS-G 
 * +++++++++++++ photon                +++++++++++++
 *  for using LHAPDF
      'INGA'     1       0     391 !   photon structure function SAS-G 
@@ -331,13 +341,13 @@ HBKOUT        8   '/dev/null'
 *   'INT2'     2       0       1      ! (D=0) integration of the non-
 *                                        radiative contribution (CC)
 *                                        0=off, 1=on
-*    'INT3'     1       0       5      ! (D=0) integration of initial
+    'INT3'     1       0       5      ! (D=0) integration of initial
 *                                        state bremsstr. contr. NC
 *                                        number of iterations for VEGAS
 *                                        <100:VEGAS, >100:VEGAS1/2
     'INT3'     2       0       5      ! (D=0) as INT3(1) but for final
 *                                        state bremsstr. NC
-*    'INT3'     3       0       5      ! (D=0) as INT3(1) but for Compton
+    'INT3'     3       0       5      ! (D=0) as INT3(1) but for Compton
 *                                        contribution NC
 *                                        number of iterations for VEGAS
 *                                        <100:VEGAS, >100:VEGAS1/2
@@ -364,11 +374,11 @@ HBKOUT        8   '/dev/null'
 *   'ISM2'     2       0       1      ! (D=0) sampling of the non-
 *                                        radiative contribution (CC)
 *                                        0=off, 1=on
-*    'ISM3'     1       0       1      ! (D=0) sampling of initial
+    'ISM3'     1       0       1      ! (D=0) sampling of initial
 *                                        state bremsstrahlung  NC
-*    'ISM3'     2       0       1      ! (D=0) sampling of final
+    'ISM3'     2       0       1      ! (D=0) sampling of final
 *                                        state bremsstr. NC
-*    'ISM3'     3       0       1      ! (D=0) sampling of Compton
+    'ISM3'     3       0       1      ! (D=0) sampling of Compton
 *                                        contribution NC
 *   'ISM3'     7       0       1      ! (D=0) sampling of initial
 *                                        state bremsstrahlung  CC

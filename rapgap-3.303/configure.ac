@@ -96,7 +96,7 @@ AS_IF([test "x$with_rivet" != "xno" && [ test "x`ls $with_rivet/lib/libRivet.*`"
         Specify correct path to RIVET installation: --with-rivet=/path/to/rivet]) ; AC_MSG_RESULT([Building RAPGAP without Rivet]); AC_SUBST([no_rivet], [1]))
 if test x$no_rivet == x; then     
   AC_SUBST([RIVETLIB], ["-L$with_rivet/lib -L$with_rivet/lib64 -lRivet"])
-  CXXFLAGS="${CXXFLAGS} -std=c++11"
+  CXXFLAGS="${CXXFLAGS} -std=c++11 -g"
   AC_MSG_RESULT([Building RAPGAP with Rivet: $RIVETLIB])
 fi  
 AM_CONDITIONAL([NO_RIVET],test $no_rivet)     
@@ -106,11 +106,11 @@ AM_CONDITIONAL([NO_RIVET],test $no_rivet)
 AM_CONDITIONAL([HZTOOL_OPT], [test "$hzexe" = yes])
    
 if test "x$F77" = "xg77"; then
-  AC_SUBST([MYFFLAGS], ["-fno-automatic -finit-local-zero -fno-backslash -fno-globals -ff90 -fpic -ffixed-line-length-132"])
+  AC_SUBST([MYFFLAGS], ["-g -fno-automatic -finit-local-zero -fno-backslash -fno-globals -ff90 -fpic -ffixed-line-length-132"])
   AC_MSG_RESULT([using g77 with FLAGS = $MYFFLAGS ])
 else
 #  AC_SUBST([MYFFLAGS], ["-fno-automatic -fno-backslash -fpic"]) 
-  AC_SUBST([MYFFLAGS], ["-O0 -fbounds-check -fno-automatic -fno-backslash -fpic -ffixed-line-length-132"]) 
+  AC_SUBST([MYFFLAGS], ["-g -O0 -fbounds-check -fno-automatic -fno-backslash -fpic -ffixed-line-length-132"]) 
 #  AC_SUBST([MYFFLAGS], ["-O0 -fno-automatic -fno-backslash -fpic -ffixed-line-length-132"]) 
   AC_MSG_RESULT([using gfortran with FLAGS = $MYFFLAGS ])
 fi

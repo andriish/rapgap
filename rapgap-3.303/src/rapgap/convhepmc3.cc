@@ -41,7 +41,7 @@ extern "C" {
         std::vector<std::string>  names;
         names.push_back("Default");
         run->set_weight_names(names);
-        gWriters[position].second->set_run_info(run);
+        if (!gWriters[position].second->run_info()) gWriters[position].second->set_run_info(run);
         return 0;
     }
     int write_event_(const int & position)
@@ -126,28 +126,5 @@ extern "C" {
                 break;
             }
         return  r_position;
-    }
-}
-
-extern "C" {
-
-    void convhepmc3_(int & ievent, int & iproc, double & xsec, double & xsece,
-                    int& flav1, int& flav2,double &  x1,double &  x2,double &  q2pdfeval,
-                    double &  xf1mom, double & xf2mom ,int&  pdf1,int& pdf2
-                   ) {
-
-        char * pPath;
-        pPath = getenv ("HEPMC3OUT");
-        if ( 1 < 10) {
-            if (pPath!=NULL) {
-                cout << " env variable = " <<  pPath << endl;
-            }
-            else {
-                cout << " NO HEPMC3OUT environment varibale set " <<endl;
-                return ;
-            }
-        //    ++ncount_hepmc3;
-        }
-       // call_pyhepc( 1 );
     }
 }

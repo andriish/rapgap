@@ -21999,7 +21999,7 @@ fi
 if test x$no_rivet == x; then
   RIVETLIB="-L$with_rivet/lib -L$with_rivet/lib64 -lRivet"
 
-  CXXFLAGS="${CXXFLAGS} -std=c++11"
+  CXXFLAGS="${CXXFLAGS} -std=c++11 -g"
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: Building RAPGAP with Rivet: $RIVETLIB" >&5
 $as_echo "Building RAPGAP with Rivet: $RIVETLIB" >&6; }
 fi
@@ -22024,13 +22024,13 @@ fi
 
 
 if test "x$F77" = "xg77"; then
-  MYFFLAGS="-fno-automatic -finit-local-zero -fno-backslash -fno-globals -ff90 -fpic -ffixed-line-length-132"
+  MYFFLAGS="-g -fno-automatic -finit-local-zero -fno-backslash -fno-globals -ff90 -fpic -ffixed-line-length-132"
 
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: using g77 with FLAGS = $MYFFLAGS " >&5
 $as_echo "using g77 with FLAGS = $MYFFLAGS " >&6; }
 else
 #  AC_SUBST([MYFFLAGS], ["-fno-automatic -fno-backslash -fpic"])
-  MYFFLAGS="-O0 -fbounds-check -fno-automatic -fno-backslash -fpic -ffixed-line-length-132"
+  MYFFLAGS="-g -O0 -fbounds-check -fno-automatic -fno-backslash -fpic -ffixed-line-length-132"
 
 #  AC_SUBST([MYFFLAGS], ["-O0 -fno-automatic -fno-backslash -fpic -ffixed-line-length-132"])
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: using gfortran with FLAGS = $MYFFLAGS " >&5

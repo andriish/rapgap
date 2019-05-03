@@ -3,22 +3,41 @@
 using namespace std;
 
 extern "C" {
-	
-	    void openconvhepmc3_(char* a, int &b)
+
+    int delete_writer_(const int & position)
     {
+    return 0;
     }
-    void closeconvhepmc3_()
+    int convert_event_(const int & position)
     {
-    }   
-int ncount ;
-    void convhepmc3_(int & ievent, int & iproc, double & xsec, double & xsece,
-                    int& flav1, int& flav2,double &  x1,double &  x2,double &  q2pdfeval,
-                    double &  xf1mom, double & xf2mom ,int&  pdf1,int& pdf2
-                   )
-                   {
-      if ( ncount < 10) {
-          cout << " CASCADE: dummy version of convhepmc3 is used "<< endl;    
-          ++ncount;
-      }
-   }   
+    return 0;
+    }
+    int write_event_(const int & position)
+    {
+    return 0;
+    }
+    int clear_event_(const int & position)
+    {
+    return 0;
+    }
+    int set_cross_section_(const int & position, const double& x,const double& xe, const int& n1,const int& n2)
+    {
+    return 0;
+    }
+    int set_hepevt_address_(int* a)
+    {
+    return 0;
+    }
+    int set_attribute_int_(const int & position,const int & attval,const char* attname, size_t len)
+    {
+    return 0;
+    }
+    int set_attribute_double_(const int & position,const double & attval,const char* attname, size_t len)
+    {
+    return 0;
+    }
+    int new_writer_(const int & position,const int & mode,const char* ffilename, size_t len)
+    {
+    return 0;
+    }
 }

@@ -17,9 +17,9 @@ extern "C" {
     // Instantial an IO strategy to write the data to file - it uses the
     //  same ParticleDataTable
     //   const char outfile[] = "/tmp/example_out.dat";
-    char * outfile = getenv ("HEPMCOUT");
+   // char * outfile = getenv ("HEPMCOUT");
     int ncount = 0;
-    HepMC::IO_GenEvent ascii_io(outfile ,std::ios::out);
+    HepMC::IO_GenEvent* ascii_io=NULL;//(outfile ,std::ios::out);
     //HepMC::IO_HEPEVT::set_trust_mothers_before_daughters( true );
     // open output file for eye readable ascii output
     // begin scope of ascii_io
@@ -27,30 +27,31 @@ extern "C" {
     // create an empty GenCrossSection object
     HepMC::GenCrossSection cross;
 
-//void convhepmc_(int & ievent, int & iproc, double & xsec){
+int  inithepmc_(char * outfile )
+{
+	if (strlen(outfile)>0)
+    ascii_io=new HepMC::IO_GenEvent(outfile ,std::ios::out);
+    else
+    ascii_io=new HepMC::IO_GenEvent("rapgap.hepmc" ,std::ios::out);
+return 0;
+}
+
+
+HepMC::GenEvent* evt=NULL;
+
+//void convhepmc_(int & ievent, int & iproc, double & xsec){    
     void convhepmc_(int & ievent, int & iproc, double & xsec, double & xsece,
                     int& flav1, int& flav2,double &  x1,double &  x2,double &  q2pdfeval,
                     double &  xf1mom, double & xf2mom ,int&  pdf1,int& pdf2
                    ) {
 
-        char * pPath;
-        pPath = getenv ("HEPMCOUT");
-        if ( ncount < 10) {
-            if (pPath!=NULL) {
-                cout << " env variable = " <<  pPath << endl;
-            }
-            else {
-                cout << " NO HEPMCOUT environment varibale set " <<endl;
-                return ;
-            }
-            ++ncount;
-        }
 
         hepevtio.set_trust_mothers_before_daughters( true );
 
         // pythia pyhepc routine convert common PYJETS in common HEPEVT
         call_pyhepc( 1 );
-        HepMC::GenEvent* evt = hepevtio.read_next_event();
+        if (evt) delete evt;
+        evt = hepevtio.read_next_event();
         //HepMC::IO_HEPEVT::print_inconsistency_errors();
         // HepMC::HEPEVT_Wrapper::check_hepevt_consistency();
         //   from version 2.06.09 on:
@@ -149,8 +150,8 @@ extern "C" {
         cross.set_cross_section( xsecval, xsecerr );
         evt->set_cross_section( cross );
         // write the event out to the ascii file
-        ascii_io << evt;
+        (*ascii_io) << evt;
 
-        delete evt;
+        //delete evt;
     }
 }

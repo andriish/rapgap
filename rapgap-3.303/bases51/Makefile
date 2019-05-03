@@ -206,7 +206,7 @@ CPPFLAGS =
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
-CXXFLAGS = -g -O2 -std=c++11 -std=c++11
+CXXFLAGS = -g -O2 -std=c++11 -std=c++11 -g
 CYGPATH_W = echo
 DEFS = -DPACKAGE_NAME=\"rapgap\" -DPACKAGE_TARNAME=\"rapgap\" -DPACKAGE_VERSION=\"3.303\" -DPACKAGE_STRING=\"rapgap\ 3.303\" -DPACKAGE_BUGREPORT=\"hannes.jung@desy.de\" -DPACKAGE_URL=\"\" -DPACKAGE=\"rapgap\" -DVERSION=\"3.303\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_DLFCN_H=1 -DLT_OBJDIR=\".libs/\"
 DEPDIR = .deps
@@ -238,7 +238,7 @@ INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LATEX = /usr/bin/latex
 LD = /usr/bin/ld -m elf_x86_64
 LDFLAGS = 
-LHAPDF_DIR = 
+LHAPDF_DIR = /usr
 LIBOBJS = 
 LIBS = 
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
@@ -248,7 +248,7 @@ LTLIBOBJS =
 MAKEINFO = ${SHELL} /home/andriish/Projects/rapgap.git/trunk/rapgap-3.303/missing makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /usr/bin/mkdir -p
-MYFFLAGS = -O0 -fbounds-check -fno-automatic -fno-backslash -fpic -ffixed-line-length-132
+MYFFLAGS = -g -O0 -fbounds-check -fno-automatic -fno-backslash -fpic -ffixed-line-length-132
 NM = /usr/bin/nm -B
 NMEDIT = 
 OBJDUMP = objdump
@@ -264,7 +264,7 @@ PACKAGE_URL =
 PACKAGE_VERSION = 3.303
 PATH_SEPARATOR = :
 PDFLATEX = /usr/bin/pdflatex
-PDFLIB = -L/lib -L/lib64 -lLHAPDF 
+PDFLIB = -L/usr/lib -L/usr/lib64 -lLHAPDF 
 PDFLIBDSOURCE = 
 PDFLIBSOURCE = 
 PYTHIA6_DIR = 
@@ -325,7 +325,7 @@ no_hepmc3 =
 no_rivet = 
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /usr/local
+prefix = /home/andriish/r
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin

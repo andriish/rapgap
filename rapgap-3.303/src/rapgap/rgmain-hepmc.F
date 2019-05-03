@@ -39,26 +39,24 @@
       character*255 test
 C-----------------------
       character *132 hm2filnam
-	  Integer hm2lunhbk
-	  Common/steerhm2/hm2lunhbk,hm2filnam
+	  Common/steerhm2/hm2filnam
       LOGICAL         hm2OUT
       COMMON /Qhm2LO/ hm2OUT
 
       character *132 hm3filnam
-      character *132 hm3filfor
-	  Integer hm3lunhbk
-	  Common/steerhm3/hm3lunhbk,hm3filnam,hm3filfor
+      Integer hm3filfor
+	  Common/steerhm3/hm3filnam,hm3filfor
       LOGICAL         hm3OUT
       COMMON /Qhm3LO/ hm3OUT
 
       character *132 rvtfilnam
+      character *132 rvtrun
       character *132 rvtana
-	  Integer rvtlunhbk
-	  Integer rvtanalunhbk
-	  Common/steerrvt/rvtlunhbk,rvtfilnam,rvtanalunhbk,rvtana
+	  Integer Nrvtana
+	  Common/steerrvt/Nrvtana,rvtfilnam,rvtrun,rvtana(50)
       LOGICAL         rvtOUT,rvtOUT1,rvtOUT2
       COMMON /QrvtLO/ rvtOUT,rvtOUT1,rvtOUT2
-      INTEGER rivetinit,rivetdone
+      INTEGER rivetinit,rivetdone,rivetadd,rivetinitfirstevent,rivetrun
 C-----------------------
 C...HepMC3
       INTEGER NMXHEP
@@ -77,6 +75,7 @@ C...block directly.
       INTEGER NMXHEPL,J
       INTEGER new_writer,set_hepevt_address,convert_event,write_event
       INTEGER clear_event,delete_writer
+      INTEGER inithepmc,HEPMCSTATUS
       PARAMETER (NMXHEPL=10000)
       COMMON /HEPEVTL/  NEVHEPL,NHEPL,ISTHEPL(NMXHEPL),IDHEPL(NMXHEPL),
      &           JMOHEPL(2,NMXHEPL),JDAHEPL(2,NMXHEPL),PHEPL(5,NMXHEPL),
@@ -84,7 +83,7 @@ C...block directly.
       INTEGER          NEVHEPL,NHEPL,ISTHEPL,IDHEPL,JMOHEPL,JDAHEPL
       DOUBLE PRECISION PHEPL,VHEPL
       
-      INTEGER OUTID, HEPMC3STATUS
+      INTEGER OUTID, HEPMC3STATUS, RIVETSTATUS
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       
       call dummysub(pydata)
@@ -108,15 +107,24 @@ C---initialise RAPGAP parameters
       CALL GRAINI
 C-- read in parameters from file 
       Call Steer
+      
+      HEPMCSTATUS=inithepmc(trim(hm2filnam)//char(0))
+      
+      
       if (hm3OUT) then
-      OUTID=new_writer(0,1,hm3filnam)
+      OUTID=new_writer(0,hm3filfor,trim(hm3filnam)//char(0))
       NEVHEP=-123456
       HEPMC3STATUS=set_hepevt_address(NEVHEPL)
       endif
-      
+
       if (rvtOUT1 .AND. rvtOUT2 ) then
-      HEPMC3STATUS=rivetinit()
-      
+      do i=1,Nrvtana
+      RIVETSTATUS=rivetadd(trim(rvtana(i))//char(0))
+      end do
+      if (len(rvtrun).GT. 0) then
+      RIVETSTATUS=rivetinit(trim(rvtrun)//char(0))
+      end if
+      write(6,*)'Nrvtana=',Nrvtana
       endif
       
       
@@ -166,6 +174,14 @@ c hepmc xsec in pb
           
          call convhepmc(iev, isub, xsec, xsece,
      &  KE, KP,x1,x2,q2pdfeval,xf1mom,xf2mom ,pdf1,pdf2  )
+         
+         if (rvtOUT1 .AND. rvtOUT2 ) then
+         if (I.EQ.1) then 
+         RIVETSTATUS=rivetinitfirstevent()
+         end if
+         RIVETSTATUS=rivetrun()
+         end if
+         
          CALL PTIME(' event  ',2,0)
          
          if (hm3OUT) then
@@ -199,8 +215,8 @@ C---
 123   Continue
       if (hm3OUT) HEPMC3STATUS=delete_writer(OUTID)
       if (rvtOUT1 .AND. rvtOUT2 ) then
-      HEPMC3STATUS=rivetdone()
-      
+      write(6,*)'->',rvtfilnam,'<-'
+      RIVETSTATUS=rivetdone(trim(rvtfilnam)//char(0))
       endif
       
 C---PRINT NR OF GENERATED EVENTS
