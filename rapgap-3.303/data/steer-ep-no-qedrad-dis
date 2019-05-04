@@ -12,14 +12,16 @@ HBKOUT        8   '/dev/null'
 *---print HBOOK histo: first-id  last-id
 * HBKPRI               1         999999
 *-----------------------------------------------------------------------
-*HM3OUT                      'output'    1
-*                 ^No idea      ^
-*                                      1 Hepmc3
+HM2OUT                      'hm2output.hepmc'
+*                             ^Name
+HM3OUT                      'hm3output.hepmc3'    1
+*                           ^Name       ^Type
+*--TYPE:                               1 Hepmc3
 *                                      2 Hepmc2
 *                                      3 HEPEVT
 *                                      4 ROOT
 *                                      5 ROOTTree
-RVTOUT                           'Rivet.yoda'  
+RVTOUT                          'Rivet.yoda'  
 RVTANA                          'MC_XS'
 RVTANA                          'H1ZEUS_2015_I1353667'
 RVTANA                          'MC_DIS'

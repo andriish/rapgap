@@ -1,17 +1,22 @@
-#include <iostream>
-
-using namespace std;
-
-extern "C" {   
-int ncount ;
-    void convrivet_(int & ievent, int & iproc, double & xsec, double & xsece,
-                    int& flav1, int& flav2,double &  x1,double &  x2,double &  q2pdfeval,
-                    double &  xf1mom, double & xf2mom ,int&  pdf1,int& pdf2
-                   )
-                   {
-      if ( ncount < 10) {
-          cout << " CASCADE: dummy version of convrivet is used "<< endl;    
-          ++ncount;
-      }
-   }   
+extern "C" {
+    int rivetinit_(char* rname1) 
+    {
+        return 0;
+    }
+    int rivetinitfirstevent_()
+    {
+        return 0;
+    }
+    int rivetrun_() 
+    {
+        return 0;
+    }
+    int rivetadd_(char* ana) 
+    {
+        return   0;
+    }
+    int rivetdone_(char* filename1) 
+    {
+        return 0;
+    }
 }

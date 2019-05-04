@@ -44,7 +44,7 @@
 	  Integer Nrvtana
 	  Common/steerrvt/Nrvtana,rvtfilnam,rvtrun,rvtana(50)
       LOGICAL         rvtOUT,rvtOUT1,rvtOUT2
-      COMMON /QrvtLO/ rvtOUT,rvtOUT1,rvtOUT2
+      COMMON /QrvtLO/ rvtOUT
 	
 	Nrvtana=0
 	nloop = 0
@@ -63,31 +63,31 @@ c check for special cards
       Endif
       If(TXT(1:6).EQ.'HBKOUT') then
          read(txt,*) char,lunhbk,filnam
-	   write(6,*) char,lunhbk,filnam
+	   write(6,*) char,'=',lunhbk,' ',filnam
 	   HBKOUT=.TRUE.
          GOTO 20
       Endif
 
       If(TXT(1:6).EQ.'HM2OUT') then
          read(txt,*) char,hm2filnam
-	   write(6,*) char,hm2filnam
+	   write(6,*) char,'=',hm2filnam
 	   HM2OUT=.TRUE.
          GOTO 20
       Endif
       
       If(TXT(1:6).EQ.'HM3OUT') then
          read(txt,*) char,hm3filnam,hm3filfor
-	   write(6,*) char,hm3filnam,hm3filfor
+	   write(6,*) char,'=',hm3filnam,' ',hm3filfor
 	   HM3OUT=.TRUE.
          GOTO 20
       Endif
       
       If(TXT(1:6).EQ.'RVTOUT') then
-         read(txt,*) char,rvtfilnam
-       write(6,*) char,rvtfilnam
-       write(6,*) char,rvtrun
+       read(txt,*) char,rvtfilnam
+       write(6,*) char,'=',rvtfilnam
+       write(6,*) char,'=',rvtrun
 	   RVTOUT1=.TRUE.
-         GOTO 20
+       GOTO 20
       Endif       
 
 
@@ -96,9 +96,9 @@ c check for special cards
          if (Nrvtana. LE. 50) then
          Nrvtana=Nrvtana+1
          read(txt,*) char,rvtana(Nrvtana)
-	     write(6,*) char,rvtana(Nrvtana)
+	     write(6,*) char,'=',rvtana(Nrvtana)
 	     else
-         write(*,*)'Too many analyses'
+         write(*,*)'Too many analyses: ',Nrvtana
          endif
          RVTOUT2=.TRUE.
          GOTO 20
@@ -157,7 +157,9 @@ c	write(6,*) ' output : ',nloop,para(nloop),Ival(nloop),rval(nloop),cval(nloop)
       goto 20
 	
    90 Continue
-  100 Return
+  100 Continue
+      RVTOUT=(RVTOUT1 .AND. RVTOUT2)
+      Return
 	
   101 Format(A132)
       End

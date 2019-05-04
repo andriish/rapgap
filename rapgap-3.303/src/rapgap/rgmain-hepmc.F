@@ -34,31 +34,36 @@
       double precision x1,x2,q2pdfeval,xf1mom,xf2mom,getq2q
       integer pdf1,pdf2
 
-      Integer I,ISEED
+      Integer I,J,ISEED
       character*255 raseed
       character*255 test
 C-----------------------
+C...HepMC2
       character *132 hm2filnam
 	  Common/steerhm2/hm2filnam
       LOGICAL         hm2OUT
       COMMON /Qhm2LO/ hm2OUT
-
+      INTEGER inithepmc
+      INTEGER HEPMCSTATUS
+C-----------------------
+C...Rivet
+      character *132 rvtfilnam
+      character *132 rvtrun
+      character *132 rvtana
+	  Integer Nrvtana
+	  Common/steerrvt/Nrvtana,rvtfilnam,rvtrun,rvtana(50)
+      LOGICAL         rvtOUT
+      COMMON /QrvtLO/ rvtOUT
+      INTEGER rivetinit,rivetdone,rivetadd,rivetinitfirstevent,rivetrun
+      INTEGER RIVETSTATUS
+C-----------------------
+C...HepMC3
       character *132 hm3filnam
       Integer hm3filfor
 	  Common/steerhm3/hm3filnam,hm3filfor
       LOGICAL         hm3OUT
       COMMON /Qhm3LO/ hm3OUT
 
-      character *132 rvtfilnam
-      character *132 rvtrun
-      character *132 rvtana
-	  Integer Nrvtana
-	  Common/steerrvt/Nrvtana,rvtfilnam,rvtrun,rvtana(50)
-      LOGICAL         rvtOUT,rvtOUT1,rvtOUT2
-      COMMON /QrvtLO/ rvtOUT,rvtOUT1,rvtOUT2
-      INTEGER rivetinit,rivetdone,rivetadd,rivetinitfirstevent,rivetrun
-C-----------------------
-C...HepMC3
       INTEGER NMXHEP
       PARAMETER (NMXHEP=4000)
       COMMON /HEPEVT/  NEVHEP,NHEP,ISTHEP(NMXHEP),IDHEP(NMXHEP),
@@ -66,16 +71,14 @@ C...HepMC3
      &                 VHEP(4,NMXHEP)
       INTEGER          NEVHEP,NHEP,ISTHEP,IDHEP,JMOHEP,JDAHEP
       DOUBLE PRECISION PHEP,VHEP
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC      
+
 C...These variables will be used for conversion. Block size is different
 C...in Pythia6 and in HepMC3, so the most simple portable way is to have
 C... a second block of same size as in HepMC3 and  copy the content of 
 C...block directly.
-
-      INTEGER NMXHEPL,J
+      INTEGER NMXHEPL
       INTEGER new_writer,set_hepevt_address,convert_event,write_event
       INTEGER clear_event,delete_writer
-      INTEGER inithepmc,HEPMCSTATUS
       PARAMETER (NMXHEPL=10000)
       COMMON /HEPEVTL/  NEVHEPL,NHEPL,ISTHEPL(NMXHEPL),IDHEPL(NMXHEPL),
      &           JMOHEPL(2,NMXHEPL),JDAHEPL(2,NMXHEPL),PHEPL(5,NMXHEPL),
@@ -83,7 +86,7 @@ C...block directly.
       INTEGER          NEVHEPL,NHEPL,ISTHEPL,IDHEPL,JMOHEPL,JDAHEPL
       DOUBLE PRECISION PHEPL,VHEPL
       
-      INTEGER OUTID, HEPMC3STATUS, RIVETSTATUS
+      INTEGER OUTID, HEPMC3STATUS
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       
       call dummysub(pydata)
@@ -108,26 +111,25 @@ C---initialise RAPGAP parameters
 C-- read in parameters from file 
       Call Steer
       
+C-- Init HepMC2      
+      if (hm2OUT) then      
       HEPMCSTATUS=inithepmc(trim(hm2filnam)//char(0))
-      
-      
+      endif
+C-- Init HepMC3      
       if (hm3OUT) then
       OUTID=new_writer(0,hm3filfor,trim(hm3filnam)//char(0))
       NEVHEP=-123456
       HEPMC3STATUS=set_hepevt_address(NEVHEPL)
       endif
-
-      if (rvtOUT1 .AND. rvtOUT2 ) then
+C-- Init Rivet
+      if (rvtOUT) then
       do i=1,Nrvtana
       RIVETSTATUS=rivetadd(trim(rvtana(i))//char(0))
       end do
       if (len(rvtrun).GT. 0) then
       RIVETSTATUS=rivetinit(trim(rvtrun)//char(0))
       end if
-      write(6,*)'Nrvtana=',Nrvtana
       endif
-      
-      
 C-- change standard parameters of RAPGAP 	
 	Call rapcha
 C-- change standard parameters of HERACLES	
@@ -171,11 +173,11 @@ c hepmc xsec in pb
          xf2mom=XPR*PPIN
          pdf1=MSTP(52)
          pdf2=MSTP(51)
-          
+         if ( hm2OUT .OR. rvtOUT ) then          
          call convhepmc(iev, isub, xsec, xsece,
      &  KE, KP,x1,x2,q2pdfeval,xf1mom,xf2mom ,pdf1,pdf2  )
-         
-         if (rvtOUT1 .AND. rvtOUT2 ) then
+         end if
+         if (rvtOUT) then
          if (I.EQ.1) then 
          RIVETSTATUS=rivetinitfirstevent()
          end if
@@ -214,11 +216,10 @@ C---
    10 CONTINUE
 123   Continue
       if (hm3OUT) HEPMC3STATUS=delete_writer(OUTID)
-      if (rvtOUT1 .AND. rvtOUT2 ) then
-      write(6,*)'->',rvtfilnam,'<-'
+      if (rvtOUT) then
       RIVETSTATUS=rivetdone(trim(rvtfilnam)//char(0))
       endif
-      
+C -- HePMC2 is closed automatically      
 C---PRINT NR OF GENERATED EVENTS
       CALL RAEND(20)	
 C--- user terminate routine (hztool)
