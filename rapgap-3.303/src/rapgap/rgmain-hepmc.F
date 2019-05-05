@@ -43,7 +43,7 @@ C...HepMC2
 	  Common/steerhm2/hm2filnam
       LOGICAL         hm2OUT
       COMMON /Qhm2LO/ hm2OUT
-      INTEGER inithepmc
+      INTEGER inithepmc,convhepmc
       INTEGER HEPMCSTATUS
 C-----------------------
 C...Rivet
@@ -78,7 +78,8 @@ C... a second block of same size as in HepMC3 and  copy the content of
 C...block directly.
       INTEGER NMXHEPL
       INTEGER new_writer,set_hepevt_address,convert_event,write_event
-      INTEGER clear_event,delete_writer
+      INTEGER clear_event,delete_writer,set_cross_section,set_pdf_info
+      INTEGER set_attribute_double,set_attribute_int
       PARAMETER (NMXHEPL=10000)
       COMMON /HEPEVTL/  NEVHEPL,NHEPL,ISTHEPL(NMXHEPL),IDHEPL(NMXHEPL),
      &           JMOHEPL(2,NMXHEPL),JDAHEPL(2,NMXHEPL),PHEPL(5,NMXHEPL),
@@ -174,7 +175,7 @@ c hepmc xsec in pb
          pdf1=MSTP(52)
          pdf2=MSTP(51)
          if ( hm2OUT .OR. rvtOUT ) then          
-         call convhepmc(iev, isub, xsec, xsece,
+         HEPMCSTATUS=convhepmc(iev, isub, xsec, xsece,
      &  KE, KP,x1,x2,q2pdfeval,xf1mom,xf2mom ,pdf1,pdf2  )
          end if
          if (rvtOUT) then
@@ -207,6 +208,20 @@ c hepmc xsec in pb
           VHEPL(4,J)=VHEP(4,J)
   500     CONTINUE  
           HEPMC3STATUS=convert_event(OUTID)
+          HEPMC3STATUS=set_cross_section(OUTID,xsec, xsece,iev,iev)
+          HEPMC3STATUS=set_pdf_info(OUTID,KE, KP,x1,x2,q2pdfeval,xf1mom,
+     & xf2mom ,pdf1,pdf2)
+          HEPMC3STATUS=set_attribute_int(OUTID,-1,'mpi',3)
+          HEPMC3STATUS=set_attribute_int(OUTID,isub,
+     &    'set_signal_process_id',21)
+          HEPMC3STATUS=set_attribute_int(OUTID,ISEED,
+     &  'random_states1',13)
+          HEPMC3STATUS=set_attribute_double(OUTID,-1.0,
+     &   'alphaEM'//char(0),7)
+          HEPMC3STATUS=set_attribute_double(OUTID,-1.0,
+     &   'alphaQCD'//char(0),8)
+          HEPMC3STATUS=set_attribute_double(OUTID,q2pdfeval,
+     &  'event_scale',11)
 C...Note: no XS uncertainty
           HEPMC3STATUS=write_event(OUTID)
           HEPMC3STATUS=clear_event(OUTID)  

@@ -79,6 +79,24 @@ extern "C" {
         gWriters[position].second->set_cross_section(cs);
         return 0;
     }
+
+    int set_pdf_info_(const int & position,const int& parton_id1, const int& parton_id2, const double& x1, const double& x2,
+                      const double& scale_in, const double& xf1,const double& xf2,
+                      const int& pdf_id1, const int& pdf_id2)
+    {
+        if (gWriters.find(position)==gWriters.end()) {
+            printf("Warning in %s: Writer at position %i does not exist\n",__FUNCTION__,position);
+            return 1;
+        }
+        GenPdfInfoPtr pdf=std::make_shared< GenPdfInfo>();
+        pdf->set(parton_id1, parton_id2,x1,x2,
+                      scale_in,xf1,xf2,
+                      pdf_id1, pdf_id2);
+        gWriters[position].second->set_pdf_info(pdf);
+        return 0;
+    }
+
+
     int set_hepevt_address_(int* a)
     {
         if (!hepevtptr)

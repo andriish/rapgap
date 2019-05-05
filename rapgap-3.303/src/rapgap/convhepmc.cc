@@ -24,7 +24,7 @@ extern "C" {
     int getorig_(int &a);
 
 
-    void convhepmc_(int & ievent, int & iproc, double & xsec, double & xsece,
+    int convhepmc_(int & ievent, int & iproc, double & xsec, double & xsece,
                     int& flav1, int& flav2,double &  x1,double &  x2,double &  q2pdfeval,
                     double &  xf1mom, double & xf2mom ,int&  pdf1,int& pdf2
                    ) {
@@ -39,10 +39,16 @@ extern "C" {
         event_hepmc2->use_units(HepMC::Units::GEV, HepMC::Units::MM);
         event_hepmc2->set_event_number(ievent);
         event_hepmc2->set_signal_process_id(iproc);
+        event_hepmc2->set_mpi(-1);
+        event_hepmc2->set_event_scale(q2pdfeval);
+        event_hepmc2->set_alphaQED(-1);
+        event_hepmc2->set_alphaQCD(-1);
 
         //Set beams
         event_hepmc2->barcode_to_particle(1)->set_status(4);
         event_hepmc2->barcode_to_particle(2)->set_status(4);
+//        for (HepMC::GenEvent::particle_iterator  p=event_hepmc2->particles_begin(); p!=event_hepmc2->particles_end(); p++)
+//        (*p)->set_barcode_(10000+(*p)->barcode());
         //Set PDF info
         HepMC::PdfInfo pdf( flav1, flav2, x1, x2, q2pdfeval, xf1mom, xf2mom , pdf1,pdf2);
         event_hepmc2->set_pdf_info(pdf);
@@ -132,5 +138,6 @@ extern "C" {
         // write the event out to the ascii file
         if (ascii_io)
         (*ascii_io) << event_hepmc2;
+    return 0;
     }
 }
