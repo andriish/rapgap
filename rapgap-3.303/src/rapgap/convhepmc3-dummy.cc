@@ -11,7 +11,7 @@ extern "C" {
     int write_event_(const int & position)
     {
         if ( ncount_hepmc3 < 10) {
-            printf(" CASCADE: dummy version of write_event (HEPMC3) is used\n" );
+            printf(" RAPGAP: dummy version of write_event (HEPMC3) is used\n" );
             ++ncount_hepmc3;
         }
         return 0;

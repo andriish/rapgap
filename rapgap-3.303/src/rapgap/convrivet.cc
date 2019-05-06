@@ -3,11 +3,25 @@
 #include <vector>
 #include <string>
 #include "HepMC/GenEvent.h"
+//#include "HepMC3/GenEvent.h"
 #include "Rivet/Rivet.hh"
 
 extern "C" {
+    int rivetinterfaceversion_()
+    {
+        return 2;
+/*        
+        return 3;
+*/
+    }    
     /**  HepMC event to reads from*/
+    HepMC::GenEvent* event=NULL;    
     extern HepMC::GenEvent* event_hepmc2;
+
+/*    
+    HepMC3::GenEvent* event;    
+    extern HepMC3::GenEvent* event_hepmc3;
+*/    
     /**The name of the file where the histograms are dumped.*/
     std::string filename;
     /** Analyses with optional analysis parameters.*/
@@ -20,6 +34,7 @@ extern "C" {
     bool igBeam=true;
 
     int rivetinit_(char* rname1) {
+        event=event_hepmc2;
         if ( rivet ) return 0;
         rname=std::string(rname1);
         rivet = new Rivet::AnalysisHandler(rname);
@@ -33,12 +48,12 @@ extern "C" {
     }
     int rivetinitfirstevent_()
     {
-        rivet->init(*event_hepmc2);
+        rivet->init(*event);
         return 0;
     }
     int rivetrun_() {
 
-        rivet->analyze(*event_hepmc2);
+        rivet->analyze(*event);
         return 0;
     }
     int rivetadd_(char* ana)
