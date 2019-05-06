@@ -14,6 +14,14 @@
 #endif
 using namespace HepMC3;
 std::map<int,std::pair<Writer*,GenEvent*> > gWriters;
+GenEvent* gWriters_get_event(const int & position)
+    {
+        if (gWriters.find(position)==gWriters.end()) {
+            printf("Warning in %s: Writer at position %i does not exist\n",__FUNCTION__,position);
+            return NULL;
+        }
+     return    gWriters[position].second;
+     }
 extern "C" {
 
     int delete_writer_(const int & position)
