@@ -1,6 +1,6 @@
 * number of events to be generated
 *
-NEVENT 100
+NEVENT 1000000
 *NEVENT 21
 *
 *
@@ -12,16 +12,16 @@ HBKOUT        8   '/dev/null'
 *---print HBOOK histo: first-id  last-id
 * HBKPRI               1         999999
 *-----------------------------------------------------------------------
-HM2OUT                      'hm2output.hepmc'
+*HM2OUT                      'hm2output.hepmc'
 *                            ^Name
-HM3OUT                      'hm3output.hepmc3'    1
+*HM3OUT                      'hm3output.hepmc3'    1
 *                           ^Name                 ^Type
 *--TYPE:                               1 Hepmc3
 *                                      2 Hepmc2
 *                                      3 HEPEVT
 *                                      4 ROOT
 *                                      5 ROOTTree
-RVTOUT                          'Rivet.yoda'  
+RVTOUT                          'Rapgap3303.yoda'  
 RVTANA                          'MC_XS'
 RVTANA                          'MC_DIS'
 RVTANA                          'H1_1997_I424463'
@@ -50,11 +50,11 @@ RVTANA                          'H1_2009_I810046'
      'HADI'     1       0       2212  ! (D=2212) LUND proton KF code
 *     'HADI'     1       0       2112  ! (D=2212) LUND neutron KF code
 *                                     !
-     'QMIN'     1       0        4.8  ! (D=5.) Q2MIN of electron
-     'QMAX'     1       0      1100.0  ! (D=10.D8) Q2MAX of electron
+     'QMIN'     1       0        400.0  ! (D=5.) Q2MIN of electron
+     'QMAX'     1       0      12000.0  ! (D=10.D8) Q2MAX of electron
 *                                      ! do not switch on for HERACLES
-*     'YMIN'     1       0       0.00  ! (D=0.) YMIN of electron
-*     'YMAX'     1       0       1.00   ! (D=1.) YMAX of electron
+     'YMIN'     1       0       0.010  ! (D=0.) YMIN of electron
+     'YMAX'     1       0       0.9   ! (D=1.) YMAX of electron
 *     'THEM'     1       0      172.50 ! (D=180.) theta_max of sc. elec
 *     'THEI'     1       0      157.00 ! (D=180.) do not switch on for HERACLES
 *                                      ! theta_min of sc. elec
@@ -67,7 +67,7 @@ RVTANA                          'H1_2009_I810046'
 *                                     ! = 0 electromagnetic interaction
 *                                     ! = 2 charged current interaction
 *
-     'IPRO'     1       0       1200  ! (D=1) SELECT PROCESS
+     'IPRO'     1       0       12  ! (D=1) SELECT PROCESS
 *                                     !  10: gamma glu --> q qbar
 *                                     !  11: gamma glu --> c cbar
 *                                     !  12: e q --> e' q'
@@ -95,7 +95,7 @@ RVTANA                          'H1_2009_I810046'
      'NFQC'     1       0         3   !  (D=3) nr of flavours used in QCDC
 *
 * Real NLO corrections in O(alphas) ala Collins
-     'IBS '     1       0        0    ! (D=0) NLO correction ala collins IBS=1
+     'IBS '     1       0        1    ! (D=0) NLO correction ala collins IBS=1
 *     Resolved photons (real and virtual)
 *     processes for resolved gammas
      'IRPA'     1       0        1    !  gg --> qq_bar
@@ -128,7 +128,7 @@ RVTANA                          'H1_2009_I810046'
 *
 *
 *
-     'NFRA'     1       0        1    ! (D=1) FRAGMENATION
+     'NFRA'     1       0        0    ! (D=1) FRAGMENATION
 *                                     !   =10 FRAGMENATION+ p dissociation
 *                                     !   =20 FRAGMENATION+ p dissociation
 *                                     !   ala DIFFVM
@@ -347,8 +347,8 @@ RVTANA                          'H1_2009_I810046'
 *  are stored in the following commons and can be changed as indicated
 *  below. They are explained in the DJANGO and HERACLES manuals.
 ***************** HERACLES steering cards ******************************
-    'XMIN'     0       0     0.00001    ! (D=1E-4) lower cut in x
-    'XMAX'     0       0     1.0000     ! (D=1) upper cut in x
+    'XMIN'     0       0     0.0001    ! (D=1E-4) lower cut in x
+    'XMAX'     0       0     0.9999     ! (D=1) upper cut in x
     'INT2'     1       0       1      ! (D=0) integration of the non-
 *                                        radiative contribution (NC)
 *                                        0=off, 1=on
@@ -466,7 +466,7 @@ RVTANA                          'H1_2009_I810046'
 * PYTHIA 6.X PARAMETERS
 *-----------------------------------------------------------------------
 *   -------  ------  ------  --------  ---------------------------------
-     'MSTJ'    22      0         2    ! (D=1), 2=K0s, Lambda, Sigma-+,
+     'MSTJ'    22      0         1    ! (D=1), 2=K0s, Lambda, Sigma-+,
 *                                       Sigma+, Xi-, Xi0, Omega- do not
 *                                       decay (H1 standard)
 *
@@ -552,7 +552,7 @@ RVTANA                          'H1_2009_I810046'
      'MSTJ'    46      0         0     ! parton shower azimut. corr. (D=3)
 *
 * Bose-Einstein Correlation settings
-     'MSTJ'    51      0         2     ! (D=0, i.e. no) inclusion of BEC
+     'MSTJ'    51      0         0     ! (D=0, i.e. no) inclusion of BEC
      'MSTJ'    52      0         9     ! (D=3) number of particle
 *                                       species to be included in BEC
      'MSTJ'    53      0         0     ! (D=0) on all pairs
