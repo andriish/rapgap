@@ -77,10 +77,22 @@ C...These variables will be used for conversion. Block size is different
 C...in Pythia6 and in HepMC3, so the most simple portable way is to have
 C... a second block of same size as in HepMC3 and  copy the content of 
 C...block directly.
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+C...Glue functions
+      INTEGER HepMC3_new_writer,HepMC3_delete_writer
+      INTEGER HepMC3_set_hepevt_address
+      INTEGER HepMC3_convert_event,HepMC3_write_event,HepMC3_clear_event
+      INTEGER HepMC3_set_attribute_int,HepMC3_set_attribute_double
+      INTEGER HepMC3_set_pdf_info,HepMC3_set_cross_section
+      EXTERNAL HepMC3_new_writer,HepMC3_delete_writer
+      EXTERNAL HepMC3_set_hepevt_address
+      EXTERNAL HepMC3_convert_event,HepMC3_write_event
+      EXTERNAL HepMC3_clear_event
+      EXTERNAL HepMC3_set_attribute_int,HepMC3_set_attribute_double
+      EXTERNAL HepMC3_set_pdf_info,HepMC3_set_cross_section
+      
+CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       INTEGER NMXHEPL
-      INTEGER new_writer,set_hepevt_address,convert_event,write_event
-      INTEGER clear_event,delete_writer,set_cross_section,set_pdf_info
-      INTEGER set_attribute_double,set_attribute_int
       PARAMETER (NMXHEPL=10000)
       COMMON /HEPEVTL/  NEVHEPL,NHEPL,ISTHEPL(NMXHEPL),IDHEPL(NMXHEPL),
      &           JMOHEPL(2,NMXHEPL),JDAHEPL(2,NMXHEPL),PHEPL(5,NMXHEPL),
@@ -119,9 +131,9 @@ C-- Init HepMC2
       endif
 C-- Init HepMC3      
       if (hm3OUT) then
-      OUTID=new_writer(0,hm3filfor,trim(hm3filnam)//char(0))
+      OUTID=HepMC3_new_writer(0,hm3filfor,trim(hm3filnam)//char(0))
       NEVHEP=-123456
-      HEPMC3STATUS=set_hepevt_address(NEVHEPL)
+      HEPMC3STATUS=HepMC3_set_hepevt_address(NEVHEPL)
       endif
 C-- Init Rivet
       if (rvtOUT) then
@@ -210,23 +222,25 @@ C-- This is for Rivet with HepMC2 interface
           VHEPL(3,J)=VHEP(3,J)
           VHEPL(4,J)=VHEP(4,J)
   500     CONTINUE  
-          HEPMC3STATUS=convert_event(OUTID)
-          HEPMC3STATUS=set_cross_section(OUTID,xsec, xsece,iev,iev)
-          HEPMC3STATUS=set_pdf_info(OUTID,KE, KP,x1,x2,q2pdfeval,xf1mom,
-     & xf2mom ,pdf1,pdf2)
-          HEPMC3STATUS=set_attribute_int(OUTID,-1,'mpi'//char(0),3)
-          HEPMC3STATUS=set_attribute_int(OUTID,isub,
-     &    'set_signal_process_id'//char(0),21)
-          HEPMC3STATUS=set_attribute_int(OUTID,ISEED,
-     &  'random_states1'//char(0),13)
-          HEPMC3STATUS=set_attribute_double(OUTID,-1.0,
-     &   'alphaEM'//char(0),7)
-          HEPMC3STATUS=set_attribute_double(OUTID,-1.0,
-     &   'alphaQCD'//char(0),8)
-          HEPMC3STATUS=set_attribute_double(OUTID,q2pdfeval,
-     &  'event_scale'//char(0),11)
+          HEPMC3STATUS=HepMC3_convert_event(OUTID)
+          HEPMC3STATUS=HepMC3_set_cross_section(OUTID,
+     &  xsec, xsece,iev,iev)
+          HEPMC3STATUS=HepMC3_set_pdf_info(OUTID,
+     &  KE, KP,x1,x2,q2pdfeval,xf1mom,xf2mom ,pdf1,pdf2)
+          HEPMC3STATUS=HepMC3_set_attribute_int(OUTID,
+     & -1,'mpi'//char(0))
+          HEPMC3STATUS=HepMC3_set_attribute_int(OUTID,isub,
+     &    'set_signal_process_id'//char(0))
+          HEPMC3STATUS=HepMC3_set_attribute_int(OUTID,ISEED,
+     &  'random_states1'//char(0))
+          HEPMC3STATUS=HepMC3_set_attribute_double(OUTID,-1.0,
+     &   'alphaEM'//char(0))
+          HEPMC3STATUS=HepMC3_set_attribute_double(OUTID,-1.0,
+     &   'alphaQCD'//char(0))
+          HEPMC3STATUS=HepMC3_set_attribute_double(OUTID,q2pdfeval,
+     &  'event_scale'//char(0))
 C...Note: no XS uncertainty
-          HEPMC3STATUS=write_event(OUTID)
+          HEPMC3STATUS=HepMC3_write_event(OUTID)
 C-- This is for Rivet with HepMC3 interface          
          if (rvtOUT) then
          if (I.EQ.1) then 
@@ -234,13 +248,13 @@ C-- This is for Rivet with HepMC3 interface
          end if
          RIVETSTATUS=rivetrun()
          end if
-         HEPMC3STATUS=clear_event(OUTID)  
+         HEPMC3STATUS=HepMC3_clear_event(OUTID)  
          endif
          
 C---
    10 CONTINUE
 123   Continue
-      if (hm3OUT) HEPMC3STATUS=delete_writer(OUTID)
+      if (hm3OUT) HEPMC3STATUS=HepMC3_delete_writer(OUTID)
       if (rvtOUT) then
       RIVETSTATUS=rivetdone(trim(rvtfilnam)//char(0))
       endif
