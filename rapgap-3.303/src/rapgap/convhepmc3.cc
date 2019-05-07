@@ -1,3 +1,10 @@
+// -*- C++ -*-
+//
+// This file is part of HepMC
+// Copyright (C) 2014-2019 The HepMC collaboration (see AUTHORS for details)
+//
+#ifndef Pythia6_Pythia6ToHepMC3_H
+#define Pythia6_Pythia6ToHepMC3_H
 #include "HepMC3/HEPEVT_Wrapper.h"
 #include "HepMC3/GenEvent.h"
 #include "HepMC3/Writer.h"
@@ -98,8 +105,8 @@ extern "C" {
         }
         GenPdfInfoPtr pdf=std::make_shared< GenPdfInfo>();
         pdf->set(parton_id1, parton_id2,x1,x2,
-                      scale_in,xf1,xf2,
-                      pdf_id1, pdf_id2);
+                 scale_in,xf1,xf2,
+                 pdf_id1, pdf_id2);
         gWriters[position].second->set_pdf_info(pdf);
         return 0;
     }
@@ -119,7 +126,7 @@ extern "C" {
             return 1;
         }
     }
-    int set_attribute_int_(const int & position,const int & attval,const char* attname, size_t len)
+    int set_attribute_int_(const int & position,const int & attval,const char* attname)
     {
         if (gWriters.find(position)==gWriters.end()) {
             printf("Warning in %s: Writer at position %i does not exist\n",__FUNCTION__,position);
@@ -128,7 +135,7 @@ extern "C" {
         gWriters[position].second->add_attribute(attname,std::make_shared<IntAttribute>(attval));
         return 0;
     }
-    int set_attribute_double_(const int & position,const double & attval,const char* attname, size_t len)
+    int set_attribute_double_(const int & position,const double & attval,const char* attname)
     {
         if (gWriters.find(position)==gWriters.end()) {
             printf("Warning in %s: Writer at position %i does not exist\n",__FUNCTION__,position);
@@ -138,9 +145,9 @@ extern "C" {
         return 0;
     }
 
-    int new_writer_(const int & position,const int & mode,const char* ffilename, size_t len)
+    int new_writer_(const int & position,const int & mode,const char* ffilename)
     {
-        std::string filename=std::string(ffilename,len);
+        std::string filename=std::string(ffilename);
         int r_position=position;
         if (r_position==0)
         {
@@ -178,3 +185,4 @@ extern "C" {
         return  r_position;
     }
 }
+#endif

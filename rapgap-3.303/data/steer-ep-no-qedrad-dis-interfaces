@@ -1,6 +1,6 @@
 * number of events to be generated
 *
-NEVENT 1000000
+NEVENT 10000
 *NEVENT 21
 *
 *
@@ -12,16 +12,16 @@ HBKOUT        8   '/dev/null'
 *---print HBOOK histo: first-id  last-id
 * HBKPRI               1         999999
 *-----------------------------------------------------------------------
-*HM2OUT                      'hm2output.hepmc'
+HM2OUT                      'hm2output.hepmc'
 *                            ^Name
-*HM3OUT                      'hm3output.hepmc3'    1
+HM3OUT                      'hm3output.hepmc3'    2
 *                           ^Name                 ^Type
 *--TYPE:                               1 Hepmc3
 *                                      2 Hepmc2
 *                                      3 HEPEVT
 *                                      4 ROOT
 *                                      5 ROOTTree
-RVTOUT                          'Rapgap3303.yoda'  
+*RVTOUT                          'Rapgap3303.yoda'  
 RVTANA                          'MC_XS'
 RVTANA                          'MC_DIS'
 RVTANA                          'H1_1997_I424463'
@@ -95,7 +95,7 @@ RVTANA                          'H1_2009_I810046'
      'NFQC'     1       0         3   !  (D=3) nr of flavours used in QCDC
 *
 * Real NLO corrections in O(alphas) ala Collins
-     'IBS '     1       0        1    ! (D=0) NLO correction ala collins IBS=1
+     'IBS '     1       0        0    ! (D=0) NLO correction ala collins IBS=1
 *     Resolved photons (real and virtual)
 *     processes for resolved gammas
      'IRPA'     1       0        1    !  gg --> qq_bar
