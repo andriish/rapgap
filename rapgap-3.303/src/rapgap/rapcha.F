@@ -902,7 +902,7 @@ c		write(6,*) ' params', param,int,rea,cea
             ENDIF
             IF (PARAM.EQ.'PDF1') THEN
                CDEF = pdfname
-               write(6,*) ' PDFname1 ',pdfname,cea,mstp(51)
+c               write(6,*) ' PDFname1 ',pdfname,cea,mstp(51)
                IF (CDEF.NE.CEA) THEN
                   pdfname = CEA
                   PRINT 10500, PARAM,LND,CDEF,CEA
@@ -913,7 +913,7 @@ c		write(6,*) ' params', param,int,rea,cea
             ENDIF
             IF (PARAM.EQ.'PDF2') THEN 
                CDEF = phname
-               write(6,*) ' PDFname1 ',pdfname,cea,mstp(51)
+c               write(6,*) ' PDFname1 ',pdfname,cea,mstp(51)
                IF (CDEF.NE.CEA) THEN
                   phname = CEA
                   PRINT 10500, PARAM,LND,CDEF,CEA

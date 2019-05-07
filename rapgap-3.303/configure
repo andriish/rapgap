@@ -650,6 +650,8 @@ RIVET
 no_rivet
 NO_HEPMC3_FALSE
 NO_HEPMC3_TRUE
+HEPMC3LIBROOTIO
+no_hepmc3rootIO
 HEPMC3LIB
 HEPMC3
 no_hepmc3
@@ -21963,6 +21965,28 @@ if test x$no_hepmc3 == x; then
   CXXFLAGS="${CXXFLAGS} -std=c++11"
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: Building RAPGAP with HepMC3: $HEPMC3LIB" >&5
 $as_echo "Building RAPGAP with HepMC3: $HEPMC3LIB" >&6; }
+
+
+if  test "x`ls $with_hepmc3/lib/root/libHepMC3rootIO.*`" != "x" ||  test "x`ls $with_hepmc3/lib64/root/libHepMC3rootIO.*`" != "x" ||  test "x`ls $with_hepmc3/lib/libHepMC3rootIO.*`" != "x" ||  test "x`ls $with_hepmc3/lib64/libHepMC3rootIO.*`" != "x"  ; then :
+  HEPMC3=$with_hepmc3
+
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: Cannot find $with_hepmc3/lib/root/libHepMC3rootIO.* or $with_hepmc3/lib64/root/libHepMC3rootIO.* or $with_hepmc3/lib/libHepMC3rootIO.* or $with_hepmc3/lib64/libHepMC3rootIO.* libraries.
+        Specify correct path to HEPMC3 installation: --with-hepmc3=/path/to/hepmc3 and make sure the rootIO libraries are installed" >&5
+$as_echo "Cannot find $with_hepmc3/lib/root/libHepMC3rootIO.* or $with_hepmc3/lib64/root/libHepMC3rootIO.* or $with_hepmc3/lib/libHepMC3rootIO.* or $with_hepmc3/lib64/libHepMC3rootIO.* libraries.
+        Specify correct path to HEPMC3 installation: --with-hepmc3=/path/to/hepmc3 and make sure the rootIO libraries are installed" >&6; } ;
+        { $as_echo "$as_me:${as_lineno-$LINENO}: result: Building RAPGAP without HepMC3rootIO" >&5
+$as_echo "Building RAPGAP without HepMC3rootIO" >&6; }; no_hepmc3rootIO=1
+
+fi
+if test x$no_hepmc3rootIO == x; then
+  HEPMC3LIBROOTIO=" -L$with_hepmc3/lib -L$with_hepmc3/lib64 -L$with_hepmc3/root/lib -L$with_hepmc3/lib64/root -lHepMC3 -lHepMC3rootIO"
+
+  CXXFLAGS="${CXXFLAGS} -std=c++11 -DHEPMC3_ROOTIO=1 "
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: Building RAPGAP with HepMC3rootIO: $HEPMC3LIBROOTIO" >&5
+$as_echo "Building RAPGAP with HepMC3rootIO: $HEPMC3LIBROOTIO" >&6; }
+
+fi
 fi
  if test $no_hepmc3; then
   NO_HEPMC3_TRUE=

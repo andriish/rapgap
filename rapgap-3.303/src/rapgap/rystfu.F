@@ -648,7 +648,6 @@ C... this is for LHApdf6
 c
               PDFFIRST=.TRUE.
               name=pdfname//char(0)
-              name='CT10'
               write(6,*) 'rystfu ',name
               call InitPDFsetByName(name)
               call numberPDF(N)

@@ -14,7 +14,9 @@ HBKOUT        8   '/dev/null'
 *-----------------------------------------------------------------------
 HM2OUT                      'hm2output.hepmc'
 *                            ^Name
-HM3OUT                      'hm3output.hepmc3'    2
+*HM3OUT                      'hm3output.hepmc2'    2
+*HM3OUT                      'hm3output.hepmc3'    1
+HM3OUT                       'hm3output.root'    5
 *                           ^Name                 ^Type
 *--TYPE:                               1 Hepmc3
 *                                      2 Hepmc2
@@ -22,21 +24,21 @@ HM3OUT                      'hm3output.hepmc3'    2
 *                                      4 ROOT
 *                                      5 ROOTTree
 *RVTOUT                          'Rapgap3303.yoda'  
-RVTANA                          'MC_XS'
-RVTANA                          'MC_DIS'
-RVTANA                          'H1_1997_I424463'
-RVTANA                          'H1_1994_S2919893'
-RVTANA                          'H1_1995_S3167097'
-RVTANA                          'H1ZEUS_2015_I1353667'
-RVTANA                          'ZEUS_2007_I714503'
-RVTANA                          'ZEUS_2008_I810112'
-RVTANA                          'ZEUS_2010_I848883'
-RVTANA                          'ZEUS_2010_I875006'
-RVTANA                          'ZEUS_2010_I844129'
-RVTANA                          'H1_2013_I1217865'
-RVTANA                          'ZEUS_2010_I860842'
-RVTANA                          'ZEUS_2012_I945935'
-RVTANA                          'H1_2009_I810046'
+*RVTANA                          'MC_XS'
+*RVTANA                          'MC_DIS'
+*RVTANA                          'H1_1997_I424463'
+*RVTANA                          'H1_1994_S2919893'
+*RVTANA                          'H1_1995_S3167097'
+*RVTANA                          'H1ZEUS_2015_I1353667'
+*RVTANA                          'ZEUS_2007_I714503'
+*RVTANA                          'ZEUS_2008_I810112'
+*RVTANA                          'ZEUS_2010_I848883'
+*RVTANA                          'ZEUS_2010_I875006'
+*RVTANA                          'ZEUS_2010_I844129'
+*RVTANA                          'H1_2013_I1217865'
+*RVTANA                          'ZEUS_2010_I860842'
+*RVTANA                          'ZEUS_2012_I945935'
+*RVTANA                          'H1_2009_I810046'
 *  The default settings of these additional parameters are:
 *     ppin /820.0/ plepin/-30.0/
 *
@@ -128,7 +130,7 @@ RVTANA                          'H1_2009_I810046'
 *
 *
 *
-     'NFRA'     1       0        0    ! (D=1) FRAGMENATION
+     'NFRA'     1       0        1    ! (D=1) FRAGMENATION
 *                                     !   =10 FRAGMENATION+ p dissociation
 *                                     !   =20 FRAGMENATION+ p dissociation
 *                                     !   ala DIFFVM
@@ -216,7 +218,8 @@ RVTANA                          'H1_2009_I810046'
 *
 * +++++++++++++ Structure functions   +++++++++++++
 *  for using LHAPDF
-     'INPR'     1       0        10800 !   
+  'PDF1'            'CT10'
+*     'INPR'     1       0        10800 !   
 *                                     Some LHAPDF proton codes (see LHAPDF manual):
 *                                       10041 = CTEQ 6L LO      
 *                                       10042 = CTEQ 6L LO      

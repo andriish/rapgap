@@ -16,6 +16,7 @@
 #include "HepMC3/GenEvent.h"
 #include "HepMC3/GenRunInfo.h"
 #ifdef HEPMC3_ROOTIO
+
 #include "HepMC3/WriterRoot.h"
 #include "HepMC3/WriterRootTree.h"
 #endif
@@ -65,6 +66,8 @@ extern "C" {
             printf("Warning in %s: Writer at position %i does not exist\n",__FUNCTION__,position);
             return 1;
         }
+        //Remove later line below!
+        if (!hepmc3_gWriters[position].second->run_info()) hepmc3_gWriters[position].second->set_run_info(hepmc3_gWriters[position].first->run_info());
         hepmc3_gWriters[position].first->write_event(*(hepmc3_gWriters[position].second));
         return 0;
     }
@@ -160,20 +163,20 @@ extern "C" {
         switch (mode)
         {
         case 1:
-            hepmc3_gWriters[r_position]=std::pair<Writer*,GenEvent*>(new WriterAscii(filename.c_str()),new GenEvent(run,Units::GEV,Units::MM));
+            hepmc3_gWriters[r_position]=std::pair<Writer*,GenEvent*>(new WriterAscii(filename.c_str(),run),new GenEvent(Units::GEV,Units::MM));
             break;
         case 2:
-            hepmc3_gWriters[r_position]=std::pair<Writer*,GenEvent*>(new WriterAsciiHepMC2(filename.c_str()),new GenEvent(run,Units::GEV,Units::MM));
+            hepmc3_gWriters[r_position]=std::pair<Writer*,GenEvent*>(new WriterAsciiHepMC2(filename.c_str(),run),new GenEvent(Units::GEV,Units::MM));
             break;
         case 3:
-            hepmc3_gWriters[r_position]=std::pair<Writer*,GenEvent*>(new WriterHEPEVT(filename.c_str()),new GenEvent(run,Units::GEV,Units::MM));
+            hepmc3_gWriters[r_position]=std::pair<Writer*,GenEvent*>(new WriterHEPEVT(filename.c_str()),new GenEvent(Units::GEV,Units::MM));
             break;
 #ifdef HEPMC3_ROOTIO
         case 4:
-            hepmc3_gWriters[r_position]=std::pair<Writer*,GenEvent*>(new WriterRoot(filename.c_str()),new GenEvent(run,Units::GEV,Units::MM));
+            hepmc3_gWriters[r_position]=std::pair<Writer*,GenEvent*>(new WriterRoot(filename.c_str(),run),new GenEvent(Units::GEV,Units::MM));
             break;
         case 5:
-            hepmc3_gWriters[r_position]=std::pair<Writer*,GenEvent*>(new WriterRootTree(filename.c_str()),new GenEvent(run,Units::GEV,Units::MM));
+            hepmc3_gWriters[r_position]=std::pair<Writer*,GenEvent*>(new WriterRootTree(filename.c_str(),run),new GenEvent(run,Units::GEV,Units::MM));
             break;
 #endif
         default:

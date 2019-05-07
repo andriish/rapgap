@@ -465,7 +465,8 @@ rapgap33_DEPENDENCIES = ./librapgap33.la ../bases51/libbases.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) ../misc/libmycern.la
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	../misc/libmycern.la
 am_rapgap_hepmc_OBJECTS = rapgap/rgmain-hepmc.$(OBJEXT) \
 	rapgap/drn.$(OBJEXT) rapgap/pyr.$(OBJEXT) \
 	rapgap/pyname.$(OBJEXT) rapgap/upinit.$(OBJEXT) \
@@ -476,7 +477,8 @@ rapgap_hepmc_DEPENDENCIES = ./librapgap33.la ../bases51/libbases.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) ../misc/libmycern.la
+	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
+	../misc/libmycern.la
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -623,6 +625,7 @@ GREP = @GREP@
 HEPMC = @HEPMC@
 HEPMC3 = @HEPMC3@
 HEPMC3LIB = @HEPMC3LIB@
+HEPMC3LIBROOTIO = @HEPMC3LIBROOTIO@
 HEPMCLIB = @HEPMCLIB@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
@@ -716,6 +719,7 @@ mandir = @mandir@
 mkdir_p = @mkdir_p@
 no_hepmc = @no_hepmc@
 no_hepmc3 = @no_hepmc3@
+no_hepmc3rootIO = @no_hepmc3rootIO@
 no_rivet = @no_rivet@
 oldincludedir = @oldincludedir@
 pdfdir = @pdfdir@
@@ -880,7 +884,7 @@ librapgap33_la_SOURCES = \
 
 #		rapgap/analys.F  rapgap/frag.F 
 LDADD = ./librapgap33.la ../bases51/libbases.la \
-        $(HEPMCLIB) $(HEPMC3LIB) $(RIVETLIB) $(ARIADNELIB) $(PYTHIALIB) $(ARIADNELIB) $(PDFLIB) ../misc/libmycern.la -lstdc++ -lm
+        $(HEPMCLIB) $(HEPMC3LIB)  $(HEPMC3LIBROOTIO)  $(RIVETLIB) $(ARIADNELIB) $(PYTHIALIB) $(ARIADNELIB) $(PDFLIB) ../misc/libmycern.la -lstdc++ -lm
 
 all: all-am
 

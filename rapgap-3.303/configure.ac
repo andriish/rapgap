@@ -83,6 +83,19 @@ if test x$no_hepmc3 == x; then
   AC_SUBST([HEPMC3LIB], ["-L$with_hepmc3/lib -L$with_hepmc3/lib64 -lHepMC3"])
   CXXFLAGS="${CXXFLAGS} -std=c++11"
   AC_MSG_RESULT([Building RAPGAP with HepMC3: $HEPMC3LIB])
+
+
+AS_IF([[ test "x`ls $with_hepmc3/lib/root/libHepMC3rootIO.*`" != "x" ||  test "x`ls $with_hepmc3/lib64/root/libHepMC3rootIO.*`" != "x" ||  test "x`ls $with_hepmc3/lib/libHepMC3rootIO.*`" != "x" ||  test "x`ls $with_hepmc3/lib64/libHepMC3rootIO.*`" != "x" ] ], 
+       [AC_SUBST(HEPMC3,[$with_hepmc3])],
+        AC_MSG_RESULT([Cannot find $with_hepmc3/lib/root/libHepMC3rootIO.* or $with_hepmc3/lib64/root/libHepMC3rootIO.* or $with_hepmc3/lib/libHepMC3rootIO.* or $with_hepmc3/lib64/libHepMC3rootIO.* libraries. 
+        Specify correct path to HEPMC3 installation: --with-hepmc3=/path/to/hepmc3 and make sure the rootIO libraries are installed]) ; 
+        AC_MSG_RESULT([Building RAPGAP without HepMC3rootIO]); AC_SUBST([no_hepmc3rootIO], [1]))
+if test x$no_hepmc3rootIO == x; then     
+  AC_SUBST([HEPMC3LIBROOTIO], [" -L$with_hepmc3/lib -L$with_hepmc3/lib64 -L$with_hepmc3/root/lib -L$with_hepmc3/lib64/root -lHepMC3 -lHepMC3rootIO"])
+  CXXFLAGS="${CXXFLAGS} -std=c++11 -DHEPMC3_ROOTIO=1 "
+  AC_MSG_RESULT([Building RAPGAP with HepMC3rootIO: $HEPMC3LIBROOTIO])
+
+fi  
 fi  
 AM_CONDITIONAL([NO_HEPMC3],test $no_hepmc3)     
 
