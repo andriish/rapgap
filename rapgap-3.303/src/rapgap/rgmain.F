@@ -1,5 +1,5 @@
       PROGRAM RGMAIN
-      Implicit None
+	Implicit None
 #include "rgfull.inc"
 #include "rgdisdif.inc"
 #include "rgluco.inc"
@@ -15,14 +15,14 @@
 #include "rghsvglp.inc"
 #include "rgeffic.inc"
 
-      Integer Nevent
-      Common/steer1/Nevent
-      Integer K1,K2,LUX
+	Integer Nevent
+	Common/steer1/Nevent
+	Integer K1,K2,LUX
 
-      real timeleft
+	real timeleft
       Integer Minuts
       External Minuts
-      External pydata
+	External pydata
 
       Integer I,ISEED
       character*255 raseed
@@ -49,17 +49,17 @@ C---initialise RAPGAP parameters
       CALL GRAINI
 C-- read in parameters from file 
       Call Steer
-C-- change standard parameters of RAPGAP       
-      Call rapcha
-C-- change standard parameters of HERACLES      
-      Call hercha
+C-- change standard parameters of RAPGAP 	
+	Call rapcha
+C-- change standard parameters of HERACLES	
+	Call hercha
 C-- change standard parameters of JETSET
-      Call pytcha
-      IF(IFPS.EQ.10) then
+	Call pytcha
+	IF(IFPS.EQ.10) then
 C Initialize ARIADNE
          CALL ARINIT('RAPGAP')
 C-- change standard parameters of ARIADNE
-         Call aricha
+	   Call aricha
       endif
 C--- CALCULATE X SECTION
       CALL PTIME(' rapgap  ',1,0)
@@ -69,11 +69,11 @@ C--- print x section
 C--- event generation
       DO 10 I=1,Nevent
          CALL PTIME(' event  ',1,0)
-c         call timel(timeleft)
-c         if(timeleft.le.10.) then
-c            write(6,*) ' *** time limit reached. time left = ',timeleft
+c	   call timel(timeleft)
+c	   if(timeleft.le.10.) then
+c	      write(6,*) ' *** time limit reached. time left = ',timeleft
 c            goto 123
-c         endif
+c	   endif
          CALL EVENT
 C--- user analysis routine
 c         CALL ANALYS
@@ -90,10 +90,10 @@ C---
    10 CONTINUE
 123   Continue
 C---PRINT NR OF GENERATED EVENTS
-      CALL RAEND(20)      
+      CALL RAEND(20)	
 C--- user terminate routine (hztool)
-cc      CALL hzraend
-      
+cc	CALL hzraend
+	
       CALL PTIME(' rapgap  ',2,0)
       CALL PTIME('        ',2,99)
       STOP

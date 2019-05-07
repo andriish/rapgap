@@ -1,6 +1,6 @@
 * number of events to be generated
 *
-NEVENT 1001
+NEVENT 1000000
 *NEVENT 21
 *
 *
@@ -12,8 +12,31 @@ HBKOUT        8   '/dev/null'
 *---print HBOOK histo: first-id  last-id
 * HBKPRI               1         999999
 *-----------------------------------------------------------------------
-*
-*
+*HM2OUT                      'hm2output.hepmc'
+*                            ^Name
+*HM3OUT                      'hm3output.hepmc3'    1
+*                           ^Name                 ^Type
+*--TYPE:                               1 Hepmc3
+*                                      2 Hepmc2
+*                                      3 HEPEVT
+*                                      4 ROOT
+*                                      5 ROOTTree
+RVTOUT                          'Rapgap3303.yoda'  
+RVTANA                          'MC_XS'
+RVTANA                          'MC_DIS'
+RVTANA                          'H1_1997_I424463'
+RVTANA                          'H1_1994_S2919893'
+RVTANA                          'H1_1995_S3167097'
+RVTANA                          'H1ZEUS_2015_I1353667'
+RVTANA                          'ZEUS_2007_I714503'
+RVTANA                          'ZEUS_2008_I810112'
+RVTANA                          'ZEUS_2010_I848883'
+RVTANA                          'ZEUS_2010_I875006'
+RVTANA                          'ZEUS_2010_I844129'
+RVTANA                          'H1_2013_I1217865'
+RVTANA                          'ZEUS_2010_I860842'
+RVTANA                          'ZEUS_2012_I945935'
+RVTANA                          'H1_2009_I810046'
 *  The default settings of these additional parameters are:
 *     ppin /820.0/ plepin/-30.0/
 *
@@ -27,11 +50,11 @@ HBKOUT        8   '/dev/null'
      'HADI'     1       0       2212  ! (D=2212) LUND proton KF code
 *     'HADI'     1       0       2112  ! (D=2212) LUND neutron KF code
 *                                     !
-     'QMIN'     1       0        5.0  ! (D=5.) Q2MIN of electron
-     'QMAX'     1       0      200.0  ! (D=10.D8) Q2MAX of electron
+     'QMIN'     1       0        400.0  ! (D=5.) Q2MIN of electron
+     'QMAX'     1       0      12000.0  ! (D=10.D8) Q2MAX of electron
 *                                      ! do not switch on for HERACLES
-     'YMIN'     1       0       0.05  ! (D=0.) YMIN of electron
-     'YMAX'     1       0       0.8   ! (D=1.) YMAX of electron
+     'YMIN'     1       0       0.010  ! (D=0.) YMIN of electron
+     'YMAX'     1       0       0.9   ! (D=1.) YMAX of electron
 *     'THEM'     1       0      172.50 ! (D=180.) theta_max of sc. elec
 *     'THEI'     1       0      157.00 ! (D=180.) do not switch on for HERACLES
 *                                      ! theta_min of sc. elec
@@ -44,7 +67,7 @@ HBKOUT        8   '/dev/null'
 *                                     ! = 0 electromagnetic interaction
 *                                     ! = 2 charged current interaction
 *
-     'IPRO'     1       0       1200  ! (D=1) SELECT PROCESS
+     'IPRO'     1       0       12  ! (D=1) SELECT PROCESS
 *                                     !  10: gamma glu --> q qbar
 *                                     !  11: gamma glu --> c cbar
 *                                     !  12: e q --> e' q'
@@ -72,7 +95,7 @@ HBKOUT        8   '/dev/null'
      'NFQC'     1       0         3   !  (D=3) nr of flavours used in QCDC
 *
 * Real NLO corrections in O(alphas) ala Collins
-     'IBS '     1       0        0    ! (D=0) NLO correction ala collins IBS=1
+     'IBS '     1       0        1    ! (D=0) NLO correction ala collins IBS=1
 *     Resolved photons (real and virtual)
 *     processes for resolved gammas
      'IRPA'     1       0        1    !  gg --> qq_bar
@@ -105,7 +128,7 @@ HBKOUT        8   '/dev/null'
 *
 *
 *
-     'NFRA'     1       0        1    ! (D=1) FRAGMENATION
+     'NFRA'     1       0        0    ! (D=1) FRAGMENATION
 *                                     !   =10 FRAGMENATION+ p dissociation
 *                                     !   =20 FRAGMENATION+ p dissociation
 *                                     !   ala DIFFVM
@@ -193,7 +216,7 @@ HBKOUT        8   '/dev/null'
 *
 * +++++++++++++ Structure functions   +++++++++++++
 *  for using LHAPDF
-    'INPR'     1       0        10041 !  For LHApdf
+     'INPR'     1       0        10800 !   
 *                                     Some LHAPDF proton codes (see LHAPDF manual):
 *                                       10041 = CTEQ 6L LO      
 *                                       10042 = CTEQ 6L LO      
@@ -207,6 +230,7 @@ HBKOUT        8   '/dev/null'
 *                                       70250 = H1 2000 LO      
 *                                       70050 = H1 2000 NLO (MSbar)
 *                                       70150 = H1 2000 NLO (DIS)
+* 'PDF1     1       0     391 !   photon structure function SAS-G 
 * +++++++++++++ photon                +++++++++++++
 *  for using LHAPDF
      'INGA'     1       0     391 !   photon structure function SAS-G 
@@ -323,21 +347,21 @@ HBKOUT        8   '/dev/null'
 *  are stored in the following commons and can be changed as indicated
 *  below. They are explained in the DJANGO and HERACLES manuals.
 ***************** HERACLES steering cards ******************************
-    'XMIN'     0       0     0.00001    ! (D=1E-4) lower cut in x
-    'XMAX'     0       0     1.0000     ! (D=1) upper cut in x
+    'XMIN'     0       0     0.0001    ! (D=1E-4) lower cut in x
+    'XMAX'     0       0     0.9999     ! (D=1) upper cut in x
     'INT2'     1       0       1      ! (D=0) integration of the non-
 *                                        radiative contribution (NC)
 *                                        0=off, 1=on
 *   'INT2'     2       0       1      ! (D=0) integration of the non-
 *                                        radiative contribution (CC)
 *                                        0=off, 1=on
-*    'INT3'     1       0       5      ! (D=0) integration of initial
+    'INT3'     1       0       5      ! (D=0) integration of initial
 *                                        state bremsstr. contr. NC
 *                                        number of iterations for VEGAS
 *                                        <100:VEGAS, >100:VEGAS1/2
     'INT3'     2       0       5      ! (D=0) as INT3(1) but for final
 *                                        state bremsstr. NC
-*    'INT3'     3       0       5      ! (D=0) as INT3(1) but for Compton
+    'INT3'     3       0       5      ! (D=0) as INT3(1) but for Compton
 *                                        contribution NC
 *                                        number of iterations for VEGAS
 *                                        <100:VEGAS, >100:VEGAS1/2
@@ -364,11 +388,11 @@ HBKOUT        8   '/dev/null'
 *   'ISM2'     2       0       1      ! (D=0) sampling of the non-
 *                                        radiative contribution (CC)
 *                                        0=off, 1=on
-*    'ISM3'     1       0       1      ! (D=0) sampling of initial
+    'ISM3'     1       0       1      ! (D=0) sampling of initial
 *                                        state bremsstrahlung  NC
-*    'ISM3'     2       0       1      ! (D=0) sampling of final
+    'ISM3'     2       0       1      ! (D=0) sampling of final
 *                                        state bremsstr. NC
-*    'ISM3'     3       0       1      ! (D=0) sampling of Compton
+    'ISM3'     3       0       1      ! (D=0) sampling of Compton
 *                                        contribution NC
 *   'ISM3'     7       0       1      ! (D=0) sampling of initial
 *                                        state bremsstrahlung  CC
@@ -442,7 +466,7 @@ HBKOUT        8   '/dev/null'
 * PYTHIA 6.X PARAMETERS
 *-----------------------------------------------------------------------
 *   -------  ------  ------  --------  ---------------------------------
-     'MSTJ'    22      0         2    ! (D=1), 2=K0s, Lambda, Sigma-+,
+     'MSTJ'    22      0         1    ! (D=1), 2=K0s, Lambda, Sigma-+,
 *                                       Sigma+, Xi-, Xi0, Omega- do not
 *                                       decay (H1 standard)
 *
@@ -528,7 +552,7 @@ HBKOUT        8   '/dev/null'
      'MSTJ'    46      0         0     ! parton shower azimut. corr. (D=3)
 *
 * Bose-Einstein Correlation settings
-     'MSTJ'    51      0         2     ! (D=0, i.e. no) inclusion of BEC
+     'MSTJ'    51      0         0     ! (D=0, i.e. no) inclusion of BEC
      'MSTJ'    52      0         9     ! (D=3) number of particle
 *                                       species to be included in BEC
      'MSTJ'    53      0         0     ! (D=0) on all pairs
