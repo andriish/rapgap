@@ -43,6 +43,9 @@ extern "C" {
         event_hepmc2->set_event_scale(q2pdfeval);
         event_hepmc2->set_alphaQED(-1);
         event_hepmc2->set_alphaQCD(-1);
+        std::vector<long> rs;
+        rs.push_back(1);
+        event_hepmc2->set_random_states(rs);
 
         //Set beams
         event_hepmc2->barcode_to_particle(1)->set_status(4);

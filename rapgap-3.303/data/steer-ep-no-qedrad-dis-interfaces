@@ -16,16 +16,16 @@ HM2OUT                      'hm2output.hepmc'
 *                            ^Name
 *HM3OUT                      'hm3output.hepmc2'    2
 *HM3OUT                      'hm3output.hepmc3'    1
-HM3OUT                       'hm3output.root'    5
+*HM3OUT                       'hm3output.root'    5
 *                           ^Name                 ^Type
 *--TYPE:                               1 Hepmc3
 *                                      2 Hepmc2
 *                                      3 HEPEVT
 *                                      4 ROOT
 *                                      5 ROOTTree
-*RVTOUT                          'Rapgap3303.yoda'  
-*RVTANA                          'MC_XS'
-*RVTANA                          'H1_1994_S2919893'
+RVTOUT                          'Rapgap3303.yoda'  
+RVTANA                            'MC_XS'
+RVTANA                          'H1_1994_S2919893'
 *  The default settings of these additional parameters are:
 *     ppin /820.0/ plepin/-30.0/
 *

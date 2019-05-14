@@ -60,12 +60,14 @@ extern "C" {
 #else
         event=event_hepmc2;
 #endif
-        rivet->init(*event);
+        rivet->init(*event_hepmc2);
         return 0;
     }
     int rivetrun_() {
-
-        rivet->analyze(*event);
+        if (!event) { puts("Something is wrong with event!"); return 1;}
+        if (!event->particles_size()) { puts("Something is wrong with particles!"); return 2;}
+        if (!event->cross_section()) { puts("Something is wrong with cross-section!"); return 3;}
+        rivet->analyze(*event_hepmc2);
         return 0;
     }
     int rivetadd_(char* ana)
