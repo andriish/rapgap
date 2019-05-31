@@ -195,9 +195,9 @@ C-- This is for Rivet with HepMC2 interface
          end if
          if (rvtOUT) then
          if (I.EQ.1) then 
-         RIVETSTATUS=rivetinitfirstevent()
+         RIVETSTATUS=rivetinitfirstevent(OUTID)
          end if
-         RIVETSTATUS=rivetrun()
+         RIVETSTATUS=rivetrun(OUTID)
          end if
          
          CALL PTIME(' event  ',2,0)
@@ -244,9 +244,9 @@ C...Note: no XS uncertainty
 C-- This is for Rivet with HepMC3 interface          
          if (rvtOUT) then
          if (I.EQ.1) then 
-         RIVETSTATUS=rivetinitfirstevent()
+         RIVETSTATUS=rivetinitfirstevent(OUTID)
          end if
-         RIVETSTATUS=rivetrun()
+         RIVETSTATUS=rivetrun(OUTID)
          end if
          HEPMC3STATUS=HepMC3_clear_event(OUTID)  
          endif
