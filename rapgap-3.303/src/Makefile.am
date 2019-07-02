@@ -166,8 +166,7 @@ librapgap33_la_SOURCES = \
 		sophia466/ef.f            sophia466/po_selsx2.f     sophia466/valences.f \
 		sophia466/gamma_h.f       sophia466/po_trans.f  \
 		sophia466/gauss.f         sophia466/po_xlam.f \
-		sophia466/icon_pdg_sib.f  sophia466/print_event.f \
-            $(conv_source) 
+		sophia466/icon_pdg_sib.f  sophia466/print_event.f   $(conv_source) 
 
 #		rapgap/analys.F  rapgap/frag.F 
 
