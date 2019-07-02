@@ -21911,7 +21911,7 @@ else
   with_hepmc=${HEPMC}
 fi
 
-if test "x$with_hepmc" != "xno" &&  test "x`ls $with_hepmc/lib/libHepMC.*`" != "x" ||  test "x`ls $with_hepmc/lib64/libHepMC.*`" != "x" ; then :
+if test "x$with_hepmc" != "xno" &&  test "x`ls $with_hepmc/lib/libHepMC.*`" != "x" ||  test "x`ls $with_hepmc/lib64/libHepMC.*`" != "x"||  test "x`ls $with_hepmc/lib/x86_64-linux-gnu/libHepMC.*`" != "x" ; then :
   HEPMC=$with_hepmc
 
 else
@@ -21923,7 +21923,7 @@ $as_echo "Building RAPGAP without HepMC" >&6; }; no_hepmc=1
 
 fi
 if test x$no_hepmc == x; then
-  HEPMCLIB="-L$with_hepmc/lib -L$with_hepmc/lib64 -lHepMC -lHepMCfio"
+  HEPMCLIB="-L$with_hepmc/lib -L$with_hepmc/lib64 -L$with_hepmc/lib/x86_64-linux-gnu -lHepMC -lHepMCfio"
 
   { $as_echo "$as_me:${as_lineno-$LINENO}: result: Building RAPGAP with HepMC: $HEPMCLIB" >&5
 $as_echo "Building RAPGAP with HepMC: $HEPMCLIB" >&6; }
