@@ -23,7 +23,7 @@ rapgap33_SOURCES =  rapgap/rgmain.F  rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F 
 		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f
 
 rapgap_hepmc_SOURCES =  rapgap/rgmain-hepmc.F rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
-		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
+		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f rapgap/convhepmc3-dummy.cc 
 
 conv_source = rapgap/convhepmc-helpers.F
 if NO_HEPMC
