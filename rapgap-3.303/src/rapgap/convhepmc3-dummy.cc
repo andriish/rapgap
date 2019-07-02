@@ -1,3 +1,4 @@
+#include <stdio.h>
 extern "C" {
    int ncount_hepmc3=0 ;
    int delete_writer_(const int & position)

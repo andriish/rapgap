@@ -69,7 +69,9 @@ extern "C" {
 #else
         event=event_hepmc2;
 #endif
+//         printf("rivet %i\n",event->particles_size());
         if (!event) { puts("Something is wrong with event!"); return 1;}
+        
         if (!event->particles_size()) { puts("Something is wrong with particles!"); return 2;}
         if (!event->cross_section()) { puts("Something is wrong with cross-section!"); return 3;}
         rivet->analyze(*event_hepmc2);

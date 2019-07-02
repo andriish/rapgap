@@ -88,8 +88,9 @@ extern "C" {
                 (*p)->end_vertex()->add_particle_out(P);
                 created_proper_final_electron=true;// Doing that just once. Not sure if there are cases where nore than one is needed.
             }
+        
         }
-
+//        printf("conv %i\n",event_hepmc2->particles_size());
 
         //2) ISR photons in interaction vertex
         HepMC::GenParticle* EIN=event_hepmc2->barcode_to_particle(1);      //e Beam
