@@ -63,11 +63,11 @@ AS_IF([test "x$with_lhapdf" != "xno" && [ test "x`ls $with_lhapdf/lib/libLHAPDF.
 AC_MSG_CHECKING([for HEPMC installation])
 AC_ARG_WITH([hepmc],
    [AS_HELP_STRING([--with-hepmc], [path to HEPMC installation])],[:],[with_hepmc=${HEPMC}])
-AS_IF([test "x$with_hepmc" != "xno" && [ test "x`ls $with_hepmc/lib/libHepMC.*`" != "x" ||  test "x`ls $with_hepmc/lib64/libHepMC.*`" != "x"] ], [AC_SUBST(HEPMC,[$with_hepmc])],
+AS_IF([test "x$with_hepmc" != "xno" && [ test "x`ls $with_hepmc/lib/libHepMC.*`" != "x" ||  test "x`ls $with_hepmc/lib64/libHepMC.*`" != "x"||  test "x`ls $with_hepmc/lib/x86_64-linux-gnu/libHepMC.*`" != "x"] ], [AC_SUBST(HEPMC,[$with_hepmc])],
         AC_MSG_RESULT([Cannot find $with_hepmc/lib/libHepMC.* or $with_hepmc/lib64/libHepMC.* libraries. 
         Specify correct path to HEPMC installation: --with-hepmc=/path/to/hepmc]) ; AC_MSG_RESULT([Building RAPGAP without HepMC]); AC_SUBST([no_hepmc], [1]))
 if test x$no_hepmc == x; then     
-  AC_SUBST([HEPMCLIB], ["-L$with_hepmc/lib -L$with_hepmc/lib64 -lHepMC -lHepMCfio"])
+  AC_SUBST([HEPMCLIB], ["-L$with_hepmc/lib -L$with_hepmc/lib64 -L$with_hepmc/lib/x86_64-linux-gnu -lHepMC -lHepMCfio"])
   AC_MSG_RESULT([Building RAPGAP with HepMC: $HEPMCLIB])
 fi  
 AM_CONDITIONAL([NO_HEPMC],test $no_hepmc)     
