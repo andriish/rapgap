@@ -20,7 +20,7 @@ EXTRA_DIST =heracles466/flgint.forig  heracles466/hsevtg.forig heracles466/lystf
 bin_PROGRAMS = rapgap33 rapgap_hepmc
 
 rapgap33_SOURCES =  rapgap/rgmain.F  rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
-		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f
+		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
 
 rapgap_hepmc_SOURCES =  rapgap/rgmain-hepmc.F rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
 		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f rapgap/convhepmc3-dummy.cc 
@@ -32,7 +32,7 @@ else
 conv_source += rapgap/convhepmc.cc
 endif
 #if NO_HEPMC3
-conv_source += rapgap/convhepmc3-dummy.cc 
+#conv_source += rapgap/convhepmc3-dummy.cc 
 #else
 #conv_source += rapgap/convhepmc3.cc 
 #endif
