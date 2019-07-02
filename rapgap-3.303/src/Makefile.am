@@ -31,11 +31,11 @@ conv_source += rapgap/convhepmc-dummy.cc
 else
 conv_source += rapgap/convhepmc.cc
 endif
-if NO_HEPMC3
+#if NO_HEPMC3
 conv_source += rapgap/convhepmc3-dummy.cc 
-else
-conv_source += rapgap/convhepmc3.cc 
-endif
+#else
+#conv_source += rapgap/convhepmc3.cc 
+#endif
 if NO_RIVET
 conv_source += rapgap/convrivet-dummy.cc 
 else
