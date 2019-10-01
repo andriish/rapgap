@@ -21945,7 +21945,7 @@ $as_echo_n "checking for HEPMC3 installation... " >&6; }
 if test "${with_hepmc3+set}" = set; then :
   withval=$with_hepmc3; :
 else
-  with_hepmc3=${HEPMC}
+  with_hepmc3=${HEPMC3}
 fi
 
 if test "x$with_hepmc3" != "xno" &&  test "x`ls $with_hepmc3/lib/libHepMC3.*`" != "x" ||  test "x`ls $with_hepmc3/lib64/libHepMC3.*`" != "x" ; then :

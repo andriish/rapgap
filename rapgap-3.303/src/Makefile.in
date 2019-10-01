@@ -749,7 +749,7 @@ EXTRA_DIST = heracles466/flgint.forig  heracles466/hsevtg.forig heracles466/lyst
 		sophia466/datdec.f sophia466/param_ini.f sophia466/sophia.4.6.6.forig
 
 rapgap33_SOURCES = rapgap/rgmain.F  rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
-		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f
+		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
 
 rapgap_hepmc_SOURCES = rapgap/rgmain-hepmc.F rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
 		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
@@ -878,8 +878,7 @@ librapgap33_la_SOURCES = \
 		sophia466/ef.f            sophia466/po_selsx2.f     sophia466/valences.f \
 		sophia466/gamma_h.f       sophia466/po_trans.f  \
 		sophia466/gauss.f         sophia466/po_xlam.f \
-		sophia466/icon_pdg_sib.f  sophia466/print_event.f \
-            $(conv_source) 
+		sophia466/icon_pdg_sib.f  sophia466/print_event.f   $(conv_source) 
 
 
 #		rapgap/analys.F  rapgap/frag.F 
