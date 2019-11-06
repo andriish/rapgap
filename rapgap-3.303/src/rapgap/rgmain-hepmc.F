@@ -162,7 +162,7 @@ C-- This is for Rivet with HepMC2 interface
      &  'event_scale'//char(0))
           if (HM2OUT) HM2STATUS=HepMC2_write_event(OID2)
          end if
-         if (rvtOUT) then
+         if (rvtHM .EQ. 2 .AND.rvtOUT) then
          if (I.EQ.1) then 
          RIVETSTATUS=rivet_init_first_event(OID2)
          end if
@@ -210,7 +210,7 @@ C-- This is for Rivet with HepMC3 interface
      &  'event_scale'//char(0))
           if (hm3OUT) HM3STATUS=HepMC3_write_event(OID3)
 C-- This is for Rivet
-         if (rvtOUT) then
+         if (rvtHM .EQ. 3 .AND.rvtOUT) then
          if (I.EQ.1) then 
          RIVETSTATUS=rivet_init_first_event(OID3)
          end if
