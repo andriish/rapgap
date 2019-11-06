@@ -37,33 +37,7 @@
       Integer I,J,ISEED
       character*255 raseed
       character*255 test
-C-----------------------
-C...HepMC2
-      character *132 hm2filnam
-        Common/steerhm2/hm2filnam
-      LOGICAL         hm2OUT
-      COMMON /Qhm2LO/ hm2OUT
-      INTEGER inithepmc,convhepmc
-      INTEGER HEPMCSTATUS
-C-----------------------
-C...Rivet
-      character *132 rvtfilnam
-      character *132 rvtrun
-      character *132 rvtana
-        Integer Nrvtana
-        Common/steerrvt/Nrvtana,rvtfilnam,rvtrun,rvtana(50)
-      LOGICAL         rvtOUT
-      COMMON /QrvtLO/ rvtOUT
-      INTEGER rivetinit,rivetdone,rivetadd,rivetinitfirstevent,rivetrun
-      INTEGER rvtHM,rivetinterfaceversion
-      INTEGER RIVETSTATUS
-C-----------------------
-C...HepMC3
-      character *132 hm3filnam
-      Integer hm3filfor
-        Common/steerhm3/hm3filnam,hm3filfor
-      LOGICAL         hm3OUT
-      COMMON /Qhm3LO/ hm3OUT
+
 
       INTEGER NMXHEP
       PARAMETER (NMXHEP=4000)
@@ -73,35 +47,11 @@ C...HepMC3
       INTEGER          NEVHEP,NHEP,ISTHEP,IDHEP,JMOHEP,JDAHEP
       DOUBLE PRECISION PHEP,VHEP
 
-C...These variables will be used for conversion. Block size is different
-C...in Pythia6 and in HepMC3, so the most simple portable way is to have
-C... a second block of same size as in HepMC3 and  copy the content of 
-C...block directly.
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-C...Glue functions
-      INTEGER HepMC3_new_writer,HepMC3_delete_writer
-      INTEGER HepMC3_set_hepevt_address
-      INTEGER HepMC3_convert_event,HepMC3_write_event,HepMC3_clear_event
-      INTEGER HepMC3_set_attribute_int,HepMC3_set_attribute_double
-      INTEGER HepMC3_set_pdf_info,HepMC3_set_cross_section
-      INTEGER HepMC3_new_weight
-      EXTERNAL HepMC3_new_writer,HepMC3_delete_writer
-      EXTERNAL HepMC3_set_hepevt_address
-      EXTERNAL HepMC3_convert_event,HepMC3_write_event
-      EXTERNAL HepMC3_clear_event
-      EXTERNAL HepMC3_set_attribute_int,HepMC3_set_attribute_double
-      EXTERNAL HepMC3_set_pdf_info,HepMC3_set_cross_section
-      EXTERNAL HepMC3_new_weight
-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-      INTEGER NMXHEPL
-      PARAMETER (NMXHEPL=10000)
-      COMMON /HEPEVTL/  NEVHEPL,NHEPL,ISTHEPL(NMXHEPL),IDHEPL(NMXHEPL),
-     &           JMOHEPL(2,NMXHEPL),JDAHEPL(2,NMXHEPL),PHEPL(5,NMXHEPL),
-     &                 VHEPL(4,NMXHEPL)
-      INTEGER          NEVHEPL,NHEPL,ISTHEPL,IDHEPL,JMOHEPL,JDAHEPL
-      DOUBLE PRECISION PHEPL,VHEPL
-      
-      INTEGER OUTID, HEPMC3STATUS
+include "HepMCSteering.inc"
+include "RivetInterface.inc"
+include "Pythia6ToHepMC3.inc"
+include "Pythia6ToHepMC2.inc"
+      INTEGER OID3, HM3STATUS, OID2, HM2STATUS, rvtHM, RIVETSTATUS
 CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       
       call dummysub(pydata)
@@ -128,23 +78,24 @@ C-- read in parameters from file
       
 C-- Init HepMC2      
       if (hm2OUT) then      
-      HEPMCSTATUS=inithepmc(trim(hm2filnam)//char(0))
+      OID2=HepMC2_new_writer(0,0,trim(hm2filnam)//char(0))
+      HM2STATUS=HepMC2_new_weight(OID2,'Default'//char(0))
       endif
 C-- Init HepMC3      
       if (hm3OUT) then
-      OUTID=HepMC3_new_writer(0,hm3filfor,trim(hm3filnam)//char(0))
-      HEPMC3STATUS=HepMC3_new_weight(OUTID,'Default'//char(0))
+      OID3=HepMC3_new_writer(0,hm3filfor,trim(hm3filnam)//char(0))
+      HM3STATUS=HepMC3_new_weight(OID3,'Default'//char(0))
       NEVHEP=-123456
-      HEPMC3STATUS=HepMC3_set_hepevt_address(NEVHEPL)
+      HM3STATUS=HepMC3_set_hepevt_address(NEVHEPL)
       endif
 C-- Init Rivet
       if (rvtOUT) then
-      rvtHM=rivetinterfaceversion()
+      rvtHM=rivet_interface_version()
       do i=1,Nrvtana
-      RIVETSTATUS=rivetadd(trim(rvtana(i))//char(0))
+      RIVETSTATUS=rivet_add_analysis(trim(rvtana(i))//char(0))
       end do
       if (len(rvtrun).GT. 0) then
-      RIVETSTATUS=rivetinit(trim(rvtrun)//char(0))
+      RIVETSTATUS=rivet_init(trim(rvtrun)//char(0))
       end if
       endif
 C-- change standard parameters of RAPGAP       
@@ -192,18 +143,34 @@ c hepmc xsec in pb
          pdf2=MSTP(51)
 C-- This is for Rivet with HepMC2 interface
          if ( hm2OUT .OR. rvtHM .EQ. 2 .AND.rvtOUT) then          
-         HEPMCSTATUS=convhepmc(iev, isub, xsec, xsece,
-     &  KE, KP,x1,x2,q2pdfeval,xf1mom,xf2mom ,pdf1,pdf2  )
+          HM2STATUS=HepMC2_convert_event(OID2)
+          HM2STATUS=HepMC2_set_cross_section(OID2,
+     &  xsec, xsece,iev,iev)
+          HM2STATUS=HepMC2_set_pdf_info(OID2,
+     &  KE, KP,x1,x2,q2pdfeval,xf1mom,xf2mom ,pdf1,pdf2)
+          HM2STATUS=HepMC2_set_attribute_int(OID2,
+     & -1,'mpi'//char(0))
+          HM2STATUS=HepMC2_set_attribute_int(OID2,isub,
+     &    'set_signal_process_id'//char(0))
+          HM2STATUS=HepMC2_set_attribute_int(OID2,ISEED,
+     &  'random_states1'//char(0))
+          HM2STATUS=HepMC2_set_attribute_double(OID2,-1.0,
+     &   'alphaEM'//char(0))
+          HM2STATUS=HepMC2_set_attribute_double(OID2,-1.0,
+     &   'alphaQCD'//char(0))
+          HM2STATUS=HepMC2_set_attribute_double(OID2,q2pdfeval,
+     &  'event_scale'//char(0))
+          if (HM2OUT) HM2STATUS=HepMC2_write_event(OID2)
          end if
          if (rvtOUT) then
          if (I.EQ.1) then 
-         RIVETSTATUS=rivetinitfirstevent(OUTID)
+         RIVETSTATUS=rivet_init_first_event(OID2)
          end if
-         RIVETSTATUS=rivetrun(OUTID)
+         RIVETSTATUS=rivet_run(OID2)
          end if
          
-         CALL PTIME(' event  ',2,0)
-         
+
+C-- This is for Rivet with HepMC3 interface
          if (hm3OUT .OR. rvtHM.EQ.3 .AND.rvtOUT) then
           NEVHEPL=IEV
           NHEPL=NHEP
@@ -224,43 +191,43 @@ C-- This is for Rivet with HepMC2 interface
           VHEPL(3,J)=VHEP(3,J)
           VHEPL(4,J)=VHEP(4,J)
   500     CONTINUE  
-          HEPMC3STATUS=HepMC3_convert_event(OUTID)
-          HEPMC3STATUS=HepMC3_set_cross_section(OUTID,
+          HM3STATUS=HepMC3_convert_event(OID3)
+          HM3STATUS=HepMC3_set_cross_section(OID3,
      &  xsec, xsece,iev,iev)
-          HEPMC3STATUS=HepMC3_set_pdf_info(OUTID,
+          HM3STATUS=HepMC3_set_pdf_info(OID3,
      &  KE, KP,x1,x2,q2pdfeval,xf1mom,xf2mom ,pdf1,pdf2)
-          HEPMC3STATUS=HepMC3_set_attribute_int(OUTID,
+          HM3STATUS=HepMC3_set_attribute_int(OID3,
      & -1,'mpi'//char(0))
-          HEPMC3STATUS=HepMC3_set_attribute_int(OUTID,isub,
+          HM3STATUS=HepMC3_set_attribute_int(OID3,isub,
      &    'set_signal_process_id'//char(0))
-          HEPMC3STATUS=HepMC3_set_attribute_int(OUTID,ISEED,
+          HM3STATUS=HepMC3_set_attribute_int(OID3,ISEED,
      &  'random_states1'//char(0))
-          HEPMC3STATUS=HepMC3_set_attribute_double(OUTID,-1.0,
+          HM3STATUS=HepMC3_set_attribute_double(OID3,-1.0,
      &   'alphaEM'//char(0))
-          HEPMC3STATUS=HepMC3_set_attribute_double(OUTID,-1.0,
+          HM3STATUS=HepMC3_set_attribute_double(OID3,-1.0,
      &   'alphaQCD'//char(0))
-          HEPMC3STATUS=HepMC3_set_attribute_double(OUTID,q2pdfeval,
+          HM3STATUS=HepMC3_set_attribute_double(OID3,q2pdfeval,
      &  'event_scale'//char(0))
-C...Note: no XS uncertainty
-          HEPMC3STATUS=HepMC3_write_event(OUTID)
-C-- This is for Rivet with HepMC3 interface          
+          if (hm3OUT) HM3STATUS=HepMC3_write_event(OID3)
+C-- This is for Rivet
          if (rvtOUT) then
          if (I.EQ.1) then 
-         RIVETSTATUS=rivetinitfirstevent(OUTID)
+         RIVETSTATUS=rivet_init_first_event(OID3)
          end if
-         RIVETSTATUS=rivetrun(OUTID)
+         RIVETSTATUS=rivet_run(OID3)
          end if
-         HEPMC3STATUS=HepMC3_clear_event(OUTID)  
+         HM3STATUS=HepMC3_clear_event(OID3)  
          endif
+         CALL PTIME(' event  ',2,0)
          
-C---
+C--- End event processing
    10 CONTINUE
 123   Continue
-      if (hm3OUT) HEPMC3STATUS=HepMC3_delete_writer(OUTID)
+      if (hm3OUT) HM3STATUS=HepMC3_delete_writer(OID3)
+      if (hm2OUT) HM2STATUS=HepMC2_delete_writer(OID2)
       if (rvtOUT) then
-      RIVETSTATUS=rivetdone(trim(rvtfilnam)//char(0))
-      endif
-C -- HePMC2 is closed automatically      
+      RIVETSTATUS=rivet_done(trim(rvtfilnam)//char(0))
+      endif   
 C---PRINT NR OF GENERATED EVENTS
       CALL RAEND(20)      
 C--- user terminate routine (hztool)

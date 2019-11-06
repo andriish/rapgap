@@ -319,7 +319,7 @@ rapgap33_DEPENDENCIES = ./librapgap33.la ../bases51/libbases.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	../misc/libmycern.la
-am_rapgap_hepmc_OBJECTS = rapgap/rgmain-hepmc3.$(OBJEXT) \
+am_rapgap_hepmc_OBJECTS = rapgap/rgmain-hepmc.$(OBJEXT) \
 	rapgap/drn.$(OBJEXT) rapgap/pyr.$(OBJEXT) \
 	rapgap/pyname.$(OBJEXT) rapgap/upinit.$(OBJEXT) \
 	rapgap/upevnt.$(OBJEXT) rapgap/pydata.$(OBJEXT)
@@ -605,26 +605,10 @@ EXTRA_DIST = heracles466/flgint.forig  heracles466/hsevtg.forig heracles466/lyst
 rapgap33_SOURCES = rapgap/rgmain.F  rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
 		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
 
-rapgap_hepmc_SOURCES = rapgap/rgmain-hepmc3.F rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
+rapgap_hepmc_SOURCES = rapgap/rgmain-hepmc.F rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
 		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
 
 conv_source = rapgap/convhepmc-helpers.F rapgap/Pythia6ToHepMC2.cc  rapgap/Pythia6ToHepMC3.cc rapgap/RivetInterface.cc
-
-#if NO_HEPMC
-#conv_source += rapgap/convhepmc2-dummy.cc 
-#else
-#conv_source += rapgap/convhepmc2.cc
-#endif
-#if NO_HEPMC3
-#conv_source += rapgap/convhepmc3-dummy.cc 
-#else
-#conv_source += rapgap/convhepmc3.cc 
-#endif
-#if NO_RIVET
-#conv_source += rapgap/convrivet2-dummy.cc 
-#else
-#conv_source += rapgap/convrivet2.cc 
-#endif
 lib_LTLIBRARIES = librapgap33.la
 librapgap33_la_SOURCES = \
 		rapgap/aalam.F    rapgap/lhaini.F    rapgap/rgstga.F \
@@ -1776,7 +1760,7 @@ rapgap/pydata.$(OBJEXT): rapgap/$(am__dirstamp) \
 rapgap33$(EXEEXT): $(rapgap33_OBJECTS) $(rapgap33_DEPENDENCIES) $(EXTRA_rapgap33_DEPENDENCIES) 
 	@rm -f rapgap33$(EXEEXT)
 	$(AM_V_F77LD)$(F77LINK) $(rapgap33_OBJECTS) $(rapgap33_LDADD) $(LIBS)
-rapgap/rgmain-hepmc3.$(OBJEXT): rapgap/$(am__dirstamp) \
+rapgap/rgmain-hepmc.$(OBJEXT): rapgap/$(am__dirstamp) \
 	rapgap/$(DEPDIR)/$(am__dirstamp)
 
 rapgap_hepmc$(EXEEXT): $(rapgap_hepmc_OBJECTS) $(rapgap_hepmc_DEPENDENCIES) $(EXTRA_rapgap_hepmc_DEPENDENCIES) 

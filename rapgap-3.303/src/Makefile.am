@@ -22,7 +22,7 @@ bin_PROGRAMS = rapgap33 rapgap_hepmc
 rapgap33_SOURCES =  rapgap/rgmain.F  rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
 		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
 
-rapgap_hepmc_SOURCES =  rapgap/rgmain-hepmc3.F rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
+rapgap_hepmc_SOURCES =  rapgap/rgmain-hepmc.F rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
 		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
 
 conv_source = rapgap/convhepmc-helpers.F rapgap/Pythia6ToHepMC2.cc  rapgap/Pythia6ToHepMC3.cc rapgap/RivetInterface.cc
