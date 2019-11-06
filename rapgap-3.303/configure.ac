@@ -49,7 +49,6 @@ AC_SUBST([PYTHIA_SOURCE], ["$with_pythia6/lib"])
 AC_SUBST([PYTHIALIB], ["-L$with_pythia6/lib -L$with_pythia6/lib64 -lpythia6 -lpythia6_dummy "])
 AC_MSG_RESULT([Using -L$with_pythia6/lib -L$with_pythia6/lib64 -lpythia6 -lpythia6_dummy  ])
  
- 
 
 AC_MSG_CHECKING([for LHAPDF])
 AC_ARG_WITH([lhapdf],[AS_HELP_STRING([--with-lhapdf],[path to LHAPDF installation])],[:],[with_lhapdf=${LHAPDF_DIR}])
@@ -122,9 +121,7 @@ if test "x$F77" = "xg77"; then
   AC_SUBST([MYFFLAGS], ["-g -fno-automatic -finit-local-zero -fno-backslash -fno-globals -ff90 -fpic -ffixed-line-length-132"])
   AC_MSG_RESULT([using g77 with FLAGS = $MYFFLAGS ])
 else
-#  AC_SUBST([MYFFLAGS], ["-fno-automatic -fno-backslash -fpic"]) 
   AC_SUBST([MYFFLAGS], ["-g -O0 -fbounds-check -fno-automatic -fno-backslash -fpic -ffixed-line-length-132"]) 
-#  AC_SUBST([MYFFLAGS], ["-O0 -fno-automatic -fno-backslash -fpic -ffixed-line-length-132"]) 
   AC_MSG_RESULT([using gfortran with FLAGS = $MYFFLAGS ])
 fi
 
@@ -138,6 +135,7 @@ else
 fi
 
 
+AC_SUBST(VERSION)
 
 AM_CONDITIONAL([ARI_OPT], [test "$ariadne" = yes])
 if test "x$ariadne" != "x"; then

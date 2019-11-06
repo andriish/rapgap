@@ -80,12 +80,12 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 bin_PROGRAMS = rapgap33$(EXEEXT) rapgap_hepmc$(EXEEXT)
-@NO_HEPMC_TRUE@am__append_1 = rapgap/convhepmc-dummy.cc 
-@NO_HEPMC_FALSE@am__append_2 = rapgap/convhepmc.cc
+@NO_HEPMC_TRUE@am__append_1 = rapgap/convhepmc2-dummy.cc 
+@NO_HEPMC_FALSE@am__append_2 = rapgap/convhepmc2.cc
 @NO_HEPMC3_TRUE@am__append_3 = rapgap/convhepmc3-dummy.cc 
 @NO_HEPMC3_FALSE@am__append_4 = rapgap/convhepmc3.cc 
-@NO_RIVET_TRUE@am__append_5 = rapgap/convrivet-dummy.cc 
-@NO_RIVET_FALSE@am__append_6 = rapgap/convrivet.cc 
+@NO_RIVET_TRUE@am__append_5 = rapgap/convrivet2-dummy.cc 
+@NO_RIVET_FALSE@am__append_6 = rapgap/convrivet2.cc 
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/depcomp
@@ -264,16 +264,16 @@ am__librapgap33_la_SOURCES_DIST = rapgap/aalam.F rapgap/lhaini.F \
 	sophia466/valences.f sophia466/gamma_h.f sophia466/po_trans.f \
 	sophia466/gauss.f sophia466/po_xlam.f sophia466/icon_pdg_sib.f \
 	sophia466/print_event.f rapgap/convhepmc-helpers.F \
-	rapgap/convhepmc-dummy.cc rapgap/convhepmc.cc \
+	rapgap/convhepmc2-dummy.cc rapgap/convhepmc2.cc \
 	rapgap/convhepmc3-dummy.cc rapgap/convhepmc3.cc \
-	rapgap/convrivet-dummy.cc rapgap/convrivet.cc
+	rapgap/convrivet2-dummy.cc rapgap/convrivet2.cc
 am__dirstamp = $(am__leading_dot)dirstamp
-@NO_HEPMC_TRUE@am__objects_1 = rapgap/convhepmc-dummy.lo
-@NO_HEPMC_FALSE@am__objects_2 = rapgap/convhepmc.lo
+@NO_HEPMC_TRUE@am__objects_1 = rapgap/convhepmc2-dummy.lo
+@NO_HEPMC_FALSE@am__objects_2 = rapgap/convhepmc2.lo
 @NO_HEPMC3_TRUE@am__objects_3 = rapgap/convhepmc3-dummy.lo
 @NO_HEPMC3_FALSE@am__objects_4 = rapgap/convhepmc3.lo
-@NO_RIVET_TRUE@am__objects_5 = rapgap/convrivet-dummy.lo
-@NO_RIVET_FALSE@am__objects_6 = rapgap/convrivet.lo
+@NO_RIVET_TRUE@am__objects_5 = rapgap/convrivet2-dummy.lo
+@NO_RIVET_FALSE@am__objects_6 = rapgap/convrivet2.lo
 am__objects_7 = rapgap/convhepmc-helpers.lo $(am__objects_1) \
 	$(am__objects_2) $(am__objects_3) $(am__objects_4) \
 	$(am__objects_5) $(am__objects_6)
@@ -467,7 +467,7 @@ rapgap33_DEPENDENCIES = ./librapgap33.la ../bases51/libbases.la \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
 	../misc/libmycern.la
-am_rapgap_hepmc_OBJECTS = rapgap/rgmain-hepmc.$(OBJEXT) \
+am_rapgap_hepmc_OBJECTS = rapgap/rgmain-hepmc2.$(OBJEXT) \
 	rapgap/drn.$(OBJEXT) rapgap/pyr.$(OBJEXT) \
 	rapgap/pyname.$(OBJEXT) rapgap/upinit.$(OBJEXT) \
 	rapgap/upevnt.$(OBJEXT) rapgap/pydata.$(OBJEXT)
@@ -751,7 +751,7 @@ EXTRA_DIST = heracles466/flgint.forig  heracles466/hsevtg.forig heracles466/lyst
 rapgap33_SOURCES = rapgap/rgmain.F  rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
 		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
 
-rapgap_hepmc_SOURCES = rapgap/rgmain-hepmc.F rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
+rapgap_hepmc_SOURCES = rapgap/rgmain-hepmc2.F rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
 		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
 
 conv_source = rapgap/convhepmc-helpers.F $(am__append_1) \
@@ -1832,17 +1832,17 @@ sophia466/print_event.lo: sophia466/$(am__dirstamp) \
 	sophia466/$(DEPDIR)/$(am__dirstamp)
 rapgap/convhepmc-helpers.lo: rapgap/$(am__dirstamp) \
 	rapgap/$(DEPDIR)/$(am__dirstamp)
-rapgap/convhepmc-dummy.lo: rapgap/$(am__dirstamp) \
+rapgap/convhepmc2-dummy.lo: rapgap/$(am__dirstamp) \
 	rapgap/$(DEPDIR)/$(am__dirstamp)
-rapgap/convhepmc.lo: rapgap/$(am__dirstamp) \
+rapgap/convhepmc2.lo: rapgap/$(am__dirstamp) \
 	rapgap/$(DEPDIR)/$(am__dirstamp)
 rapgap/convhepmc3-dummy.lo: rapgap/$(am__dirstamp) \
 	rapgap/$(DEPDIR)/$(am__dirstamp)
 rapgap/convhepmc3.lo: rapgap/$(am__dirstamp) \
 	rapgap/$(DEPDIR)/$(am__dirstamp)
-rapgap/convrivet-dummy.lo: rapgap/$(am__dirstamp) \
+rapgap/convrivet2-dummy.lo: rapgap/$(am__dirstamp) \
 	rapgap/$(DEPDIR)/$(am__dirstamp)
-rapgap/convrivet.lo: rapgap/$(am__dirstamp) \
+rapgap/convrivet2.lo: rapgap/$(am__dirstamp) \
 	rapgap/$(DEPDIR)/$(am__dirstamp)
 
 librapgap33.la: $(librapgap33_la_OBJECTS) $(librapgap33_la_DEPENDENCIES) $(EXTRA_librapgap33_la_DEPENDENCIES) 
@@ -1914,7 +1914,7 @@ rapgap/pydata.$(OBJEXT): rapgap/$(am__dirstamp) \
 rapgap33$(EXEEXT): $(rapgap33_OBJECTS) $(rapgap33_DEPENDENCIES) $(EXTRA_rapgap33_DEPENDENCIES) 
 	@rm -f rapgap33$(EXEEXT)
 	$(AM_V_F77LD)$(F77LINK) $(rapgap33_OBJECTS) $(rapgap33_LDADD) $(LIBS)
-rapgap/rgmain-hepmc.$(OBJEXT): rapgap/$(am__dirstamp) \
+rapgap/rgmain-hepmc2.$(OBJEXT): rapgap/$(am__dirstamp) \
 	rapgap/$(DEPDIR)/$(am__dirstamp)
 
 rapgap_hepmc$(EXEEXT): $(rapgap_hepmc_OBJECTS) $(rapgap_hepmc_DEPENDENCIES) $(EXTRA_rapgap_hepmc_DEPENDENCIES) 
@@ -1955,12 +1955,12 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convhepmc-dummy.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convhepmc.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convhepmc2-dummy.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convhepmc2.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convhepmc3-dummy.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convhepmc3.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convrivet-dummy.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convrivet.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convrivet2-dummy.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@rapgap/$(DEPDIR)/convrivet2.Plo@am__quote@
 
 .F.o:
 	$(AM_V_PPF77)$(PPF77COMPILE) -c -o $@ $<
