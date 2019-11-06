@@ -22,27 +22,20 @@ bin_PROGRAMS = rapgap33 rapgap_hepmc
 rapgap33_SOURCES =  rapgap/rgmain.F  rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
 		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
 
-rapgap_hepmc_SOURCES =  rapgap/rgmain-hepmc2.F rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
+rapgap_hepmc_SOURCES =  rapgap/rgmain-hepmc3.F rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
 		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
 
-conv_source = rapgap/convhepmc-helpers.F
+conv_source = rapgap/convhepmc-helpers.F rapgap/Pythia6ToHepMC2.cc  rapgap/Pythia6ToHepMC3.cc rapgap/RivetInterface.cc
+
 if NO_HEPMC
-conv_source += rapgap/convhepmc2-dummy.cc 
-else
-conv_source += rapgap/convhepmc2.cc
+AM_CPPFLAGS+=-DDUMMYPYTHIA6TOHEPMC2
 endif
 if NO_HEPMC3
-conv_source += rapgap/convhepmc3-dummy.cc 
-else
-conv_source += rapgap/convhepmc3.cc 
+AM_CPPFLAGS+=-DDUMMYPYTHIA6TOHEPMC3
 endif
 if NO_RIVET
-conv_source += rapgap/convrivet2-dummy.cc 
-else
-conv_source += rapgap/convrivet2.cc 
+AM_CPPFLAGS+=-DDUMMYRIVETINTERFACE
 endif
-
-
 
 lib_LTLIBRARIES = librapgap33.la
 

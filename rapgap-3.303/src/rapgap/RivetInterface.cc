@@ -38,7 +38,7 @@ extern "C" {
 #endif
 #ifdef USE_RIVET_HEPMC3
 #define   RIVET_HEPMC_VERSION   3
-    /**  HepMC event to reads from*/
+    /**  HepMC3 event to reads from*/
     HepMC3::GenEvent* event=NULL;    
     extern HepMC3::GenEvent* hepmc3_gWriters_get_event(const int & position);
 #else
