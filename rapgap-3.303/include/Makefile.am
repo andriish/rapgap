@@ -7,4 +7,4 @@ pkginclude_HEADERS =   rgherup.inc   rgludat2.inc   rgpara.inc  rgpypars.inc \
 	rgeffic.inc    rglq2.inc     rgnlo.inc         rgpdiss.inc.bck  rgstru.inc \
 	rgfull.inc     rgluco.inc    rgnlodiff.inc     rgpqcdpom.inc    timeqq.inc \
 	rggridpar.inc  rgludat1.inc  rgnlogrid.inc     rgprkt.inc       versqq.inc \
-      rgcolcon.inc PythiaHelper.h
+      rgcolcon.inc PythiaHelper.h  HepMCSteering.inc Pythia6ToHepMC3.inc Pythia6ToHepMC2.inc
