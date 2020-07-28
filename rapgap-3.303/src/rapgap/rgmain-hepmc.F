@@ -173,6 +173,7 @@ C-- This is for Rivet with HepMC2 interface
 
 C-- This is for Rivet with HepMC3 interface
          if (hm3OUT .OR. rvtHM.EQ.3 .AND.rvtOUT) then
+          call pyhepc(1);
           NEVHEPL=IEV
           NHEPL=NHEP
            DO 500 J=1,NHEP
