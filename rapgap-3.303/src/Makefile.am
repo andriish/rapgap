@@ -6,35 +6,29 @@
 # for gfortran
 # AM_FFLAGS = -I$(top_srcdir)/include  -fno-automatic -fno-backslash -fpic
 AM_FFLAGS = -I$(top_srcdir)/include -I$(PYTHIA_SOURCE) $(MYFFLAGS)
-AM_CPPFLAGS = -I$(srcdir)/../include -I$(HEPMC)/include -I$(HEPMC3)/include
+AM_CPPFLAGS = -I$(srcdir)/../include -I$(HEPMC)/include
 
 AUTOMAKE_OPTIONS = subdir-objects
 
 EXTRA_DIST =heracles466/flgint.forig  heracles466/hsevtg.forig heracles466/lystfu.forig \
 		heracles466/flqint.forig  heracles466/hsmain.forig \
 		heracles466/gadap.forig   heracles466/hsrndm.forig \
-		heracles466/hsblkd.fsave \
-		heracles466/README \
-		sophia466/datdec.f sophia466/param_ini.f sophia466/sophia.4.6.6.forig
+            heracles466/hsblkd.fsave \
+            heracles466/README \
+            sophia466/datdec.f sophia466/param_ini.f sophia466/sophia.4.6.6.forig
 
 bin_PROGRAMS = rapgap33 rapgap_hepmc
 
 rapgap33_SOURCES =  rapgap/rgmain.F  rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
-		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
+            rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f
 
 rapgap_hepmc_SOURCES =  rapgap/rgmain-hepmc.F rapgap/drn.F  rapgap/pyr.F rapgap/pyname.F \
-		rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
-
-conv_source = rapgap/convhepmc-helpers.F rapgap/Pythia6ToHepMC2.cc  rapgap/Pythia6ToHepMC3.cc rapgap/RivetInterface.cc
+            rapgap/upinit.F   rapgap/upevnt.F rapgap/pydata.f 
 
 if NO_HEPMC
-AM_CPPFLAGS+=-DDUMMYPYTHIA6TOHEPMC2
-endif
-if NO_HEPMC3
-AM_CPPFLAGS+=-DDUMMYPYTHIA6TOHEPMC3
-endif
-if NO_RIVET
-AM_CPPFLAGS+=-DDUMMYRIVETINTERFACE
+   conv_source=rapgap/convhepmc-dummy.cc     rapgap/convhepmc-helpers.F
+else
+   conv_source=rapgap/convhepmc.cc     rapgap/convhepmc-helpers.F
 endif
 
 lib_LTLIBRARIES = librapgap33.la
@@ -159,13 +153,14 @@ librapgap33_la_SOURCES = \
 		sophia466/ef.f            sophia466/po_selsx2.f     sophia466/valences.f \
 		sophia466/gamma_h.f       sophia466/po_trans.f  \
 		sophia466/gauss.f         sophia466/po_xlam.f \
-		sophia466/icon_pdg_sib.f  sophia466/print_event.f   $(conv_source) 
+		sophia466/icon_pdg_sib.f  sophia466/print_event.f \
+            $(conv_source) 
 
 #		rapgap/analys.F  rapgap/frag.F 
 
 LDADD = ./librapgap33.la ../bases51/libbases.la \
-        $(HEPMCLIB) $(HEPMC3LIB)  $(HEPMC3LIBROOTIO)  $(RIVETLIB) $(ARIADNELIB) $(PYTHIALIB) $(ARIADNELIB) $(PDFLIB) ../misc/libmycern.la -lstdc++ -lm
+        $(HEPMCLIB) $(ARIADNELIB) $(PYTHIALIB) $(ARIADNELIB) $(PDFLIB) ../misc/libmycern.la -lstdc++ -lm
 
 
-#all:
+all:
 #	cp rapgap33 ../bin/. 

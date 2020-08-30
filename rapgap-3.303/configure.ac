@@ -49,6 +49,7 @@ AC_SUBST([PYTHIA_SOURCE], ["$with_pythia6/lib"])
 AC_SUBST([PYTHIALIB], ["-L$with_pythia6/lib -L$with_pythia6/lib64 -lpythia6 -lpythia6_dummy "])
 AC_MSG_RESULT([Using -L$with_pythia6/lib -L$with_pythia6/lib64 -lpythia6 -lpythia6_dummy  ])
  
+ 
 
 AC_MSG_CHECKING([for LHAPDF])
 AC_ARG_WITH([lhapdf],[AS_HELP_STRING([--with-lhapdf],[path to LHAPDF installation])],[:],[with_lhapdf=${LHAPDF_DIR}])
@@ -62,66 +63,26 @@ AS_IF([test "x$with_lhapdf" != "xno" && [ test "x`ls $with_lhapdf/lib/libLHAPDF.
 AC_MSG_CHECKING([for HEPMC installation])
 AC_ARG_WITH([hepmc],
    [AS_HELP_STRING([--with-hepmc], [path to HEPMC installation])],[:],[with_hepmc=${HEPMC}])
-AS_IF([test "x$with_hepmc" != "xno" && [ test "x`ls $with_hepmc/lib/libHepMC.*`" != "x" ||  test "x`ls $with_hepmc/lib64/libHepMC.*`" != "x"||  test "x`ls $with_hepmc/lib/x86_64-linux-gnu/libHepMC.*`" != "x"] ], [AC_SUBST(HEPMC,[$with_hepmc])],
+AS_IF([test "x$with_hepmc" != "xno" && [ test "x`ls $with_hepmc/lib/libHepMC.*`" != "x" ||  test "x`ls $with_hepmc/lib64/libHepMC.*`" != "x"] ], [AC_SUBST(HEPMC,[$with_hepmc])],
         AC_MSG_RESULT([Cannot find $with_hepmc/lib/libHepMC.* or $with_hepmc/lib64/libHepMC.* libraries. 
         Specify correct path to HEPMC installation: --with-hepmc=/path/to/hepmc]) ; AC_MSG_RESULT([Building RAPGAP without HepMC]); AC_SUBST([no_hepmc], [1]))
 if test x$no_hepmc == x; then     
-  AC_SUBST([HEPMCLIB], ["-L$with_hepmc/lib -L$with_hepmc/lib64 -L$with_hepmc/lib/x86_64-linux-gnu -lHepMC -lHepMCfio"])
+  AC_SUBST([HEPMCLIB], ["-L$with_hepmc/lib -L$with_hepmc/lib64 -lHepMC -lHepMCfio"])
   AC_MSG_RESULT([Building RAPGAP with HepMC: $HEPMCLIB])
 fi  
 AM_CONDITIONAL([NO_HEPMC],test $no_hepmc)     
-
-
-AC_MSG_CHECKING([for HEPMC3 installation])
-AC_ARG_WITH([hepmc3],
-   [AS_HELP_STRING([--with-hepmc3], [path to HEPMC3 installation])],[:],[with_hepmc3=${HEPMC3}])
-AS_IF([test "x$with_hepmc3" != "xno" && [ test "x`ls $with_hepmc3/lib/libHepMC3.*`" != "x" ||  test "x`ls $with_hepmc3/lib64/libHepMC3.*`" != "x"] ], [AC_SUBST(HEPMC3,[$with_hepmc3])],
-        AC_MSG_RESULT([Cannot find $with_hepmc3/lib/libHepMC3.* or $with_hepmc3/lib64/libHepMC3.* libraries. 
-        Specify correct path to HEPMC3 installation: --with-hepmc3=/path/to/hepmc3]) ; AC_MSG_RESULT([Building RAPGAP without HepMC3]); AC_SUBST([no_hepmc3], [1]))
-if test x$no_hepmc3 == x; then     
-  AC_SUBST([HEPMC3LIB], ["-L$with_hepmc3/lib -L$with_hepmc3/lib64 -lHepMC3"])
-  CXXFLAGS="${CXXFLAGS} -std=c++11"
-  AC_MSG_RESULT([Building RAPGAP with HepMC3: $HEPMC3LIB])
-
-
-AS_IF([[ test "x`ls $with_hepmc3/lib/root/libHepMC3rootIO.*`" != "x" ||  test "x`ls $with_hepmc3/lib64/root/libHepMC3rootIO.*`" != "x" ||  test "x`ls $with_hepmc3/lib/libHepMC3rootIO.*`" != "x" ||  test "x`ls $with_hepmc3/lib64/libHepMC3rootIO.*`" != "x" ] ], 
-       [AC_SUBST(HEPMC3,[$with_hepmc3])],
-        AC_MSG_RESULT([Cannot find $with_hepmc3/lib/root/libHepMC3rootIO.* or $with_hepmc3/lib64/root/libHepMC3rootIO.* or $with_hepmc3/lib/libHepMC3rootIO.* or $with_hepmc3/lib64/libHepMC3rootIO.* libraries. 
-        Specify correct path to HEPMC3 installation: --with-hepmc3=/path/to/hepmc3 and make sure the rootIO libraries are installed]) ; 
-        AC_MSG_RESULT([Building RAPGAP without HepMC3rootIO]); AC_SUBST([no_hepmc3rootIO], [1]))
-if test x$no_hepmc3rootIO == x; then     
-  AC_SUBST([HEPMC3LIBROOTIO], [" -L$with_hepmc3/lib -L$with_hepmc3/lib64 -L$with_hepmc3/root/lib -L$with_hepmc3/lib64/root -lHepMC3 -lHepMC3rootIO"])
-  CXXFLAGS="${CXXFLAGS} -std=c++11 -DHEPMC3_ROOTIO=1 "
-  AC_MSG_RESULT([Building RAPGAP with HepMC3rootIO: $HEPMC3LIBROOTIO])
-
-fi  
-fi  
-AM_CONDITIONAL([NO_HEPMC3],test $no_hepmc3)     
-
-
-
-AC_MSG_CHECKING([for Rivet installation])
-AC_ARG_WITH([rivet],
-   [AS_HELP_STRING([--with-rivet], [path to RIVET installation])],[:],[with_rivet=${HEPMC}])
-AS_IF([test "x$with_rivet" != "xno" && [ test "x`ls $with_rivet/lib/libRivet.*`" != "x" ||  test "x`ls $with_rivet/lib64/libRivet.*`" != "x"] ], [AC_SUBST(RIVET,[$with_rivet])],
-        AC_MSG_RESULT([Cannot find $with_rivet/lib/libRivet.* or $with_rivet/lib64/libRivet.* libraries. 
-        Specify correct path to RIVET installation: --with-rivet=/path/to/rivet]) ; AC_MSG_RESULT([Building RAPGAP without Rivet]); AC_SUBST([no_rivet], [1]))
-if test x$no_rivet == x; then     
-  AC_SUBST([RIVETLIB], ["-L$with_rivet/lib -L$with_rivet/lib64 -lRivet"])
-  CXXFLAGS="${CXXFLAGS} -std=c++11 -g"
-  AC_MSG_RESULT([Building RAPGAP with Rivet: $RIVETLIB])
-fi  
-AM_CONDITIONAL([NO_RIVET],test $no_rivet)     
 
 
 
 AM_CONDITIONAL([HZTOOL_OPT], [test "$hzexe" = yes])
    
 if test "x$F77" = "xg77"; then
-  AC_SUBST([MYFFLAGS], ["-g -fno-automatic -finit-local-zero -fno-backslash -fno-globals -ff90 -fpic -ffixed-line-length-132"])
+  AC_SUBST([MYFFLAGS], ["-fno-automatic -finit-local-zero -fno-backslash -fno-globals -ff90 -fpic -ffixed-line-length-132"])
   AC_MSG_RESULT([using g77 with FLAGS = $MYFFLAGS ])
 else
-  AC_SUBST([MYFFLAGS], ["-g -O0 -fbounds-check -fno-automatic -fno-backslash -fpic -ffixed-line-length-132"]) 
+#  AC_SUBST([MYFFLAGS], ["-fno-automatic -fno-backslash -fpic"]) 
+  AC_SUBST([MYFFLAGS], ["-O0 -fbounds-check -fno-automatic -fno-backslash -fpic -ffixed-line-length-132"]) 
+#  AC_SUBST([MYFFLAGS], ["-O0 -fno-automatic -fno-backslash -fpic -ffixed-line-length-132"]) 
   AC_MSG_RESULT([using gfortran with FLAGS = $MYFFLAGS ])
 fi
 
@@ -135,7 +96,6 @@ else
 fi
 
 
-AC_SUBST(VERSION)
 
 AM_CONDITIONAL([ARI_OPT], [test "$ariadne" = yes])
 if test "x$ariadne" != "x"; then

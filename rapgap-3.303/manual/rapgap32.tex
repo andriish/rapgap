@@ -2339,7 +2339,7 @@ If you want to use ARIADNE, you need:
 
 setenv ARIADNE "/Users/jung/jung/cvs/ariadne412"
 
-If the HZTOOL interface is wanted, you need in addition:
+If the HZTOOL interfae is wanted, you need in addition:
 
 setenv CERN_LIBS "/sw/lib -lmathlib -lkernlib -lpacklib"
 setenv HZTOOL "/Users/jung/jung/cvs/hztool-4/hztool-4.2"
@@ -2349,7 +2349,6 @@ in zsh:
 export PYTHIA="/Users/jung/jung/cvs/pythia6410"
 export LHAPDF="/Users/jung/jung/cvs/lhapdf/lhapdf-5.7.0"
 
-Note that LHAPDF version 6 can be used as well.
 If you want to use ARIADNE, you need:
 
 export ARIADNE="/Users/jung/jung/cvs/ariadne412"
@@ -2367,12 +2366,6 @@ if you want to create an execuatble using HZTOOL
 
 if you want to create an execuatble using ARIADNE
 ./configure --disable-shared --prefix=install-path ariadne=yes
-
-To activate HepMC2, HepMC3 and/or Rivet interface use 
-
---with-hepmc2=/locationof/hepmc2/
---with-hepmc3=/locationof/hepmc3/
---with-rivet=/locationof/rivet/
 
 3) Compile the binary and the documentation
 make
