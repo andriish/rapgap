@@ -13,10 +13,13 @@ yum -y install  lhapdf lhapdf-devel
 yum -y install  gcc gcc-c++  gcc-gfortran make
 yum -y install  autoconf automake libtool
 yum -y install  zlib zlib-devel
-yum -y install  texlive-latex-bin-bin texlive-metafont-bin ghostscript texlive-fontspec
+yum -y install  texlive-latex-bin-bin texlive-metafont-bin ghostscript texlive-fontspec texinfo 
 
 
 cd rapgap-3.303
+#No idea why manual buid fails on CI
+sed -i 's/manual//g' Makefile.am
+
 autoreconf -fisv
 sed -i 's/[^[:print:]\r\t]//g' src/*/*f
 sed -i 's/[^[:print:]\r\t]//g' src/*/*F
