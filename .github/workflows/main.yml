@@ -11,7 +11,7 @@ jobs:
 
   compilejobCentOS7:
     runs-on: ubuntu-latest
-    name: Binder_on_CentOS7
+    name: Rapgap_on_CentOS7
     steps:
     - name: Checkout
       uses: actions/checkout@v2
