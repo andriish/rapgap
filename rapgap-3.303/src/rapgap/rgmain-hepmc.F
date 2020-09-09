@@ -34,6 +34,9 @@
       double precision x1,x2,q2pdfeval,xf1mom,xf2mom,getq2q
       integer pdf1,pdf2
 
+      Integer ICHNN
+      COMMON /HSCHNN/ ICHNN
+
       Integer I,J,ISEED
       character*255 raseed
       character*255 test
@@ -211,6 +214,8 @@ C-- This is for Rivet with HepMC3 interface
      &   'alphaQCD'//char(0))
           HM3STATUS=HepMC3_set_attribute_double(OID3,q2pdfeval,
      &  'event_scale'//char(0))
+          HM3STATUS=HepMC3_set_attribute_int(OID3,ICHNN,
+     &  'HSCHNN_ICHNN'//char(0))
           if (hm3OUT) HM3STATUS=HepMC3_write_event(OID3)
 C-- This is for Rivet
          if (rvtHM .EQ. 3 .AND.rvtOUT) then

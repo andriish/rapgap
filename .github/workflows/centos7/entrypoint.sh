@@ -29,5 +29,7 @@ sed -i 's/[^[:print:]\r\t]//g' misc/*F
 ./configure --with-lhapdf=/usr --with-hepmc=/usr  --with-pythia6=/usr --with-rivet=/usr --with-hepmc3=/usr
 make
 
+src/rapgap_hepmc  < data/steer-ep-no-qedrad-dis-rivethepmc23
+head -n 30 hm3output.hepmc3
 out=$?
 echo ::set-output name=out::$out

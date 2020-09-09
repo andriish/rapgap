@@ -1,6 +1,6 @@
 * number of events to be generated
 *
-NEVENT 10000
+NEVENT 1000
 *NEVENT 21
 *
 *
@@ -56,7 +56,7 @@ RVTANA                          'H1_1994_S2919893'
 *                                     ! = 0 electromagnetic interaction
 *                                     ! = 2 charged current interaction
 *
-     'IPRO'     1       0       12  ! (D=1) SELECT PROCESS
+     'IPRO'     1       0       1200  ! (D=1) SELECT PROCESS
 *                                     !  10: gamma glu --> q qbar
 *                                     !  11: gamma glu --> c cbar
 *                                     !  12: e q --> e' q'
