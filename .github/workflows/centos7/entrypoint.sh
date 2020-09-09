@@ -10,7 +10,7 @@ yum -y install  HepMC HepMC-devel
 yum -y install  HepMC3 HepMC3-devel
 yum -y install  Rivet Rivet-devel 
 yum -y install  lhapdf lhapdf-devel
-yum -y install  gcc gcc-c++ 
+yum -y install  gcc gcc-c++  gcc-gfortran make
 yum -y install  autoconf
 
 cd rapgap-3.303
