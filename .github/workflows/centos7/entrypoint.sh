@@ -11,7 +11,7 @@ yum -y install  HepMC3 HepMC3-devel
 yum -y install  Rivet Rivet-devel 
 yum -y install  lhapdf lhapdf-devel
 yum -y install  gcc gcc-c++  gcc-gfortran make
-yum -y install  autoconf
+yum -y install  autoconf automake
 
 cd rapgap-3.303
 autoreconf -fisv
