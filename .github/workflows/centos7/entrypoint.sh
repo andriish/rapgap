@@ -13,7 +13,7 @@ yum -y install  lhapdf lhapdf-devel
 yum -y install  gcc gcc-c++  gcc-gfortran make
 yum -y install  autoconf automake
 yum -y install  zlib zlib-devel
-yum -y install  texlive-latex-bin-bin
+yum -y install  texlive-latex-bin-bin texlive-metafont-bin
 
 
 cd rapgap-3.303
