@@ -11,8 +11,9 @@ yum -y install  HepMC3 HepMC3-devel
 yum -y install  Rivet Rivet-devel 
 yum -y install  lhapdf lhapdf-devel
 yum -y install  gcc gcc-c++ 
+yum -y install  autoconf
 
-
+cd rapgap-3.303
 autoreconf -fisv
 sed -i 's/[^[:print:]\r\t]//g' src/*/*f
 sed -i 's/[^[:print:]\r\t]//g' src/*/*F
