@@ -12,6 +12,7 @@ yum -y install  Rivet Rivet-devel
 yum -y install  lhapdf lhapdf-devel
 yum -y install  gcc gcc-c++  gcc-gfortran make
 yum -y install  autoconf automake
+yum -y install  zlib zlib-devel
 
 cd rapgap-3.303
 autoreconf -fisv
