@@ -11,9 +11,9 @@ yum -y install  HepMC3 HepMC3-devel HepMC3-search HepMC3-search-devel
 yum -y install  Rivet Rivet-devel 
 yum -y install  lhapdf lhapdf-devel
 yum -y install  gcc gcc-c++  gcc-gfortran make
-yum -y install  autoconf automake
+yum -y install  autoconf automake libtool
 yum -y install  zlib zlib-devel
-yum -y install  texlive-latex-bin-bin texlive-metafont-bin
+yum -y install  texlive-latex-bin-bin texlive-metafont-bin ghostscript texlive-fontspec
 
 
 cd rapgap-3.303
