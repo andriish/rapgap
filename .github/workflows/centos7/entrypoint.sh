@@ -7,7 +7,7 @@ yum -y install yum-plugin-copr
 yum -y copr enable averbyts/fastjet
 yum -y install  git  pythia6 
 yum -y install  HepMC HepMC-devel
-yum -y install  HepMC3 HepMC3-devel
+yum -y install  HepMC3 HepMC3-devel HepMC3-search HepMC3-search-devel
 yum -y install  Rivet Rivet-devel 
 yum -y install  lhapdf lhapdf-devel
 yum -y install  gcc gcc-c++  gcc-gfortran make
