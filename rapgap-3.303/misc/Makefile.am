@@ -4,8 +4,8 @@
 
 AM_FFLAGS = $(MYFFLAGS)
 
-lib_LTLIBRARIES = libmycern.la
-libmycern_la_SOURCES = abend.F  besi0.F  expint.F  ranlux.F  rnpssn.F  \
+lib_LTLIBRARIES = librapgapmycern.la
+librapgapmycern_la_SOURCES = abend.F  besi0.F  expint.F  ranlux.F  rnpssn.F  \
                        ucopy.F  vzero.F dgauss.F rnormx.F \
                        datime.F timex.F  timest.F timed.F fint.F \
                        rgquad.F d107r1.F dgquad.F d107d1.F divdif.F \
