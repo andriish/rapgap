@@ -163,8 +163,8 @@ librapgap33_la_SOURCES = \
 
 #		rapgap/analys.F  rapgap/frag.F 
 
-LDADD = ./librapgap33.la ../bases51/libbases.la \
-        $(HEPMCLIB) $(HEPMC3LIB)  $(HEPMC3LIBROOTIO)  $(RIVETLIB) $(ARIADNELIB) $(PYTHIALIB) $(ARIADNELIB) $(PDFLIB) ../misc/libmycern.la -lstdc++ -lm
+LDADD = ./librapgap33.la ../bases51/librapgapbases.la \
+        $(HEPMCLIB) $(HEPMC3LIB)  $(HEPMC3LIBROOTIO)  $(RIVETLIB) $(ARIADNELIB) $(PYTHIALIB) $(ARIADNELIB) $(PDFLIB) ../misc/librapgapmycern.la -lstdc++ -lm
 
 
 #all:

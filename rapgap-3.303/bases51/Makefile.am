@@ -5,8 +5,8 @@
 # AM_FFLAGS = -I$(top_srcdir)/include -fno-automatic -finit-local-zero -fno-backslash -fno-globals -ff90 -fpic
 AM_FFLAGS = $(MYFFLAGS)
 
-lib_LTLIBRARIES = libbases.la
-libbases_la_SOURCES = bases.f  bschck.f  bsgetw.f  bsintg.f  bsputw.f \
+lib_LTLIBRARIES = librapgapbases.la
+librapgapbases_la_SOURCES = bases.f  bschck.f  bsgetw.f  bsintg.f  bsputw.f \
                      bswrit.f drnset.f  shplot.f  sphist.f  xhfill.f \
                      xhscle.f bhinit.f  bsdate.f  bsgrid.f  bslist.f \
                      bsread.f dhfill.f  Makefile  shrset.f  spinfo.f \
