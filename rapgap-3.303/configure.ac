@@ -146,7 +146,7 @@ if test "x$ariadne" != "x"; then
     ARIADNE="/Users/jung/jung/cvs/ariadne412"])
   fi
   if test "x$ARIADNE" != "x"; then
-    AC_SUBST([ARIADNELIB], ["../ariadne/librgar4.la -L$ARIADNE/lib -lar4"])
+    AC_SUBST([ARIADNELIB], ["../ariadne/librgar4.la -L$ARIADNE/lib -L$ARIADNE/lib64 -lar4"])
     AC_MSG_RESULT([Using ../ariadne/librgar4.la -L$ARIADNE/lib -lar4  ])
   fi
 fi
